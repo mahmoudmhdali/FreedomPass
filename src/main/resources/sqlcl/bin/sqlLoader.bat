@@ -1,0 +1,1 @@
+sqlldr %1 control = '%2'
