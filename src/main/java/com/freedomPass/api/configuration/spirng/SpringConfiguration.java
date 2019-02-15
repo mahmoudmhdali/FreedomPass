@@ -1,5 +1,8 @@
 package com.freedomPass.api.configuration.spirng;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import com.freedomPass.api.commons.ContextHolder;
 import com.freedomPass.api.configuration.converter.GroupConverter;
 import com.freedomPass.api.configuration.converter.LanguageConverter;
@@ -7,9 +10,6 @@ import com.freedomPass.api.configuration.converter.ReportConverter;
 import com.freedomPass.api.configuration.converter.ReportStyleConverter;
 import com.freedomPass.api.configuration.converter.RoleConverter;
 import com.freedomPass.api.configuration.converter.UserProfileNotificationEventConverter;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

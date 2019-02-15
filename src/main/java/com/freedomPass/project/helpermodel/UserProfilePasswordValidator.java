@@ -1,7 +1,7 @@
 package com.freedomPass.project.helpermodel;
 
-import com.freedomPass.project.model.validation.ValidPassword;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.freedomPass.project.model.validation.ValidPassword;
 import org.hibernate.validator.constraints.NotBlank;
 
 public class UserProfilePasswordValidator {

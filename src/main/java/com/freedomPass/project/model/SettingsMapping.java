@@ -5,8 +5,8 @@
  */
 package com.freedomPass.project.model;
 
-import com.freedomPass.project.helpermodel.DropDown;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.freedomPass.project.helpermodel.DropDown;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;

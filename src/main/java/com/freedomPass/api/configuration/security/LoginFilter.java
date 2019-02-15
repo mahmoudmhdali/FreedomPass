@@ -5,13 +5,13 @@
  */
 package com.freedomPass.api.configuration.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freedomPass.api.configuration.security.service.TokenAuthenticationService;
 import com.freedomPass.api.engine.SettingsEngine;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserProfileCredentials;
 import com.freedomPass.project.service.UserAttemptService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;

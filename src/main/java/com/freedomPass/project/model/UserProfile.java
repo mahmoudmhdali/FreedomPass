@@ -1,8 +1,8 @@
 package com.freedomPass.project.model;
 
-import com.freedomPass.project.model.validation.ValidName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.freedomPass.project.model.validation.ValidName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,6 +60,30 @@ public class UserProfile implements Serializable, UserDetails {
     @NotBlank(message = "validation.userProfile.nameRequired")
     @ValidName
     private String name;
+
+    @Basic(optional = false)
+    @Column(name = "LAST_NAME")
+    @Size(min = 5, max = 20, message = "validation.userProfile.nameRange")
+    @NotBlank(message = "validation.userProfile.nameRequired")
+    @ValidName
+    private String lastName;
+
+    @Basic(optional = false)
+    @Column(name = "QR_CODE_PATH")
+    private String qrCodePath;
+
+    @Basic(optional = false)
+    @Column(name = "COUNTRY")
+    private Integer country;
+
+    @Basic(optional = false)
+    @Column(name = "PARENT_ID")
+    private Long parentId;
+
+    @Basic(optional = false)
+    @Column(name = "TYPE")
+    @NotBlank(message = "typeRequired")
+    private Integer type;
 
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
@@ -134,8 +158,20 @@ public class UserProfile implements Serializable, UserDetails {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
     private UserAttempt userAttempt;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
+    private UserCompanyInfo userCompanyInfo;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
+    private UserOutletInfo userOutletInfo;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
     private Collection<AuditTrail> AuditTrailCollection;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
+    private Collection<UserPassPurchased> userPassPurchased;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
+    private Collection<UserOutletOfferPurchased> userOutletOfferPurchased;
 
     private transient Collection<GrantedAuthority> authorities;
 
@@ -154,12 +190,68 @@ public class UserProfile implements Serializable, UserDetails {
         this.id = id;
     }
 
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
+
+    public Collection<UserPassPurchased> getUserPassPurchased() {
+        return userPassPurchased;
+    }
+
+    public void setUserPassPurchased(Collection<UserPassPurchased> userPassPurchased) {
+        this.userPassPurchased = userPassPurchased;
+    }
+
+    public Collection<UserOutletOfferPurchased> getUserOutletOfferPurchased() {
+        return userOutletOfferPurchased;
+    }
+
+    public void setUserOutletOfferPurchased(Collection<UserOutletOfferPurchased> userOutletOfferPurchased) {
+        this.userOutletOfferPurchased = userOutletOfferPurchased;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getCountry() {
+        return country;
+    }
+
+    public void setCountry(Integer country) {
+        this.country = country;
+    }
+
+    public String getQrCodePath() {
+        return qrCodePath;
+    }
+
+    public void setQrCodePath(String qrCodePath) {
+        this.qrCodePath = qrCodePath;
     }
 
     public String getEmail() {
@@ -259,6 +351,24 @@ public class UserProfile implements Serializable, UserDetails {
 
     public void setUserAttempt(UserAttempt userAttemptsCollection) {
         this.userAttempt = userAttemptsCollection;
+    }
+
+    @XmlTransient
+    public UserCompanyInfo getUserCompanyInfo() {
+        return userCompanyInfo;
+    }
+
+    public void setUserCompanyInfo(UserCompanyInfo userCompanyInfo) {
+        this.userCompanyInfo = userCompanyInfo;
+    }
+
+    @XmlTransient
+    public UserOutletInfo getUserOutletInfo() {
+        return userOutletInfo;
+    }
+
+    public void setUserOutletInfo(UserOutletInfo userOutletInfo) {
+        this.userOutletInfo = userOutletInfo;
     }
 
     @XmlTransient

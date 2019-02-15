@@ -5,9 +5,9 @@
  */
 package com.freedomPass.api.configuration.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

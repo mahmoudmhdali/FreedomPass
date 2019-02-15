@@ -1,5 +1,7 @@
 package com.freedomPass.project.controller;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
@@ -7,8 +9,6 @@ import com.freedomPass.project.model.Blacklist;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.service.AuditTrailService;
 import com.freedomPass.project.service.BlacklistService;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
 import java.util.Locale;
 import javax.validation.Valid;

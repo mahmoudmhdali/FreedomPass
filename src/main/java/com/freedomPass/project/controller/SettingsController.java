@@ -1,10 +1,10 @@
 package com.freedomPass.project.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.service.SettingsService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.util.Locale;
