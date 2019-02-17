@@ -7,7 +7,6 @@ import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.model.Blacklist;
 import com.freedomPass.project.model.UserProfile;
-import com.freedomPass.project.service.AuditTrailService;
 import com.freedomPass.project.service.BlacklistService;
 import java.io.IOException;
 import java.util.Locale;
@@ -29,9 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/blacklists")
 public class BlacklistController extends AbstractController {
-
-    @Autowired
-    AuditTrailService audittrailservice;
 
     @Autowired
     BlacklistService blacklistService;

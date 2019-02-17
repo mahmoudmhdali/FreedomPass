@@ -1,5 +1,6 @@
 package com.freedomPass.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "TBL_USER_COMPANY_INFO")
+@Table(name = "TBL_USER_PASS_PURCHASED")
 @XmlRootElement
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class UserPassPurchased implements Serializable {
@@ -44,6 +45,7 @@ public class UserPassPurchased implements Serializable {
     @Column(name = "VALID_TILL")
     private Date validTill;
     
+    @JsonIgnore
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private UserProfile userProfileId;

@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name = "TBL_USER_OUTLET_INFO_IMAGES")
+@Table(name = "TBL_USER_OUTLET_INFO_LOCATIONS")
 @XmlRootElement
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class UserOutletInfoLocations implements Serializable {

@@ -12,6 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -62,6 +65,12 @@ public class AdminPasses implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "adminPasses", cascade = CascadeType.ALL)
     private Collection<UserCompanyPasses> userCompanyPasses;
 
+    @JoinTable(name = "TBL_ADMIN_PASSES_OUTLET_OFFERS", inverseJoinColumns = {
+        @JoinColumn(name = "OUTLET_OFFER_ID", referencedColumnName = "ID")}, joinColumns = {
+        @JoinColumn(name = "PASS_ID", referencedColumnName = "ID")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<UserOutletOffer> userOutletOfferCollection;
+
     @CreationTimestamp
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
@@ -99,7 +108,7 @@ public class AdminPasses implements Serializable {
     public void setDeletedDate(Date deletedDate) {
         this.deletedDate = deletedDate;
     }
-    
+
     public Integer getValidity() {
         return validity;
     }
@@ -146,6 +155,14 @@ public class AdminPasses implements Serializable {
 
     public void setUserCompanyPasses(Collection<UserCompanyPasses> userCompanyPasses) {
         this.userCompanyPasses = userCompanyPasses;
+    }
+
+    public Collection<UserOutletOffer> getUserOutletOfferCollection() {
+        return userOutletOfferCollection;
+    }
+
+    public void setUserOutletOfferCollection(Collection<UserOutletOffer> userOutletOfferCollection) {
+        this.userOutletOfferCollection = userOutletOfferCollection;
     }
 
     @Override

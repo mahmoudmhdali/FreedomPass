@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -61,6 +63,12 @@ public class UserOutletOffer implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userOutletOffer", cascade = CascadeType.ALL)
     private Collection<UserOutletOfferPurchased> userOutletOfferPurchased;
+
+    @JoinTable(name = "TBL_ADMIN_PASSES_OUTLET_OFFERS", joinColumns = {
+        @JoinColumn(name = "OUTLET_OFFER_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "PASS_ID", referencedColumnName = "ID")})
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<AdminPasses> adminPassesCollection;
 
     @CreationTimestamp
     @Column(name = "CREATED_DATE")
@@ -154,6 +162,14 @@ public class UserOutletOffer implements Serializable {
 
     public void setUserOutletOfferPurchased(Collection<UserOutletOfferPurchased> userOutletOfferPurchased) {
         this.userOutletOfferPurchased = userOutletOfferPurchased;
+    }
+
+    public Collection<AdminPasses> getAdminPassesCollection() {
+        return adminPassesCollection;
+    }
+
+    public void setAdminPassesCollection(Collection<AdminPasses> adminPassesCollection) {
+        this.adminPassesCollection = adminPassesCollection;
     }
 
     @Override

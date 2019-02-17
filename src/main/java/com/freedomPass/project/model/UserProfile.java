@@ -165,9 +165,6 @@ public class UserProfile implements Serializable, UserDetails {
     private UserOutletInfo userOutletInfo;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
-    private Collection<AuditTrail> AuditTrailCollection;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
     private Collection<UserPassPurchased> userPassPurchased;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
@@ -369,15 +366,6 @@ public class UserProfile implements Serializable, UserDetails {
 
     public void setUserOutletInfo(UserOutletInfo userOutletInfo) {
         this.userOutletInfo = userOutletInfo;
-    }
-
-    @XmlTransient
-    public Collection<AuditTrail> getAuditTrailCollection() {
-        return AuditTrailCollection;
-    }
-
-    public void setAuditTrailCollection(Collection<AuditTrail> AuditTrailCollection) {
-        this.AuditTrailCollection = AuditTrailCollection;
     }
 
     @Override

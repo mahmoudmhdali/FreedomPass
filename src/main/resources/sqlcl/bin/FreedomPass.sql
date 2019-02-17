@@ -1,4 +1,6 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `db_freedom_pass_app` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `db_freedom_pass_app`;
+-- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
 --
 -- Host: localhost    Database: db_freedom_pass_app
 -- ------------------------------------------------------
@@ -7,7 +9,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +23,7 @@
 
 DROP TABLE IF EXISTS `tbl_admin_passes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_admin_passes` (
   `id` bigint(20) NOT NULL,
   `VALIDITY` int(4) DEFAULT NULL,
@@ -46,12 +48,39 @@ INSERT INTO `tbl_admin_passes` VALUES (1,60,'Pass 1','Pess 1 Description',NULL,'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tbl_admin_passes_outlet_offers`
+--
+
+DROP TABLE IF EXISTS `tbl_admin_passes_outlet_offers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tbl_admin_passes_outlet_offers` (
+  `PASS_ID` bigint(20) DEFAULT NULL,
+  `OUTLET_OFFER_ID` bigint(20) DEFAULT NULL,
+  KEY `FK_23523657235672_idx` (`PASS_ID`),
+  KEY `FK_98683475872_idx` (`OUTLET_OFFER_ID`),
+  CONSTRAINT `FK_23523657235672` FOREIGN KEY (`PASS_ID`) REFERENCES `tbl_admin_passes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_98683475872` FOREIGN KEY (`OUTLET_OFFER_ID`) REFERENCES `tbl_user_outlet_offer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tbl_admin_passes_outlet_offers`
+--
+
+LOCK TABLES `tbl_admin_passes_outlet_offers` WRITE;
+/*!40000 ALTER TABLE `tbl_admin_passes_outlet_offers` DISABLE KEYS */;
+INSERT INTO `tbl_admin_passes_outlet_offers` VALUES (1,1);
+/*!40000 ALTER TABLE `tbl_admin_passes_outlet_offers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tbl_blacklist`
 --
 
 DROP TABLE IF EXISTS `tbl_blacklist`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_blacklist` (
   `black_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `msisdn` varchar(15) NOT NULL,
@@ -77,7 +106,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_general_dashboard`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_general_dashboard` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item_key` varchar(45) NOT NULL,
@@ -107,7 +136,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_groups` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `NAME` varchar(256) NOT NULL,
@@ -136,7 +165,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_groups_reports`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_groups_reports` (
   `GROUP_ID` bigint(20) NOT NULL,
   `REPORT_ID` bigint(20) NOT NULL,
@@ -162,7 +191,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_groups_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_groups_roles` (
   `GROUP_ID` bigint(20) NOT NULL,
   `ROLE_ID` bigint(20) NOT NULL,
@@ -189,7 +218,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_languages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_languages` (
   `ID` int(11) NOT NULL,
   `NAME` varchar(45) NOT NULL,
@@ -214,7 +243,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_notification_events`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_notification_events` (
   `event_id` int(11) NOT NULL AUTO_INCREMENT,
   `event_name` varchar(50) NOT NULL DEFAULT '0',
@@ -241,7 +270,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_notification_texts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_notification_texts` (
   `text_id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL DEFAULT '0',
@@ -271,7 +300,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_outlet_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_outlet_category` (
   `id` bigint(20) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
@@ -298,10 +327,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_outlet_offer_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_outlet_offer_type` (
   `id` bigint(20) NOT NULL,
-  `name` timestamp NULL DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
   `CREATED_DATE` timestamp NULL DEFAULT NULL,
   `DELETED_DATE` timestamp NULL DEFAULT NULL,
   `UPDATED_DATE` timestamp NULL DEFAULT NULL,
@@ -315,7 +344,7 @@ CREATE TABLE `tbl_outlet_offer_type` (
 
 LOCK TABLES `tbl_outlet_offer_type` WRITE;
 /*!40000 ALTER TABLE `tbl_outlet_offer_type` DISABLE KEYS */;
-INSERT INTO `tbl_outlet_offer_type` VALUES (1,'0000-00-00 00:00:00','2018-01-22 10:53:01',NULL,NULL),(2,'0000-00-00 00:00:00','2018-01-22 10:53:01',NULL,NULL);
+INSERT INTO `tbl_outlet_offer_type` VALUES (1,'Type 1','2018-01-22 10:53:01',NULL,NULL),(2,'Type 2','2018-01-22 10:53:01',NULL,NULL);
 /*!40000 ALTER TABLE `tbl_outlet_offer_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,7 +354,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_pages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_pages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -349,7 +378,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_pages_labels`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_pages_labels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `page_id` int(11) NOT NULL,
@@ -379,7 +408,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_persistent_login`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_persistent_login` (
   `SERIES` varchar(256) DEFAULT NULL,
   `USERNAME` varchar(256) DEFAULT NULL,
@@ -403,7 +432,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_reports`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_reports` (
   `id` bigint(20) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
@@ -432,7 +461,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_reports_filter`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_reports_filter` (
   `id` bigint(20) NOT NULL,
   `report_field` varchar(45) DEFAULT NULL,
@@ -463,7 +492,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_reports_style`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_reports_style` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
@@ -487,7 +516,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_reports_style_join`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_reports_style_join` (
   `report_id` bigint(20) NOT NULL,
   `report_style_id` int(11) NOT NULL,
@@ -513,7 +542,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_roles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_roles` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `ROLE` varchar(256) DEFAULT NULL,
@@ -539,7 +568,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_settings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_settings` (
   `setting_id` int(11) NOT NULL AUTO_INCREMENT,
   `MSISDN_LENGTH` int(11) NOT NULL DEFAULT '0',
@@ -566,7 +595,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_settings_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_settings_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -591,7 +620,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_settings_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_settings_mapping` (
   `COLUMNID` int(11) NOT NULL AUTO_INCREMENT,
   `COLUMNNAME` varchar(255) NOT NULL,
@@ -631,7 +660,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_attempts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_attempts` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `USER_PROFILE_ID` bigint(20) NOT NULL,
@@ -659,7 +688,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_company_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_company_info` (
   `id` bigint(20) NOT NULL,
   `COUNTRY` int(4) DEFAULT NULL,
@@ -690,7 +719,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_company_info_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_company_info_images` (
   `id` bigint(20) NOT NULL,
   `PATH` varchar(500) DEFAULT NULL,
@@ -718,7 +747,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_company_info_locations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_company_info_locations` (
   `id` bigint(20) NOT NULL,
   `longitude` varchar(100) DEFAULT NULL,
@@ -747,7 +776,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_company_passes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_company_passes` (
   `id` bigint(20) NOT NULL,
   `PASS_ID` bigint(20) DEFAULT NULL,
@@ -780,7 +809,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_outlet_info`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_outlet_info` (
   `id` bigint(20) NOT NULL,
   `COUNTRY` varchar(45) DEFAULT NULL,
@@ -811,7 +840,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_outlet_info_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_outlet_info_category` (
   `USER_OUTLET_ID` bigint(20) DEFAULT NULL,
   `OUTLET_CATEGORY_ID` bigint(20) DEFAULT NULL,
@@ -837,7 +866,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_outlet_info_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_outlet_info_images` (
   `id` bigint(20) NOT NULL,
   `PATH` varchar(500) DEFAULT NULL,
@@ -865,7 +894,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_outlet_info_locations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_outlet_info_locations` (
   `id` bigint(20) NOT NULL,
   `longitude` varchar(100) DEFAULT NULL,
@@ -894,7 +923,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_outlet_offer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_outlet_offer` (
   `id` bigint(20) NOT NULL,
   `VALIDITY` int(5) DEFAULT NULL,
@@ -929,7 +958,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_outlet_offer_used`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_outlet_offer_used` (
   `id` bigint(20) NOT NULL,
   `USED_DATE` timestamp NULL DEFAULT NULL,
@@ -960,7 +989,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_pass_purchased`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_pass_purchased` (
   `id` bigint(20) NOT NULL,
   `USER_ID` bigint(20) DEFAULT NULL,
@@ -992,7 +1021,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_profile_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_profile_groups` (
   `USER_PROFILE_ID` bigint(20) NOT NULL,
   `GROUP_ID` bigint(20) NOT NULL,
@@ -1019,7 +1048,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_user_profiles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_user_profiles` (
   `ID` bigint(20) NOT NULL,
   `NAME` varchar(64) NOT NULL,
@@ -1063,7 +1092,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_userprofile_notification_event`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_userprofile_notification_event` (
   `ID` bigint(20) NOT NULL AUTO_INCREMENT,
   `NOTIFICATION_EVENT_ID` int(11) NOT NULL,
@@ -1092,7 +1121,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tbl_web_notifications`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tbl_web_notifications` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1114,197 +1143,6 @@ LOCK TABLES `tbl_web_notifications` WRITE;
 /*!40000 ALTER TABLE `tbl_web_notifications` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tbl_web_notifications` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'db_freedom_pass_app'
---
-
---
--- Dumping routines for database 'db_freedom_pass_app'
---
-/*!50003 DROP PROCEDURE IF EXISTS `PROC_SELECTANYQUERY` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PROC_SELECTANYQUERY`(IN QRY VARCHAR(1000))
-BEGIN
-	SET @QRY = QRY;
-	PREPARE selectqry  FROM @QRY; 
-	EXECUTE selectqry;
-	DEALLOCATE PREPARE selectqry;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `PROC_SELECTSETTINGSMAP` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `PROC_SELECTSETTINGSMAP`(IN B_ID INT, IN COL_ID INT, IN TBL_NAME VARCHAR(50), IN CATEGORY_NAME VARCHAR(50), IN IN_IsAdmin INT, IN_LANGID INT)
-PROC_LABEL: BEGIN
-	DECLARE TEMP_TBLNAME, TEMP_COLVALUES, CURRENT_VALUE VARCHAR(500) DEFAULT ''; 
-    DECLARE CUR1_COUNT, temp, I INTEGER;
-    
-    DECLARE CUR1_COLUMNID INT(11);
-	DECLARE CUR1_COLUMNNAME VARCHAR(255);
-	DECLARE CUR1_COLUMNDESCRIPTION VARCHAR(255) ;
-	DECLARE CUR1_LABELDISPLAY VARCHAR(255) ;
-	DECLARE CUR1_FIELDTYPE VARCHAR(255) ;
-	DECLARE CUR1_RELATEDCOLUMNS INTEGER;
-	DECLARE CUR1_COLUMNVALUE VARCHAR(255); 
-	DECLARE CUR1_QUERYTEXT VARCHAR(500);
-	DECLARE CUR1_ENABLED	INT(11) ;
-	DECLARE CUR1_EDITABLE INT(11) ;
-	DECLARE CUR1_SUBTABLENAME VARCHAR(255);
-	DECLARE CUR1_AUTOINC	INT(11);
-	DECLARE CUR1_UNIQUEVALUE INT(11);
-	DECLARE CUR1_MANDATORY INT(11);
-	DECLARE CUR1_RELATEDCOLNAME VARCHAR(255);
-	DECLARE CUR1_RELATEDAUTOINCCOLNAME VARCHAR(255);
-	DECLARE CUR1_COLUMNCATEGORY VARCHAR(255);
-    DECLARE CUR1_ISADMIN INT(11);
-    DECLARE X VARCHAR(50);
-    DECLARE done boolean DEFAULT FALSE;
-
-    
-    
-	
-	
-		
-		
-		
-	
-	DECLARE CUR1 CURSOR FOR SELECT COLUMNID , COLUMNNAME , COLUMNDESCRIPTION  , 
-    (CASE WHEN (SELECT LABEL FROM TBL_PAGES_LABELS WHERE PAGE_ID=2 AND LABEL_LEVEL=2 AND LABEL_ID=COLUMNID AND LANG_ID=IN_LANGID) IS NOT NULL THEN (SELECT LABEL FROM TBL_PAGES_LABELS WHERE PAGE_ID=2 AND LABEL_LEVEL=2 AND LABEL_ID=COLUMNID AND LANG_ID=IN_LANGID) ELSE LABELDISPLAY END) AS LABELDISPLAY , FIELDTYPE, RELATEDCOLUMNS , COLUMNVALUE , QUERYTEXT , ENABLED, EDITABLE, SUBTABLENAME , AUTOINC	, UNIQUEVALUE , MANDATORY , RELATEDCOLNAME , RELATEDAUTOINCCOLNAME , COLUMNCATEGORY, ISADMIN FROM TBL_SETTINGS_MAPPING WHERE ENABLED=1 AND RELATEDCOLUMNS=COL_ID ORDER BY COLUMNID ASC;
-	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = true;
-   
-    SELECT COUNT(1) INTO CUR1_COUNT FROM TBL_SETTINGS_MAPPING WHERE ENABLED=1 AND RELATEDCOLUMNS=COL_ID;
-    
-    
-    SELECT CONCAT('TEMP_SETTINGS_MAPPING_', REPLACE(UUID(),"-", "")) INTO TEMP_TBLNAME;
-	set @createtable = CONCAT('CREATE TEMPORARY TABLE  ', TEMP_TBLNAME, ' LIKE  TBL_SETTINGS_MAPPING ');
-	PREPARE execquery FROM @createtable ; set @createtable = ''; EXECUTE execquery; DEALLOCATE PREPARE execquery ; 
-	
-    SET @createtable = CONCAT('ALTER TABLE ', TEMP_TBLNAME, ' ENGINE = MEMORY ');
-    PREPARE execquery FROM @createtable ; set @createtable = ''; EXECUTE execquery; DEALLOCATE PREPARE execquery ;
-    
-    SET I =0;
-	SET @inserttbl = CONCAT('INSERT INTO ', TEMP_TBLNAME , ' VALUES ');
-    OPEN CUR1;
-    loop_settings_mapping: LOOP
-    FETCH CUR1 into CUR1_COLUMNID, CUR1_COLUMNNAME, CUR1_COLUMNDESCRIPTION, CUR1_LABELDISPLAY, CUR1_FIELDTYPE, CUR1_RELATEDCOLUMNS, CUR1_COLUMNVALUE, CUR1_QUERYTEXT, CUR1_ENABLED, CUR1_EDITABLE, CUR1_SUBTABLENAME, CUR1_AUTOINC, CUR1_UNIQUEVALUE, CUR1_MANDATORY, CUR1_RELATEDCOLNAME, CUR1_RELATEDAUTOINCCOLNAME, CUR1_COLUMNCATEGORY, CUR1_ISADMIN;
-        IF CUR1_COUNT <=0 THEN
-			LEAVE loop_settings_mapping;
-		END IF;
-        IF (IN_IsAdmin=1) OR (IN_IsAdmin=0 AND CUR1_ISADMIN=0) THEN
-			IF LOWER(CATEGORY_NAME) = 'all' OR LOWER(CATEGORY_NAME) = LOWER(CUR1_COLUMNCATEGORY) OR LOWER(CUR1_COLUMNCATEGORY) = 'category_autoinc' THEN
-				IF B_ID !=0 THEN
-					IF COL_ID = 0 THEN
-						
-						SET CURRENT_VALUE = CONCAT('SELECT ', CUR1_COLUMNNAME, ' FROM ', TBL_NAME, ' WHERE SETTING_ID=',B_ID);
-						
-						
-					ELSE
-						SET CURRENT_VALUE = '""';
-					END IF;
-				END IF;
-                IF I > 0 THEN
-					SET TEMP_COLVALUES = ',(';
-                    
-				ELSE
-					SET TEMP_COLVALUES = '(';
-                END IF;
-				
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_COLUMNID, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_COLUMNNAME, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_COLUMNDESCRIPTION, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_LABELDISPLAY, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_FIELDTYPE, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_RELATEDCOLUMNS, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '(',  CURRENT_VALUE, '), ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_QUERYTEXT, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_ENABLED, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_EDITABLE, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_SUBTABLENAME, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_AUTOINC, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_UNIQUEVALUE, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_MANDATORY, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_RELATEDCOLNAME, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_RELATEDAUTOINCCOLNAME, '"', ', ');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_COLUMNCATEGORY, '"', ', ');
-                SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, '"', CUR1_ISADMIN, '"');
-				SET TEMP_COLVALUES = CONCAT(TEMP_COLVALUES, ')');
-                SET @inserttbl = CONCAT(@inserttbl, TEMP_COLVALUES);
-			END IF;
-        END IF;
-        SET I = I + 1;
-        SET CUR1_COUNT = CUR1_COUNT -1;
-	END LOOP;
-    CLOSE CUR1;
-    
-    PREPARE execquery FROM @inserttbl ; SET @inserttbl =''; EXECUTE execquery; DEALLOCATE PREPARE execquery ;
-    SET @selecttbl  = CONCAT('SELECT * FROM ', TEMP_TBLNAME);
-    PREPARE execquery FROM @selecttbl ; SET @selecttbl  =''; EXECUTE execquery; DEALLOCATE PREPARE execquery ;
-END PROC_LABEL ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `reportsProcedure` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reportsProcedure`(IN sqlString LONGTEXT, IN withCounter TINYINT(1), IN pageNumber INT, limitPerPage INT, IN withLimit TINYINT(1), OUT rowCount INT(11))
-BEGIN
-	DECLARE startIndex INT DEFAULT ((pageNumber - 1) * limitPerPage);
-
-	IF withLimit=1 THEN
-		IF withCounter=1 THEN
-			SET @SQLStringCount = CONCAT('SELECT COUNT(*) INTO @rowCount FROM (', sqlString, ') as counter');
-			PREPARE countSTMT FROM @SQLStringCount;
-			EXECUTE countSTMT;
-			SELECT @rowCount INTO rowCount;
-		END IF;
-
-		SET @SQLStringRows = CONCAT(sqlString, ' LIMIT ?,?');
-		PREPARE rowsSTMT FROM @SQLStringRows;
-		SET @FROM = startIndex;
-		SET @TO = limitPerPage;
-		EXECUTE rowsSTMT USING @FROM, @TO;
-	END IF;
-
-	IF withLimit=0 THEN
-		SET @SQLStringRows = CONCAT(sqlString);
-		PREPARE rowsSTMT FROM @SQLStringRows;
-		EXECUTE rowsSTMT;
-	END IF;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1315,4 +1153,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-02-15 19:45:55
+-- Dump completed on 2019-02-17 20:50:34

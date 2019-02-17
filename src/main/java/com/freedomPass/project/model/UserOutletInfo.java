@@ -45,7 +45,7 @@ public class UserOutletInfo implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "COUNTRY")
-    private Integer country;
+    private String country;
 
     @Basic(optional = false)
     @Column(name = "INFO")
@@ -108,11 +108,11 @@ public class UserOutletInfo implements Serializable {
         this.deletedDate = deletedDate;
     }
 
-    public Integer getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(Integer country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 

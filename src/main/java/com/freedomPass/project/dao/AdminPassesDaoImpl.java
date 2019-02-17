@@ -1,8 +1,10 @@
 package com.freedomPass.project.dao;
 
 import com.freedomPass.project.model.AdminPasses;
+import com.freedomPass.project.model.UserOutletOffer;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +16,13 @@ public class AdminPassesDaoImpl extends AbstractDao<Long, AdminPasses> implement
         Criteria criteria = createEntityCriteria()
                 .add(Restrictions.isNull("deletedDate"));
         List<AdminPasses> adminPasses = (List<AdminPasses>) criteria.list();
+        for (AdminPasses adminPasse : adminPasses) {
+            Hibernate.initialize(adminPasse.getUserOutletOfferCollection());
+            for (UserOutletOffer userOutletOffer : adminPasse.getUserOutletOfferCollection()) {
+                Hibernate.initialize(userOutletOffer.getOutletOfferType());
+            }
+
+        }
         return adminPasses;
     }
 

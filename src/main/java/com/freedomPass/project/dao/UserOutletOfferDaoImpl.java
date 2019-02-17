@@ -3,6 +3,7 @@ package com.freedomPass.project.dao;
 import com.freedomPass.project.model.UserOutletOffer;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,10 @@ public class UserOutletOfferDaoImpl extends AbstractDao<Long, UserOutletOffer> i
         Criteria criteria = createEntityCriteria()
                 .add(Restrictions.isNull("deletedDate"));
         List<UserOutletOffer> userOutletOffers = (List<UserOutletOffer>) criteria.list();
+        for (UserOutletOffer userOutletOffer : userOutletOffers) {
+            Hibernate.initialize(userOutletOffer.getOutletOfferType());
+            Hibernate.initialize(userOutletOffer.getUserOutletInfo());
+        }
         return userOutletOffers;
     }
 
