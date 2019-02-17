@@ -1,5 +1,6 @@
 package com.freedomPass.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -43,7 +44,8 @@ public class UserOutletInfoLocations implements Serializable {
     @Column(name = "latitude")
     private String latitude;
 
-    @JoinColumn(name = "USER_COMPANY_INFO_ID", referencedColumnName = "ID")
+    @JsonIgnore
+    @JoinColumn(name = "USER_OUTLET_INFO_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private UserOutletInfo userOutletInfo;
 
