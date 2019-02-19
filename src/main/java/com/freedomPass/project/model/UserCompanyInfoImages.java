@@ -1,5 +1,6 @@
 package com.freedomPass.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Objects;
@@ -41,6 +42,7 @@ public class UserCompanyInfoImages implements Serializable {
     @Column(name = "PATH")
     private String path;
     
+    @JsonIgnore
     @JoinColumn(name = "USER_COMPANY_INFO_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private UserCompanyInfo userCompanyInfo;

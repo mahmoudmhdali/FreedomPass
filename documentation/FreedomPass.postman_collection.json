@@ -1,0 +1,1092 @@
+{
+	"info": {
+		"_postman_id": "f6743158-3252-47e0-82d6-bf6d0e27a477",
+		"name": "FreedomPass",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "VIEW_USERS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0ODBiZjhjNy05OWUxLTQ5NjEtYTM5Ni1hYWM4ZWRjNmVhMjIiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwODA3MzgxLCJleHAiOjE1MjA4NTA1ODF9.rmpoQD9RjvC704l0e4vChnVuoGBNseZP0svBtgufMKVAB0Ai7ro_5mWxVOt15Ss2peIoNB-njOIgxCromGDUow"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VIEW_USER_BY_ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0YzQyZDY5Yi02NWFmLTQxNDctOGIwOS00MDQ3MzQ3ZDdkNzQiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwODA3NTU1LCJleHAiOjE1MjA4NTA3NTV9.gwdlw2JhHjwfSC-NUxrY5mkCs2WTiSgYt-dRCEv11YgZEGhijpgxxxE2E2K_KQxAQMk_2FgVkcXO4TVP8wOTww"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/users/1520808711979438",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"users",
+								"1520808711979438"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VIEW_USER_BY_EMAIL",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/users/view/?email=postman-01@apliman.com",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"users",
+								"view",
+								""
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "postman-01@apliman.com"
+								}
+							]
+						},
+						"description": "When added as path variable an error occurs, so set it as request param"
+					},
+					"response": []
+				},
+				{
+					"name": "ADD_USER",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"applicationName\": \"test app\",\n    \"applicationCreateDate\": \"2018-08-23 05:40:30\",\n    \"applicationModifyDate\": \"2018-08-23 05:40:30\",\n    \"numberOfIcons\": 3,\n    \"applicationIcons\": {\n        \"1\": {\n            \"iconName\": \"GotoICon\",\n            \"iconIndex\": 1,\n            \"iconType\": 1,\n            \"iconconnections\": {\n                \"numberOfConnections\": 1,\n                \"outputconnections\": [\n                    3\n                ]\n            },\n            \"gotoIndex\": 2\n        },\n        \"2\": {\n            \"iconName\": \"APIIcon\",\n            \"iconIndex\": 2,\n            \"iconType\": 4,\n            \"iconconnections\": {\n                \"outputconnections\": [\n                    4,\n                    5\n                ],\n                \"numberOfConnections\": 2\n            },\n            \"responseVarID\": \"apireturnResult\",\n            \"method\": \"GET\",\n            \"payload\": \"XML Payload\",\n            \"apiurl\": \"http://localhost\"\n        },\n        \"3\": {\n            \"iconName\": \"AssignIcon\",\n            \"iconIndex\": 3,\n            \"iconType\": 3,\n            \"iconconnections\": {\n                \"outputconnections\": [\n                    1,\n                    2\n                ],\n                \"numberOfConnections\": 2\n            },\n            \"numberOfAssign\": 2,\n            \"AssignData\": {\n            \t\"1\": {\n            \t\t\"assignName\": \"@msisdn\",\n            \t\t\"assignValue\": \"03088231\",\n            \t\t\"assignType\": 1,\n            \t\t\"assignStorage\": 1\n            \t},\n            \t\"2\": {\n            \t\t\"assignName\": \"@calledNum\",\n            \t\t\"assignValue\": \"030881122\",\n            \t\t\"assignType\": 2,\n            \t\t\"assignStorage\": 0\n            \t}\n            }\n        },\n        \"4\": {\n            \"iconName\": \"CondtitionIcon\",\n            \"iconIndex\": 4,\n            \"iconType\": 2,\n            \"iconconnections\": {\n                \"outputconnections\": [\n                    1,\n                    2\n                ],\n                \"numberOfConnections\": 2\n            },\n            \"NumberOfConditions\": 2,\n            \"iconConditions\": [\n            \t{\n            \t\t\"leftHandSide\": \"@msisdn\",\n            \t\t\"rightHandSide\": \"03088231\",\n            \t\t\"operator\": \"=\",\n            \t\t\"index\": 1,\n            \t\t\"thenConditionType\": 1,\n            \t\t\"elseConditiontype\": 1,\n            \t\t\"thenConditionValue\": 1,\n            \t\t\"elseConditionValue\": 2\n            \t},\n            \t{\n            \t\t\"leftHandSide\": \"@CallingNumber\",\n            \t\t\"rightHandSide\": \"123456\",\n            \t\t\"operator\": \"<\",\n            \t\t\"index\": 2,\n            \t\t\"thenConditionType\": 2,\n            \t\t\"elseConditiontype\": 2,\n            \t\t\"thenConditionValue\": 2,\n            \t\t\"elseConditionValue\": 1\n            \t}\n            ]\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/Campaigns/testApli",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"Campaigns",
+								"testApli"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE_USER",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "1520423296263882",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "mahmoud",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "mahmoud@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "groupCollection",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Admin123",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "confirmPassword",
+									"value": "Admin123",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "mobileNumber",
+									"value": "1212121212",
+									"type": "text"
+								},
+								{
+									"key": "jobTitle",
+									"value": "job0123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/users/update",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"users",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_USER",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI5NGE5NmMxMS05NmQwLTRiNWUtOTdjZi05ZTFlZWQyMWUwZjAiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTkwNjQ4LCJleHAiOjE1MjA2MzM4NDh9.cLhmz__FZU_SdwhpYa0EbXTFe6feYxojHCciO7S0V0U1xoIupB7CRLIztkC4i1oBB6jFj_ip9NStr0WC_Phq3w"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/users/delete/1520591174040305",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"users",
+								"delete",
+								"1520591174040305"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI3YTdiNTIyZi03ODQyLTRlMGUtYTI4Mi1jMWI2N2ZmZjNiYWMiLCJzdWIiOiJjb21wYW55MUBmcmVlZG9tcGFzcy5jb20iLCJpYXQiOjE1NTA1Mzc2MzYsImV4cCI6MTU1MDY2NzIzNn0.WPX-kofm-IxXajMBtug_ywFFoNPHfZ-bMeGt4TVpdKWWRCtlOL-ChSIwIVHIyXQc60pr6V51Qp68rEmXKweOcA"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "postman-01",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "postman-01@apliman.com",
+									"type": "text"
+								},
+								{
+									"key": "groupCollection",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Admin@124",
+									"type": "text"
+								},
+								{
+									"key": "confirmPassword",
+									"value": "Admin@124",
+									"type": "text"
+								},
+								{
+									"key": "mobileNumber",
+									"value": "1234567891",
+									"type": "text"
+								},
+								{
+									"key": "jobTitle",
+									"value": "job01",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/users/add",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"users",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Group Management",
+			"item": [
+				{
+					"name": "VIEW_GROUPS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8084/FreedomPass/groups",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VIEW_ROLES",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0ODBiZjhjNy05OWUxLTQ5NjEtYTM5Ni1hYWM4ZWRjNmVhMjIiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwODA3MzgxLCJleHAiOjE1MjA4NTA1ODF9.rmpoQD9RjvC704l0e4vChnVuoGBNseZP0svBtgufMKVAB0Ai7ro_5mWxVOt15Ss2peIoNB-njOIgxCromGDUow"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/roles",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VIEW_GROUP_BY_ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/groups/1519807522707828",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"groups",
+								"1519807522707828"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ADD_GROUP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "testpostmangroup-01",
+									"type": "text"
+								},
+								{
+									"key": "roleCollection",
+									"value": "4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/FreedomPass/groups/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"groups",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE_GROUP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "1519834701559345",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "testpostmangroup-01-updated",
+									"type": "text"
+								},
+								{
+									"key": "roleCollection",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "roleCollection",
+									"value": "5",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8084/FreedomPass/groups/update/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"groups",
+								"update",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_GROUP",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/groups/delete/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"groups",
+								"delete",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_GROUP_SELECTION",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/groups/deleteSelection?id=1520591611278649",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"groups",
+								"deleteSelection"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1520591611278649"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin Passes",
+			"item": [
+				{
+					"name": "Get All Passes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/adminPasses",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"adminPasses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pass By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/adminPasses/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"adminPasses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Outlet Offers",
+			"item": [
+				{
+					"name": "Get all offes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userOutletOffer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Outlets",
+			"item": [
+				{
+					"name": "Get all outlets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletInfo",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userOutletInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Outlet By Category ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletInfo/category/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userOutletInfo",
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Outlet By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletInfo/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userOutletInfo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Companies",
+			"item": [
+				{
+					"name": "Get All Companies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userCompanyInfo",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userCompanyInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Company By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userCompanyInfo/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userCompanyInfo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Add New User Purchased Directly",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "postman-01",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "postman-01",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "postman-01@apliman.com",
+									"type": "text"
+								},
+								{
+									"key": "newPassword",
+									"value": "Admin@124",
+									"type": "text"
+								},
+								{
+									"key": "confirmPassword",
+									"value": "Admin@124",
+									"type": "text"
+								},
+								{
+									"key": "mobileNumber",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/newUser/add",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"newUser",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add By System User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0OTlkY2VmNC02N2FhLTRiNzktODQwZS02OTZlMDQ2ZTk5NTUiLCJzdWIiOiJhZG1pbkBmcmVlZG9tcGFzcy5jb20iLCJpYXQiOjE1NTA1NDAxOTcsImV4cCI6MTU1MDY2OTc5N30.6DKi93j6ip3uJeIjOUEaQBH8mLwPc_8fX8KIrNnz6apOklbLp4dA2xRXeHZFYvuHcKVPQEr0ikPxF7JzS9wUtw"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "postman-01",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "postman-01",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "postman-01@apliman.com",
+									"type": "text"
+								},
+								{
+									"key": "newPassword",
+									"value": "Admin@124",
+									"type": "text"
+								},
+								{
+									"key": "confirmPassword",
+									"value": "Admin@124",
+									"type": "text"
+								},
+								{
+									"key": "mobileNumber",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "userOutletInfo.info",
+									"value": "Test Info 123",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "userCompanyInfo.info",
+									"value": "Test Info 123",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/users/add",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"users",
+								"add"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\": \"admin@freedompass.com\", \"password\": \"Admin123\"}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8084/FreedomPass/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8084",
+					"path": [
+						"FreedomPass",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGOUT",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJlZjNkNWIyMy1hZWEyLTQ4NjEtOWQ5Mi1lZWQ0NzU1NjJhYjkiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwODA3MjY2LCJleHAiOjE1MjA4NTA0NjZ9.vVl5ewmkBBFdPGkpvwJ3Oy98OUVgDwy-dYLz6FGRql7dogV1mK547qkKrkoDMEky-gpxe-Y9CE-pucn-oxIGSA"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8084/FreedomPass/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8084",
+					"path": [
+						"FreedomPass",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "620f60ed-8ce7-4202-8eb3-5c9894c894b1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "65dd7671-cb99-4aac-9348-6ceacf326b10",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

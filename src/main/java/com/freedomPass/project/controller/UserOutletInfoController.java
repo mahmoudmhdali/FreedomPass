@@ -36,4 +36,13 @@ public class UserOutletInfoController extends AbstractController {
                 .returnClientResponse();
     }
 
+    @GetMapping("/category/{id}")
+    public ResponseEntity getUserOutletInfoByCategory(@PathVariable Long id) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("userOutletInfo", userOutletInfoService.getUserOutletInfosByCategory(id))
+                .returnClientResponse();
+    }
+
 }

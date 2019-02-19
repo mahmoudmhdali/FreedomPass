@@ -35,7 +35,7 @@ public class QRCodeGenerator {
             throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, width, height);
-        String qrPath = context.getCatalina().getCatalinaWorkInstanceDir() + "/QRCodes/123.png";
+        String qrPath = context.getCatalina().getCatalinaWorkInstanceDir() + "/QRCodes/" + text + ".png";
         localFileMgr.createDirectory(qrPath);
         Path path = FileSystems.getDefault().getPath(qrPath);
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);

@@ -10,6 +10,8 @@ public interface GroupDao {
 
     Group getGroup(Long id);
 
+    Group getGroupForAdd(Long id);
+
     Group getGroup(String name);
 
     Group addGroup(Group group);

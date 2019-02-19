@@ -1,7 +1,6 @@
 package com.freedomPass.project.dao;
 
 import com.freedomPass.project.model.UserOutletInfo;
-import com.freedomPass.project.model.UserOutletOffer;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -20,10 +19,25 @@ public class UserOutletInfoDaoImpl extends AbstractDao<Long, UserOutletInfo> imp
             Hibernate.initialize(userOutletInfo.getOutletCategoryCollection());
             Hibernate.initialize(userOutletInfo.getUserOutletInfoImagesCollection());
             Hibernate.initialize(userOutletInfo.getUserOutletInfoLocationsCollection());
-            Hibernate.initialize(userOutletInfo.getUserOutletOffers());
-            for (UserOutletOffer userOutletOffer : userOutletInfo.getUserOutletOffers()) {
-                Hibernate.initialize(userOutletOffer.getOutletOfferType());
-            }
+//            Hibernate.initialize(userOutletInfo.getUserOutletOffers());
+//            for (UserOutletOffer userOutletOffer : userOutletInfo.getUserOutletOffers()) {
+//                Hibernate.initialize(userOutletOffer.getOutletOfferType());
+//            }
+        }
+        return userOutletInfos;
+    }
+
+    @Override
+    public List<UserOutletInfo> getUserOutletInfosByCategory(Long id) {
+        Criteria criteria = createEntityCriteria()
+                .createAlias("outletCategoryCollection", "outletCategory")
+                .add(Restrictions.eq("outletCategory.id", id))
+                .add(Restrictions.isNull("deletedDate"));
+        List<UserOutletInfo> userOutletInfos = (List<UserOutletInfo>) criteria.list();
+        for (UserOutletInfo userOutletInfo : userOutletInfos) {
+            Hibernate.initialize(userOutletInfo.getOutletCategoryCollection());
+            Hibernate.initialize(userOutletInfo.getUserOutletInfoImagesCollection());
+            Hibernate.initialize(userOutletInfo.getUserOutletInfoLocationsCollection());
         }
         return userOutletInfos;
     }
@@ -34,6 +48,9 @@ public class UserOutletInfoDaoImpl extends AbstractDao<Long, UserOutletInfo> imp
         if (userOutletInfo == null || userOutletInfo.getDeletedDate() != null) {
             return null;
         }
+        Hibernate.initialize(userOutletInfo.getOutletCategoryCollection());
+        Hibernate.initialize(userOutletInfo.getUserOutletInfoImagesCollection());
+        Hibernate.initialize(userOutletInfo.getUserOutletInfoLocationsCollection());
         return userOutletInfo;
     }
 

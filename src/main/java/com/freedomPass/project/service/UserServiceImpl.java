@@ -1,5 +1,6 @@
 package com.freedomPass.project.service;
 
+import com.freedomPass.api.commons.utils.QRCodeGenerator;
 import com.freedomPass.api.commons.utils.SessionUtils;
 import com.freedomPass.api.engine.SettingsEngine;
 import com.freedomPass.project.dao.UserDao;
@@ -8,16 +9,22 @@ import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
+import com.freedomPass.project.model.Group;
 import com.freedomPass.project.model.Language;
 import com.freedomPass.project.model.UserAttempt;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.model.UserProfileNotificationEvent;
 import com.freedomPass.project.model.WebNotifications;
+import com.google.zxing.WriterException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,6 +50,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
     SessionUtils sessionUtils;
 
     @Autowired
+    GroupService groupService;
+
+    @Autowired
     LanguageService languageService;
 
     @Autowired
@@ -53,6 +63,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     @Autowired
     private WebNotificationsDao webNotificationsDao;
+
+    @Autowired
+    QRCodeGenerator qRCodeGenerator;
 
     @Override
     public List<UserProfile> getUsers(Long excludeLoggedInUserID) {
@@ -106,8 +119,35 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     @Override
     public ResponseBodyEntity addUser(UserProfile user) {
+        UserProfile loggedInUser = this.getAuthenticatedUser();
+        user.setCountry(1);
+        if (loggedInUser != null) {
+            if (loggedInUser.getType() != 0 && loggedInUser.getType() != 1 && loggedInUser.getType() != 99) {
+                return ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.UNAUTHORIZED_USER_ACTION)
+                        .setHttpResponseEntityResultDescription("Access denied for this resource. Contact your service provider for more help")
+                        .getResponse();
+            }
+            if (loggedInUser.getType() == 1) {
+                user.setType(3);
+                user.setParentId(loggedInUser.getId());
+            }
+            if ((loggedInUser.getType() == 0 || loggedInUser.getType() == 99) && user.getType() == null) {
+                return ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                        .addHttpResponseEntityData("type", "Type is required")
+                        .getResponse();
+            }
+            if (loggedInUser.getType() == 0 && user.getType() != 0 && user.getType() != 1 && user.getType() != 2 && user.getType() != 3) {
+                return ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                        .addHttpResponseEntityData("type", "Type not exist")
+                        .getResponse();
+            }
+        } else {
+            user.setType(4);
+        }
 
-        // Check if user email is unique
         if (userDao.getUser(user.getEmail()) != null) {
             return ResponseBuilder.getInstance()
                     .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
@@ -135,13 +175,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
         user.setEmail(user.getEmail().trim().toLowerCase());
         user.setName(user.getName().trim().toLowerCase());
 
-        for (UserProfileNotificationEvent userProfileNotificationEvent : user.getUserProfileNotificationEventCollection()) {
-            userProfileNotificationEvent.setUserProfile(user);
-            userProfileNotificationEvent.setEnabled(true);
-        }
-
-        List<UserProfileNotificationEvent> userProfileNotificationEvents = user.getUserProfileNotificationEventCollection();
-
         /* Set UserLoginAttemps */
         UserAttempt userAttempt = new UserAttempt();
         userAttempt.setAttempt(0);
@@ -149,24 +182,86 @@ public class UserServiceImpl extends AbstractService implements UserService {
         user.setUserAttempt(userAttempt);
         userAttempt.setUserProfileId(user);
 
-        user.setUserProfileNotificationEventCollection(userProfileNotificationEvents);
+        user.setUserProfileNotificationEventCollection(null);
         user.setLanguage(languageService.getLanguage(Long.parseLong("1")));
 
-        userDao.addUser(user);
-
-        HashMap<String, String> userLanguageMap = new HashMap<>();
-        userLanguageMap.put("$USER_NAME$", user.getName());
-        this.addNotification("ADD_USER", userLanguageMap, "/users");
-
-        if (user.isEnabled()) {
-            List<UserProfileNotificationEvent> userProfileNotifications = user.getUserProfileNotificationEventCollection();
-            List<String> notifications = new ArrayList<>();
-            for (UserProfileNotificationEvent notification : userProfileNotifications) {
-                notifications.add(notification.getNotificationEvents().getName().toLowerCase());
+        Collection<Group> groupCollection = new ArrayList<>();
+        if (null != user.getType()) {
+            switch (user.getType()) {
+                case 0: {
+                    Group group = groupService.toGroupForAdd(8L);
+                    groupCollection.add(group);
+                    user.setJobTitle("System User");
+                    user.setUserOutletInfo(null);
+                    user.setUserCompanyInfo(null);
+                    break;
+                }
+                case 1: {
+                    Group group = groupService.toGroupForAdd(4L);
+                    groupCollection.add(group);
+                    user.setJobTitle("Company Admin");
+                    if (user.getUserCompanyInfo() == null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                                .addHttpResponseEntityData("userCompanyInfo.info", "Info is required")
+                                .getResponse();
+                    }
+                    user.getUserCompanyInfo().setUserProfileId(user);
+                    user.setUserOutletInfo(null);
+                    break;
+                }
+                case 2: {
+                    Group group = groupService.toGroupForAdd(5L);
+                    groupCollection.add(group);
+                    user.setJobTitle("Outlet Admin");
+                    if (user.getUserOutletInfo() == null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                                .addHttpResponseEntityData("userOutletInfo.info", "Info is required")
+                                .getResponse();
+                    }
+                    user.getUserOutletInfo().setUserProfileId(user);
+                    user.setUserCompanyInfo(null);
+                    break;
+                }
+                case 3: {
+                    Group group = groupService.toGroupForAdd(6L);
+                    groupCollection.add(group);
+                    user.setJobTitle("Company User");
+                    user.setUserOutletInfo(null);
+                    user.setUserCompanyInfo(null);
+                    break;
+                }
+                case 4: {
+                    Group group = groupService.toGroupForAdd(7L);
+                    groupCollection.add(group);
+                    user.setJobTitle("User");
+                    user.setUserOutletInfo(null);
+                    user.setUserCompanyInfo(null);
+                    break;
+                }
+                case 99: {
+                    Group group = groupService.toGroupForAdd(3L);
+                    groupCollection.add(group);
+                    user.setJobTitle("Our System User");
+                    user.setUserOutletInfo(null);
+                    user.setUserCompanyInfo(null);
+                    break;
+                }
+                default:
+                    break;
             }
-            notificationEngine.addnewUser(user.getId(), user.getLanguage().getId(), notifications);
         }
-
+        user.setGroupCollection(groupCollection);
+        userDao.addUser(user);
+        try {
+            qRCodeGenerator.generateQRCodeImage(user.getId().toString(), 350, 350);
+            user.setQrCodePath("/QRCodes/" + user.getId().toString() + ".png");
+        } catch (WriterException ex) {
+            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return ResponseBuilder.getInstance().
                 setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
                 .addHttpResponseEntityData("user", user)

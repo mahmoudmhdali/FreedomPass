@@ -64,6 +64,11 @@ public class GroupServiceImpl extends AbstractService implements GroupService {
     }
 
     @Override
+    public Group toGroupForAdd(Long id) {
+        return groupDao.getGroupForAdd(id);
+    }
+
+    @Override
     public Group isUnique(String name) {
         return groupDao.getGroup(name);
     }
@@ -145,8 +150,8 @@ public class GroupServiceImpl extends AbstractService implements GroupService {
                 .filter(p -> p.getRole().equals("SUPPORT"))
                 .collect(Collectors.toList()).size() > 0
                 || persistantGroup.getRoleCollection().stream()
-                .filter(p -> p.getRole().equals("INSTALLER"))
-                .collect(Collectors.toList()).size() > 0) {
+                        .filter(p -> p.getRole().equals("INSTALLER"))
+                        .collect(Collectors.toList()).size() > 0) {
             return ResponseBuilder.getInstance()
                     .setHttpResponseEntityResultCode(ResponseCode.ENTITY_NOT_FOUND)
                     .setHttpResponseEntityResultDescription(this.getMessageBasedOnLanguage("group.defaultNoDelete", null))

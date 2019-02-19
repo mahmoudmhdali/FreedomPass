@@ -117,24 +117,6 @@ public class UserProfileController extends AbstractController {
                     .returnClientResponse();
         }
 
-        // Valdiate Groups if they at least one group is provided correctly
-        if (userProfile.getGroupCollection() == null) {
-            return ResponseBuilder.getInstance()
-                    .setHttpStatus(HttpStatus.OK)
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("group", this.getMessageBasedOnLanguage("user.controller.groupShoulBeSelected", null))
-                    .returnClientResponse();
-        }
-        boolean isValid = super.checkIfOneCollectionEntryIsNotNull(userProfile.getGroupCollection());
-
-        if (!isValid) {
-            return ResponseBuilder.getInstance()
-                    .setHttpStatus(HttpStatus.OK)
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("group", this.getMessageBasedOnLanguage("user.controller.groupShoulBeSelected", null))
-                    .returnClientResponse();
-        }
-
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntity(userService.addUser(userProfile))
@@ -143,11 +125,6 @@ public class UserProfileController extends AbstractController {
 
     @PostMapping("/update")
     public ResponseEntity updateUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult groupBindingResults) {
-        
-
-        String userwww = userProfile.toString();
-        Logger.DEBUG(userProfile, "", "");
-        
         ResponseBodyEntity responseBodyEntity = this.checkValidationResults(groupBindingResults, new String[]{"password", "confirmPassword"});
         if (responseBodyEntity != null) {
             return ResponseBuilder.getInstance()

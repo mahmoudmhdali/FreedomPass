@@ -1,6 +1,7 @@
 package com.freedomPass.project.dao;
 
 import com.freedomPass.project.model.Group;
+import com.freedomPass.project.model.UserPassPurchased;
 import com.freedomPass.project.model.UserProfile;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -58,6 +59,9 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
             Hibernate.initialize(user.getGroupCollection());
             Hibernate.initialize(user.getLanguage());
             Hibernate.initialize(user.getUserPassPurchased());
+            for (UserPassPurchased userPassPurchased : user.getUserPassPurchased()) {
+                Hibernate.initialize(userPassPurchased.getUserCompanyPasses().getAdminPasses().getUserOutletOfferCollection());
+            }
             for (Group group : user.getGroupCollection()) {
                 Hibernate.initialize(group.getRoleCollection());
             }

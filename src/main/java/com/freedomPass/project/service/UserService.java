@@ -9,61 +9,20 @@ import java.util.List;
 
 public interface UserService {
 
-    /**
-     *
-     * @return all users whose accounts are not deleted
-     */
     List<UserProfile> getUsers(Long excludeLoggedInUserID);
 
-    /**
-     *
-     * @param id the id of the user
-     * @return {@link com.freedomPass.project.model.UserProfile}
-     */
     ResponseBodyEntity getUser(Long id);
 
-    /**
-     *
-     * @param email the email of the user (email is not case sensitive)
-     * @return {@link com.freedomPass.project.model.UserProfile}
-     */
     ResponseBodyEntity getUser(String email);
 
-    /**
-     * 
-     * @param groupId
-     * @return 
-     */
     List<UserProfile> filterUsersByGroup(Long groupId);
 
-    /**
-     * 
-     * @param id
-     * @return 
-     */
     UserProfile toUser (Long id);
     
-    /**
-     * 
-     * @param email
-     * @return 
-     */
     UserProfile toUser (String email);
     
-    /**
-     *
-     * @param user {@link com.freedomPass.project.model.UserProfile} object with the
-     * mandatory parameters
-     * @return {@link com.freedomPass.project.helpermodel.ResponseBodyEntity}
-     * holding the code, description and data
-     */
     ResponseBodyEntity addUser(UserProfile user);
     
-    /**
-     * 
-     * @param user
-     * @return 
-     */
     ResponseBodyEntity updateUser(UserProfile user);
     
     ResponseBodyEntity updateUserSettings(UserProfile user);

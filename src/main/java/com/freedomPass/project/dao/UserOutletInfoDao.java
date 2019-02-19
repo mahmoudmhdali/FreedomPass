@@ -7,5 +7,7 @@ public interface UserOutletInfoDao {
 
     List<UserOutletInfo> getUserOutletInfos();
 
+    List<UserOutletInfo> getUserOutletInfosByCategory(Long id);
+
     UserOutletInfo getUserOutletInfo(Long id);
 }

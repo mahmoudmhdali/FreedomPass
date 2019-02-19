@@ -82,7 +82,6 @@ public class UserProfile implements Serializable, UserDetails {
 
     @Basic(optional = false)
     @Column(name = "TYPE")
-    @NotBlank(message = "typeRequired")
     private Integer type;
 
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation

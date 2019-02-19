@@ -14,6 +14,8 @@ public interface GroupService {
     
     Group toGroup(Long id);
     
+    Group toGroupForAdd(Long id);
+    
     Group isUnique(String name);
     
     ResponseBodyEntity addGroup(Group group);

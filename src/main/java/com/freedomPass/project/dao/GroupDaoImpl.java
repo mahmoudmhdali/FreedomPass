@@ -65,6 +65,18 @@ public class GroupDaoImpl extends AbstractDao<Long, Group> implements GroupDao {
     }
 
     @Override
+    public Group getGroupForAdd(Long id) {
+        Group group = getByKey(id);
+        if (group == null) {
+            return null;
+        }
+        if (group.getDeletedDate() != null) {
+            return null;
+        }
+        return group;
+    }
+
+    @Override
     public Group getGroup(String name) {
         Criteria criteria = createEntityCriteria()
                 .add(Restrictions.eq("name", name))
