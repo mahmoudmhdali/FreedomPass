@@ -36,4 +36,22 @@ public class UserOutletOfferController extends AbstractController {
                 .returnClientResponse();
     }
 
+    @GetMapping("/type/{id}")
+    public ResponseEntity getUserOutletOfferByType(@PathVariable Long id) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("userOutletOffer", userOutletOfferService.getUserOutletOffersByType(id))
+                .returnClientResponse();
+    }
+
+    @GetMapping("/outlet/{id}")
+    public ResponseEntity getUserOutletOffersByOutletId(@PathVariable Long id) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("userOutletOffer", userOutletOfferService.getUserOutletOffersByOutletId(id))
+                .returnClientResponse();
+    }
+
 }

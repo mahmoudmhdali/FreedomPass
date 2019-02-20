@@ -8,4 +8,8 @@ public interface UserOutletOfferDao {
     List<UserOutletOffer> getUserOutletOffers();
 
     UserOutletOffer getUserOutletOffer(Long id);
+
+    List<UserOutletOffer> getUserOutletOffersByType(Long type);
+
+    List<UserOutletOffer> getUserOutletOffersByOutletId(Long id);
 }

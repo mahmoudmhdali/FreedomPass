@@ -24,4 +24,14 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
         return userOutletOfferDao.getUserOutletOffer(id);
     }
 
+    @Override
+    public List<UserOutletOffer> getUserOutletOffersByType(Long type) {
+        return userOutletOfferDao.getUserOutletOffersByType(type);
+    }
+
+    @Override
+    public List<UserOutletOffer> getUserOutletOffersByOutletId(Long id) {
+        return userOutletOfferDao.getUserOutletOffersByOutletId(id);
+    }
+
 }

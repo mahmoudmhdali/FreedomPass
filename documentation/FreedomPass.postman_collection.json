@@ -694,6 +694,92 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Outlet offer by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userOutletOffer",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get offers by type",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/type/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userOutletOffer",
+								"type",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get offers by outlet id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/outlet/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userOutletOffer",
+								"outlet",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

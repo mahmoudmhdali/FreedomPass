@@ -9,4 +9,8 @@ public interface UserOutletOfferService {
 
     UserOutletOffer getUserOutletOffer(Long id);
 
+    List<UserOutletOffer> getUserOutletOffersByType(Long type);
+
+    List<UserOutletOffer> getUserOutletOffersByOutletId(Long id);
+
 }
