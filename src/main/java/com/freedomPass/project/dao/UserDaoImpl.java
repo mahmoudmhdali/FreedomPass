@@ -14,15 +14,19 @@ import org.springframework.stereotype.Repository;
 public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserDao {
 
     @Override
-    public List<UserProfile> getUsers(Long excludeLoggedInUserID) {
-        Criteria criteria = createEntityCriteria()
-                .addOrder(Order.asc("id"))
-                .add(Restrictions.ne("id", excludeLoggedInUserID)) // To avoid including logged in user
-                .createAlias("groupCollection", "groups")
-                .add(Restrictions.ne("groups.id", (long) 1)) // To avoid including Users who are of group Support
-                .add(Restrictions.ne("groups.id", (long) 2)) // To avoid including Users who are of group Installer
-                .add(Restrictions.isNull("deletedDate"))
-                .setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);  // To avoid duplicates.
+    public List<UserProfile> getUsers(Long excludeLoggedInUserID, Integer type, Long headID) {
+        Criteria criteria = createEntityCriteria();
+        if (type == 1) {
+            criteria.add(Restrictions.eq("parentId", headID));
+        }
+        if (type == 2 || type == 3 || type == 4) {
+            return null;
+        }
+        criteria.addOrder(Order.asc("name"));
+        criteria.add(Restrictions.ne("id", excludeLoggedInUserID)); // To avoid including logged in user
+        criteria.add(Restrictions.ne("type", 99));
+        criteria.add(Restrictions.isNull("deletedDate"));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);  // To avoid duplicates.
         List<UserProfile> users = (List<UserProfile>) criteria.list();
         for (UserProfile user : users) {
             Hibernate.initialize(user.getGroupCollection());

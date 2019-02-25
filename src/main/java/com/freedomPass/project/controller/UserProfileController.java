@@ -46,7 +46,7 @@ public class UserProfileController extends AbstractController {
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("users", userService.getUsers(excludeLoggedInUserID))
+                .addHttpResponseEntityData("users", userService.getUsers(excludeLoggedInUserID, 0, 0L))
                 .returnClientResponse();
     }
 

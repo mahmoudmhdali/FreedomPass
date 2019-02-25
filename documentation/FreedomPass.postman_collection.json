@@ -1085,6 +1085,38 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjOWNhZTY4NS0zMDcyLTQ2MjktYmNmMS1jMjQwOWFlNWJjZGIiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTUxMDg0NTE1LCJleHAiOjE1NTEyMTQxMTV9.0NnSPRrDRdsVr8ESmNo-3oGkay3FDQGnzcLkprRpCv0rky-GJtfDK5VpSa3_xRXbCTGSyawNLMkdIXlhEocQ5A"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/users",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"users"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<UserProfile> getUsers(Long excludeLoggedInUserID);
+    List<UserProfile> getUsers(Long excludeLoggedInUserID, Integer type, Long headID);
 
     ResponseBodyEntity getUser(Long id);
 

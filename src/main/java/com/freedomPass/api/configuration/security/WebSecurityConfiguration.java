@@ -96,10 +96,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/Settings/editSetting").hasRole("EDIT_SETTINGS")
                 .antMatchers("/Settings/editSubSetting").hasRole("EDIT_SETTINGS")
                 .antMatchers("/Settings/deleteSubSetting").hasRole("DELETE_SETTINGS")
-                .antMatchers("/users", "/users/{id}", "/users/view").hasAnyRole("VIEW_USERS", "ADD_USERS", "EDIT_USERS", "DELETE_USERS", "VIEW_GROUPS")
-                .antMatchers("/users/add").hasRole("ADD_USERS")
-                .antMatchers("/users/update").hasRole("EDIT_USERS")
-                .antMatchers("/users/delete").hasRole("DELETE_USERS")
                 .antMatchers("/groups", "/groups/{id}", "/groups/view").hasAnyRole("VIEW_GROUPS", "ADD_GROUPS", "EDIT_GROUPS", "DELETE_GROUPS", "VIEW_USERS", "ADD_USERS", "EDIT_USERS", "DELETE_USERS")
                 .antMatchers("/groups/add").hasRole("ADD_GROUPS")
                 .antMatchers("/groups/update").hasRole("EDIT_GROUPS")
@@ -109,6 +105,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/blacklists/add").hasRole("ADD_BLACKLISTS")
                 .antMatchers("/blacklists/upload").hasRole("ADD_BLACKLISTS")
                 .antMatchers("/blacklists/delete/**").hasRole("DELETE_BLACKLISTS")
+                // NEW ROLES BASED ON FREEDOM PASS APP
+                .antMatchers("/users", "/users/{id}", "/users/view").hasAnyRole("SYSTEM", "COMPANY", "OUR_SYSTEM_USER", "VIEW_USERS", "ADD_USERS", "EDIT_USERS", "DELETE_USERS", "VIEW_GROUPS")
+                .antMatchers("/users/add").hasAnyRole("SYSTEM", "COMPANY", "OUR_SYSTEM_USER", "ADD_USERS")
+                .antMatchers("/users/update").hasAnyRole("SYSTEM", "COMPANY", "OUR_SYSTEM_USER", "EDIT_USERS")
+                .antMatchers("/users/delete").hasAnyRole("SYSTEM", "COMPANY", "OUR_SYSTEM_USER", "DELETE_USERS")
                 // Allow anonymous access to "/" path
                 .antMatchers("/**").permitAll()
                 .and()

@@ -68,8 +68,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
     QRCodeGenerator qRCodeGenerator;
 
     @Override
-    public List<UserProfile> getUsers(Long excludeLoggedInUserID) {
-        return userDao.getUsers(excludeLoggedInUserID);
+    public List<UserProfile> getUsers(Long excludeLoggedInUserID, Integer type, Long headID) {
+        return userDao.getUsers(excludeLoggedInUserID, type, headID);
     }
 
     @Override
