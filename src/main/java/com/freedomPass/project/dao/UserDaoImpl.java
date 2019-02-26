@@ -1,12 +1,15 @@
 package com.freedomPass.project.dao;
 
+import com.freedomPass.project.helpermodel.UsersPagination;
 import com.freedomPass.project.model.Group;
 import com.freedomPass.project.model.UserPassPurchased;
 import com.freedomPass.project.model.UserProfile;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -32,6 +35,33 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
             Hibernate.initialize(user.getGroupCollection());
         }
         return users;
+    }
+
+    @Override
+    public UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes) {
+        Criteria criteria = createEntityCriteria();
+        if (type == 1) {
+            criteria.add(Restrictions.eq("parentId", headID));
+        }
+        if (type == 2 || type == 3 || type == 4) {
+            return null;
+        }
+        criteria.addOrder(Order.asc("name"));
+        criteria.add(Restrictions.ne("id", excludeLoggedInUserID)); // To avoid including logged in user
+        criteria.add(Restrictions.ne("type", 99));
+        criteria.add(Restrictions.isNull("deletedDate"));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);  // To avoid duplicates.
+        criteria.setProjection(Projections.rowCount());
+        Number totalResults = (Number) criteria.uniqueResult();
+        criteria.setProjection(null);
+        criteria.setResultTransformer(Criteria.ROOT_ENTITY);
+        criteria.setFirstResult((pageNumber - 1) * maxRes);
+        criteria.setMaxResults(maxRes);
+        List<UserProfile> users = (List<UserProfile>) criteria.list();
+        int currentPage = pageNumber;
+        int maxPages = (int) Math.ceil((double) ((double) totalResults.intValue() / (double) maxRes));
+        UsersPagination usersPagination = new UsersPagination(maxPages, currentPage, totalResults.intValue(), users);
+        return usersPagination;
     }
 
     @Override

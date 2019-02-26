@@ -9,6 +9,7 @@ import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
+import com.freedomPass.project.helpermodel.UsersPagination;
 import com.freedomPass.project.model.Group;
 import com.freedomPass.project.model.Language;
 import com.freedomPass.project.model.UserAttempt;
@@ -73,6 +74,11 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     @Override
+    public UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes) {
+        return userDao.getUsersPagination(excludeLoggedInUserID, type, headID, pageNumber, maxRes);
+    }
+
+    @Override
     public ResponseBodyEntity getUser(Long id) {
         UserProfile userProfle = userDao.getUser(id);
         if (userProfle == null) {
@@ -121,6 +127,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
     public ResponseBodyEntity addUser(UserProfile user) {
         UserProfile loggedInUser = this.getAuthenticatedUser();
         user.setCountry(1);
+        user.setEnabled(true);
         if (loggedInUser != null) {
             if (loggedInUser.getType() != 0 && loggedInUser.getType() != 1 && loggedInUser.getType() != 99) {
                 return ResponseBuilder.getInstance()

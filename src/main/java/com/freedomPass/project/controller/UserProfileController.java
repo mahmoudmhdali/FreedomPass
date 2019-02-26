@@ -6,6 +6,7 @@ import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
 import com.freedomPass.project.model.NotificationEvents;
+import com.freedomPass.project.model.UserCompanyInfo;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.model.UserProfileNotificationEvent;
 import com.freedomPass.project.service.NotificationEventsService;
@@ -39,6 +40,7 @@ public class UserProfileController extends AbstractController {
 
     @GetMapping
     public ResponseEntity getUsers() {
+        UserProfile user = super.getAuthenticatedUser();
         Long excludeLoggedInUserID = -999999L; // in case you need to include logged in user to the list its set to his ID
         if (super.getAuthenticatedUser() != null) {
             excludeLoggedInUserID = super.getAuthenticatedUser().getId();
@@ -46,7 +48,21 @@ public class UserProfileController extends AbstractController {
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("users", userService.getUsers(excludeLoggedInUserID, 0, 0L))
+                .addHttpResponseEntityData("users", userService.getUsers(excludeLoggedInUserID, user.getType(), user.getParentId()))
+                .returnClientResponse();
+    }
+
+    @GetMapping("/{pageNumber}/{maxResult}")
+    public ResponseEntity getUsersPagination(@PathVariable Integer pageNumber, @PathVariable Integer maxResult) {
+        UserProfile user = super.getAuthenticatedUser();
+        Long excludeLoggedInUserID = -999999L; // in case you need to include logged in user to the list its set to his ID
+        if (super.getAuthenticatedUser() != null) {
+            excludeLoggedInUserID = super.getAuthenticatedUser().getId();
+        }
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("users", userService.getUsersPagination(excludeLoggedInUserID, user.getType(), user.getId(), pageNumber, maxResult))
                 .returnClientResponse();
     }
 
@@ -86,6 +102,7 @@ public class UserProfileController extends AbstractController {
 
     @PostMapping("/add")
     public ResponseEntity addUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult userProfileBindingResults,
+            @ModelAttribute @Valid UserCompanyInfo userCompanyInfo, BindingResult userCompanyInfoBindingResults,
             @ModelAttribute @Valid UserProfilePasswordValidator userProfilePasswordValidator, BindingResult userProfilePasswordValidatorBindingResults) {
 
         userProfile.setPassword(userProfilePasswordValidator.getNewPassword());

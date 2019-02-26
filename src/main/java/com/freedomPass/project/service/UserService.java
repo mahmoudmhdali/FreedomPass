@@ -2,6 +2,7 @@ package com.freedomPass.project.service;
 
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
+import com.freedomPass.project.helpermodel.UsersPagination;
 import com.freedomPass.project.model.UserAttempt;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.model.WebNotifications;
@@ -10,6 +11,8 @@ import java.util.List;
 public interface UserService {
 
     List<UserProfile> getUsers(Long excludeLoggedInUserID, Integer type, Long headID);
+
+    UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes);
 
     ResponseBodyEntity getUser(Long id);
 
