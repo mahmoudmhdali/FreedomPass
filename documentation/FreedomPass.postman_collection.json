@@ -1183,6 +1183,151 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Reset Password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Token",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0OTlkY2VmNC02N2FhLTRiNzktODQwZS02OTZlMDQ2ZTk5NTUiLCJzdWIiOiJhZG1pbkBmcmVlZG9tcGFzcy5jb20iLCJpYXQiOjE1NTA1NDAxOTcsImV4cCI6MTU1MDY2OTc5N30.6DKi93j6ip3uJeIjOUEaQBH8mLwPc_8fX8KIrNnz6apOklbLp4dA2xRXeHZFYvuHcKVPQEr0ikPxF7JzS9wUtw"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "mahmoudmhdali@gmail.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8084/FreedomPass/guest/resetPassword",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8084",
+					"path": [
+						"FreedomPass",
+						"guest",
+						"resetPassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Password",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Token",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0OTlkY2VmNC02N2FhLTRiNzktODQwZS02OTZlMDQ2ZTk5NTUiLCJzdWIiOiJhZG1pbkBmcmVlZG9tcGFzcy5jb20iLCJpYXQiOjE1NTA1NDAxOTcsImV4cCI6MTU1MDY2OTc5N30.6DKi93j6ip3uJeIjOUEaQBH8mLwPc_8fX8KIrNnz6apOklbLp4dA2xRXeHZFYvuHcKVPQEr0ikPxF7JzS9wUtw"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "newPassword",
+							"value": "Admin@122",
+							"type": "text"
+						},
+						{
+							"key": "confirmPassword",
+							"value": "Admin@122",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8084/FreedomPass/guest/updatePassword/61dd69fe-cbf0-4ccf-bb54-4a2b819a29a9",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8084",
+					"path": [
+						"FreedomPass",
+						"guest",
+						"updatePassword",
+						"61dd69fe-cbf0-4ccf-bb54-4a2b819a29a9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User By Token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Token",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0OTlkY2VmNC02N2FhLTRiNzktODQwZS02OTZlMDQ2ZTk5NTUiLCJzdWIiOiJhZG1pbkBmcmVlZG9tcGFzcy5jb20iLCJpYXQiOjE1NTA1NDAxOTcsImV4cCI6MTU1MDY2OTc5N30.6DKi93j6ip3uJeIjOUEaQBH8mLwPc_8fX8KIrNnz6apOklbLp4dA2xRXeHZFYvuHcKVPQEr0ikPxF7JzS9wUtw"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "newPassword",
+							"value": "Admin@122",
+							"type": "text"
+						},
+						{
+							"key": "confirmPassword",
+							"value": "Admin@122",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8084/FreedomPass/guest/auth/token/578f0195-6b69-4062-8894-d7e27c0f49f2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8084",
+					"path": [
+						"FreedomPass",
+						"guest",
+						"auth",
+						"token",
+						"578f0195-6b69-4062-8894-d7e27c0f49f2"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

@@ -12,9 +12,13 @@ import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserProfileCredentials;
 import com.freedomPass.project.service.UserAttemptService;
+import com.freedomPass.project.service.UserService;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.internet.AddressException;
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,6 +45,9 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Autowired
     UserAttemptService userAttemp;
+
+    @Autowired
+    UserService userService;
 
     private boolean rememberMe;
 
@@ -85,9 +92,9 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             response.getWriter().write(
                     new ObjectMapper().writeValueAsString(
                             ResponseBuilder.getInstance()
-                            .setHttpResponseEntityResultCode(ResponseCode.UNAUTHORIZED_USER_ACTION)
-                            .setHttpResponseEntityResultDescription("Invalid username and/or password.")
-                            .getHttpResponseEntity())
+                                    .setHttpResponseEntityResultCode(ResponseCode.UNAUTHORIZED_USER_ACTION)
+                                    .setHttpResponseEntityResultDescription("Invalid username and/or password.")
+                                    .getHttpResponseEntity())
             );
         } else if (exception instanceof org.springframework.security.authentication.LockedException) {
             long accountLockedDuration = (long) settingsEngine.getFirstLevelSetting("LOCK_ACCOUNT_DURATION");
@@ -102,20 +109,34 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             response.getWriter().write(
                     new ObjectMapper().writeValueAsString(
                             ResponseBuilder.getInstance()
-                            .setHttpResponseEntityResultCode(ResponseCode.ALERT)
-                            .setHttpResponseEntityResultDescription("Account is locked.")
-                            .addHttpResponseEntityData("remaining", secondsBetween)
-                            .addHttpResponseEntityData("lockedDeuration", accountLockedDuration)
-                            .getHttpResponseEntity())
+                                    .setHttpResponseEntityResultCode(ResponseCode.ALERT)
+                                    .setHttpResponseEntityResultDescription("Account is locked.")
+                                    .addHttpResponseEntityData("remaining", secondsBetween)
+                                    .addHttpResponseEntityData("lockedDeuration", accountLockedDuration)
+                                    .getHttpResponseEntity())
             );
         } else if (exception.getMessage().contains("JDBCConnectionException")) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write(
                     new ObjectMapper().writeValueAsString(
                             ResponseBuilder.getInstance()
-                            .setHttpResponseEntityResultCode(ResponseCode.EXCEPTION_OCCURED)
-                            .setHttpResponseEntityResultDescription("Connection lost with the data source. Contact your service provider for help")
-                            .getHttpResponseEntity())
+                                    .setHttpResponseEntityResultCode(ResponseCode.EXCEPTION_OCCURED)
+                                    .setHttpResponseEntityResultDescription("Connection lost with the data source. Contact your service provider for help")
+                                    .getHttpResponseEntity())
+            );
+        } else if (exception instanceof org.springframework.security.authentication.DisabledException) {
+            try {
+                userService.sendEmailAndUpdateToken(username);
+            } catch (AddressException ex) {
+                Logger.getLogger(LoginFilter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(
+                    new ObjectMapper().writeValueAsString(
+                            ResponseBuilder.getInstance()
+                                    .setHttpResponseEntityResultCode(ResponseCode.UNAUTHORIZED_USER_ACTION)
+                                    .setHttpResponseEntityResultDescription("Please check your email to activate your account")
+                                    .getHttpResponseEntity())
             );
         } else {
             response.setContentType("application/json;charset=UTF-8");
@@ -123,9 +144,9 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
             response.getWriter().write(
                     new ObjectMapper().writeValueAsString(
                             ResponseBuilder.getInstance()
-                            .setHttpResponseEntityResultCode(ResponseCode.UNAUTHORIZED_USER_ACTION)
-                            .setHttpResponseEntityResultDescription("Error Occured.")
-                            .getHttpResponseEntity())
+                                    .setHttpResponseEntityResultCode(ResponseCode.UNAUTHORIZED_USER_ACTION)
+                                    .setHttpResponseEntityResultDescription("Error Occured.")
+                                    .getHttpResponseEntity())
             );
         }
         response.getWriter().flush();

@@ -4,9 +4,12 @@ import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
 import com.freedomPass.project.helpermodel.UsersPagination;
 import com.freedomPass.project.model.UserAttempt;
+import com.freedomPass.project.model.UserCompanyInfo;
+import com.freedomPass.project.model.UserOutletInfo;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.model.WebNotifications;
 import java.util.List;
+import javax.mail.internet.AddressException;
 
 public interface UserService {
 
@@ -18,19 +21,25 @@ public interface UserService {
 
     ResponseBodyEntity getUser(String email);
 
+    ResponseBodyEntity getUserByToken(String token);
+    
+    void sendEmailAndUpdateToken(String email) throws AddressException;
+
     List<UserProfile> filterUsersByGroup(Long groupId);
 
     UserProfile toUser (Long id);
     
     UserProfile toUser (String email);
     
-    ResponseBodyEntity addUser(UserProfile user);
+    ResponseBodyEntity addUser(UserProfile user, UserCompanyInfo userCompanyInfo, UserOutletInfo userOutletInfo) throws AddressException;
     
-    ResponseBodyEntity updateUser(UserProfile user);
+    ResponseBodyEntity updateUser(UserProfile user, UserCompanyInfo userCompanyInfo, UserOutletInfo userOutletInfo);
     
     ResponseBodyEntity updateUserSettings(UserProfile user);
     
     ResponseBodyEntity changeUserPassword(UserProfile user, UserProfilePasswordValidator userProfilePasswordValidator);
+    
+    ResponseBodyEntity changeUserPasswordByToken(String token, UserProfilePasswordValidator userProfilePasswordValidator);
 
     ResponseBodyEntity deleteUser(Long id);
 

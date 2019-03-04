@@ -2,6 +2,7 @@ package com.freedomPass.project.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.freedomPass.project.model.validation.ValidName;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -20,11 +21,13 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "TBL_USER_COMPANY_INFO")
@@ -48,6 +51,8 @@ public class UserCompanyInfo implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "INFO")
+    @Size(min = 5, max = 300, message = "validation.userInfo.infoRange")
+    @NotBlank(message = "validation.userInfo.infoRequired")
     private String info;
 
     @JsonIgnore

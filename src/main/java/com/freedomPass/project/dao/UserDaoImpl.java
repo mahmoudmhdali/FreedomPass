@@ -4,6 +4,7 @@ import com.freedomPass.project.helpermodel.UsersPagination;
 import com.freedomPass.project.model.Group;
 import com.freedomPass.project.model.UserPassPurchased;
 import com.freedomPass.project.model.UserProfile;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -100,6 +101,16 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
                 Hibernate.initialize(group.getRoleCollection());
             }
         }
+        return user;
+    }
+
+    @Override
+    public UserProfile getUserByToken(String token) {
+        Criteria criteria = createEntityCriteria()
+                .add(Restrictions.eq("resetPasswordToken", token))
+                .add(Restrictions.ge("resetPasswordTokenValidity", new Date()))
+                .add(Restrictions.isNull("deletedDate"));
+        UserProfile user = (UserProfile) criteria.uniqueResult();
         return user;
     }
 

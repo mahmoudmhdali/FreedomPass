@@ -1,7 +1,9 @@
 package com.freedomPass.project.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.freedomPass.project.model.validation.ValidName;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -20,11 +22,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "TBL_USER_OUTLET_OFFER")
@@ -36,11 +41,39 @@ public class UserOutletOffer implements Serializable {
 
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     @GenericGenerator(name = "SEQ_GEN", strategy = "com.freedomPass.project.model.SequenceIdGenerator")
     @GeneratedValue(generator = "SEQ_GEN")
     private Long id;
+
+    @Basic(optional = false)
+    @Column(name = "NAME")
+    @Size(min = 5, max = 20, message = "validation.userProfile.nameRange")
+    @NotBlank(message = "validation.userProfile.nameRequired")
+    @ValidName
+    private String name;
+
+    @Basic(optional = false)
+    @Column(name = "INFO")
+    @Size(min = 5, max = 300, message = "validation.userInfo.infoRange")
+    @NotBlank(message = "validation.userInfo.infoRequired")
+    private String info;
+
+    @JsonIgnore
+    @Transient
+    private String imageName1;
+
+    @JsonIgnore
+    @Transient
+    private String imageName2;
+
+    @JsonIgnore
+    @Transient
+    private String imageName3;
+
+    @JsonIgnore
+    @Transient
+    private String imageName4;
 
     @Basic(optional = false)
     @Column(name = "NUMBER_OF_USAGE")
@@ -56,11 +89,20 @@ public class UserOutletOffer implements Serializable {
 
     @JsonIgnore
     @JoinColumn(name = "USER_OUTLET_INFO_ID", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private UserOutletInfo userOutletInfo;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userOutletOffer", cascade = CascadeType.ALL)
+    private Collection<UserOutletOfferImages> userOutletOfferImagesCollection;
+
+    @Transient
+    private String userOutletName;
+
+    @Transient
+    private Long userOutletID;
+
     @JoinColumn(name = "TYPE", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private OutletOfferType outletOfferType;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userOutletOffer", cascade = CascadeType.ALL)
@@ -94,6 +136,18 @@ public class UserOutletOffer implements Serializable {
         this.createdDate = createdDate;
     }
 
+    @JsonGetter(value = "userOutletName")
+    public String getUserOutletName() {
+        userOutletName = userOutletInfo.getUserProfileId().getName();
+        return userOutletName;
+    }
+
+    @JsonGetter(value = "userOutletID")
+    public Long getUserOutletID() {
+        userOutletID = userOutletInfo.getId();
+        return userOutletID;
+    }
+
     public Date getUpdatedDate() {
         return updatedDate;
     }
@@ -124,6 +178,54 @@ public class UserOutletOffer implements Serializable {
 
     public void setTypeOfUsage(Integer typeOfUsage) {
         this.typeOfUsage = typeOfUsage;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImageName1() {
+        return imageName1;
+    }
+
+    public void setImageName1(String imageName1) {
+        this.imageName1 = imageName1;
+    }
+
+    public String getImageName2() {
+        return imageName2;
+    }
+
+    public void setImageName2(String imageName2) {
+        this.imageName2 = imageName2;
+    }
+
+    public String getImageName3() {
+        return imageName3;
+    }
+
+    public void setImageName3(String imageName3) {
+        this.imageName3 = imageName3;
+    }
+
+    public String getImageName4() {
+        return imageName4;
+    }
+
+    public void setImageName4(String imageName4) {
+        this.imageName4 = imageName4;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public Integer getValidity() {
@@ -172,6 +274,14 @@ public class UserOutletOffer implements Serializable {
 
     public void setAdminPassesCollection(Collection<AdminPasses> adminPassesCollection) {
         this.adminPassesCollection = adminPassesCollection;
+    }
+
+    public Collection<UserOutletOfferImages> getUserOutletOfferImagesCollection() {
+        return userOutletOfferImagesCollection;
+    }
+
+    public void setUserOutletOfferImagesCollection(Collection<UserOutletOfferImages> userOutletOfferImagesCollection) {
+        this.userOutletOfferImagesCollection = userOutletOfferImagesCollection;
     }
 
     @Override

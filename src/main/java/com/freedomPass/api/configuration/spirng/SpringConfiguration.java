@@ -6,9 +6,11 @@ import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import com.freedomPass.api.commons.ContextHolder;
 import com.freedomPass.api.configuration.converter.GroupConverter;
 import com.freedomPass.api.configuration.converter.LanguageConverter;
+import com.freedomPass.api.configuration.converter.OutletOfferTypeConverter;
 import com.freedomPass.api.configuration.converter.ReportConverter;
 import com.freedomPass.api.configuration.converter.ReportStyleConverter;
 import com.freedomPass.api.configuration.converter.RoleConverter;
+import com.freedomPass.api.configuration.converter.UserOutletInfoConverter;
 import com.freedomPass.api.configuration.converter.UserProfileNotificationEventConverter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,6 +84,14 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
 
     @Autowired
     @Lazy
+    UserOutletInfoConverter userOutletInfoConverter;
+
+    @Autowired
+    @Lazy
+    OutletOfferTypeConverter uutletOfferTypeConverter;
+
+    @Autowired
+    @Lazy
     ReportStyleConverter reportStyleConverter;
 
     @Autowired
@@ -120,6 +130,8 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(roleConverter);
         registry.addConverter(groupConverter);
+        registry.addConverter(userOutletInfoConverter);
+        registry.addConverter(uutletOfferTypeConverter);
         registry.addConverter(reportStyleConverter);
         registry.addConverter(reportConverter);
         registry.addConverter(languageConverter);
@@ -198,16 +210,16 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public MappingJackson2HttpMessageConverter jacksonMessageConverter() {
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
-
         ObjectMapper mapper = new ObjectMapper();
         //Registering Hibernate4Module to support lazy objects
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        mapper.registerModule(new Hibernate4Module());
+        Hibernate4Module hibernate5Module = new Hibernate4Module();
+        hibernate5Module.disable(Hibernate4Module.Feature.USE_TRANSIENT_ANNOTATION);
+        mapper.registerModule(hibernate5Module);
 
         messageConverter.setObjectMapper(mapper);
         messageConverter.setSupportedMediaTypes(Arrays.asList(new MediaType[]{MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN}));
         return messageConverter;
-
     }
 
     @Bean

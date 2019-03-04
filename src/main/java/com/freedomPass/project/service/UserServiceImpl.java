@@ -2,6 +2,7 @@ package com.freedomPass.project.service;
 
 import com.freedomPass.api.commons.utils.QRCodeGenerator;
 import com.freedomPass.api.commons.utils.SessionUtils;
+import com.freedomPass.api.commons.utils.Utils;
 import com.freedomPass.api.engine.SettingsEngine;
 import com.freedomPass.project.dao.UserDao;
 import com.freedomPass.project.dao.WebNotificationsDao;
@@ -13,12 +14,15 @@ import com.freedomPass.project.helpermodel.UsersPagination;
 import com.freedomPass.project.model.Group;
 import com.freedomPass.project.model.Language;
 import com.freedomPass.project.model.UserAttempt;
+import com.freedomPass.project.model.UserCompanyInfo;
+import com.freedomPass.project.model.UserOutletInfo;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.model.UserProfileNotificationEvent;
 import com.freedomPass.project.model.WebNotifications;
 import com.google.zxing.WriterException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +30,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.internet.AddressException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -109,6 +114,21 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     @Override
+    public ResponseBodyEntity getUserByToken(String token) {
+        UserProfile userProfle = userDao.getUserByToken(token);
+        if (userProfle == null) {
+            return ResponseBuilder.getInstance()
+                    .setHttpResponseEntityResultCode(ResponseCode.ENTITY_NOT_FOUND)
+                    .setHttpResponseEntityResultDescription(this.getMessageBasedOnLanguage("user.notFound", null))
+                    .getResponse();
+        }
+        return ResponseBuilder.getInstance()
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("user", userProfle)
+                .getResponse();
+    }
+
+    @Override
     public List<UserProfile> filterUsersByGroup(Long groupId) {
         return userDao.filterUsersByGroup(groupId);
     }
@@ -124,36 +144,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     @Override
-    public ResponseBodyEntity addUser(UserProfile user) {
-        UserProfile loggedInUser = this.getAuthenticatedUser();
+    public ResponseBodyEntity addUser(UserProfile user, UserCompanyInfo userCompanyInfo, UserOutletInfo userOutletInfo) throws AddressException {
         user.setCountry(1);
         user.setEnabled(true);
-        if (loggedInUser != null) {
-            if (loggedInUser.getType() != 0 && loggedInUser.getType() != 1 && loggedInUser.getType() != 99) {
-                return ResponseBuilder.getInstance()
-                        .setHttpResponseEntityResultCode(ResponseCode.UNAUTHORIZED_USER_ACTION)
-                        .setHttpResponseEntityResultDescription("Access denied for this resource. Contact your service provider for more help")
-                        .getResponse();
-            }
-            if (loggedInUser.getType() == 1) {
-                user.setType(3);
-                user.setParentId(loggedInUser.getId());
-            }
-            if ((loggedInUser.getType() == 0 || loggedInUser.getType() == 99) && user.getType() == null) {
-                return ResponseBuilder.getInstance()
-                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                        .addHttpResponseEntityData("type", "Type is required")
-                        .getResponse();
-            }
-            if (loggedInUser.getType() == 0 && user.getType() != 0 && user.getType() != 1 && user.getType() != 2 && user.getType() != 3) {
-                return ResponseBuilder.getInstance()
-                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                        .addHttpResponseEntityData("type", "Type not exist")
-                        .getResponse();
-            }
-        } else {
-            user.setType(4);
-        }
 
         if (userDao.getUser(user.getEmail()) != null) {
             return ResponseBuilder.getInstance()
@@ -178,7 +171,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
                     .getResponse();
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEmail(user.getEmail().trim().toLowerCase());
         user.setName(user.getName().trim().toLowerCase());
 
@@ -207,13 +199,16 @@ public class UserServiceImpl extends AbstractService implements UserService {
                     Group group = groupService.toGroupForAdd(4L);
                     groupCollection.add(group);
                     user.setJobTitle("Company Admin");
-                    if (user.getUserCompanyInfo() == null) {
+                    if (userCompanyInfo.getInfo() == null) {
                         return ResponseBuilder.getInstance()
                                 .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                                .addHttpResponseEntityData("userCompanyInfo.info", "Info is required")
+                                .addHttpResponseEntityData("info", "Info is required")
                                 .getResponse();
                     }
-                    user.getUserCompanyInfo().setUserProfileId(user);
+                    userCompanyInfo.setId(null);
+                    userCompanyInfo.setCountry(1);
+                    userCompanyInfo.setUserProfileId(user);
+                    user.setUserCompanyInfo(userCompanyInfo);
                     user.setUserOutletInfo(null);
                     break;
                 }
@@ -221,13 +216,16 @@ public class UserServiceImpl extends AbstractService implements UserService {
                     Group group = groupService.toGroupForAdd(5L);
                     groupCollection.add(group);
                     user.setJobTitle("Outlet Admin");
-                    if (user.getUserOutletInfo() == null) {
+                    if (userOutletInfo.getInfo() == null) {
                         return ResponseBuilder.getInstance()
                                 .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                                .addHttpResponseEntityData("userOutletInfo.info", "Info is required")
+                                .addHttpResponseEntityData("info", "Info is required")
                                 .getResponse();
                     }
-                    user.getUserOutletInfo().setUserProfileId(user);
+                    userOutletInfo.setId(null);
+                    userOutletInfo.setCountry(1);
+                    userOutletInfo.setUserProfileId(user);
+                    user.setUserOutletInfo(userOutletInfo);
                     user.setUserCompanyInfo(null);
                     break;
                 }
@@ -260,7 +258,17 @@ public class UserServiceImpl extends AbstractService implements UserService {
             }
         }
         user.setGroupCollection(groupCollection);
+        user.setEnabled(false);
+        user.setPassword("NewUserCreated");
+        String token = Utils.generateToken();
+        user.setResetPasswordToken(token);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, 3);
+        user.setResetPasswordTokenValidity(c.getTime());
         userDao.addUser(user);
+        String[] email = {user.getEmail()};
+        sendEmail("http://localhost:4200/#/sessions/changePassword?token=" + token, email, "Account Created");
         try {
             qRCodeGenerator.generateQRCodeImage(user.getId().toString(), 350, 350);
             user.setQrCodePath("/QRCodes/" + user.getId().toString() + ".png");
@@ -276,7 +284,22 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     @Override
-    public ResponseBodyEntity updateUser(UserProfile user) {
+    public void sendEmailAndUpdateToken(String email) throws AddressException {
+        UserProfile user = userDao.getUser(email);
+        if (user != null) {
+            String token = Utils.generateToken();
+            user.setResetPasswordToken(token);
+            Calendar c = Calendar.getInstance();
+            c.setTime(new Date());
+            c.add(Calendar.DATE, 3);
+            user.setResetPasswordTokenValidity(c.getTime());
+            String[] emails = {user.getEmail()};
+            sendEmail("http://localhost:4200/#/sessions/changePassword?token=" + token, emails, "Account Created");
+        }
+    }
+
+    @Override
+    public ResponseBodyEntity updateUser(UserProfile user, UserCompanyInfo userCompanyInfo, UserOutletInfo userOutletInfo) {
         UserProfile persistantUser = userDao.getUser(user.getId());
 
         if (persistantUser == null) {
@@ -314,50 +337,55 @@ public class UserServiceImpl extends AbstractService implements UserService {
             }
         }
 
-        // Forbid login user from changing his joined groups
-        if (Objects.equals(((UserProfile) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId(), persistantUser.getId())) {
-            if (!(user.getGroupCollection().containsAll(persistantUser.getGroupCollection())
-                    && persistantUser.getGroupCollection().containsAll(user.getGroupCollection()))) {
-                return ResponseBuilder.getInstance()
-                        .setHttpResponseEntityResultCode(ResponseCode.ALERT)
-                        .setHttpResponseEntityResultDescription(this.getMessageBasedOnLanguage("user.changeGroupSet", null))
-                        .addHttpResponseEntityData("user", this.getMessageBasedOnLanguage("user.changeGroupSet", null))
-                        .getResponse();
-            }
-        }
-
-        userProfileNotificationEventService.deleteByUser(user);
-
-        persistantUser.setEmail(user.getEmail().toLowerCase());
         persistantUser.setName(user.getName());
-        persistantUser.setJobTitle(user.getJobTitle());
+        persistantUser.setLastName(user.getLastName());
+        persistantUser.setEmail(user.getEmail().toLowerCase());
         persistantUser.setMobileNumber(user.getMobileNumber());
-        persistantUser.setGroupCollection(user.getGroupCollection());
-        persistantUser.setEnabled(user.isEnabled());
-        for (UserProfileNotificationEvent userProfileNotificationEvent : user.getUserProfileNotificationEventCollection()) {
-            userProfileNotificationEvent.setUserProfile(user);
-            userProfileNotificationEvent.setEnabled(true);
-        }
-        persistantUser.setUserProfileNotificationEventCollection(user.getUserProfileNotificationEventCollection());
 
-        if (persistantUser.isEnabled() && persistantUser.getDeletedDate() == null) {
-            List<UserProfileNotificationEvent> userProfileNotifications = persistantUser.getUserProfileNotificationEventCollection();
-            List<String> notifications = new ArrayList<>();
-            for (UserProfileNotificationEvent notification : userProfileNotifications) {
-                notifications.add(notification.getNotificationEvents().getName().toLowerCase());
+        if (null != persistantUser.getType()) {
+            switch (persistantUser.getType()) {
+                case 0: {
+                    break;
+                }
+                case 1: {
+                    if (userCompanyInfo.getInfo() == null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                                .addHttpResponseEntityData("info", "Info is required")
+                                .getResponse();
+                    }
+                    persistantUser.getUserCompanyInfo().setInfo(userCompanyInfo.getInfo());
+                    persistantUser.setUserOutletInfo(null);
+                    break;
+                }
+                case 2: {
+                    if (userOutletInfo.getInfo() == null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                                .addHttpResponseEntityData("info", "Info is required")
+                                .getResponse();
+                    }
+                    persistantUser.getUserOutletInfo().setInfo(userOutletInfo.getInfo());
+                    persistantUser.setUserCompanyInfo(null);
+                    break;
+                }
+                case 3: {
+                    break;
+                }
+                case 4: {
+                    break;
+                }
+                case 99: {
+                    break;
+                }
+                default:
+                    break;
             }
-            notificationEngine.updateUserNotification(persistantUser.getId(), persistantUser.getLanguage().getId(), notifications);
-        } else {
-            notificationEngine.deleteUser(persistantUser.getId());
         }
-
-        HashMap<String, String> userLanguageMap = new HashMap<>();
-        userLanguageMap.put("$USER_NAME$", user.getName());
-        this.addNotification("UPDATE_USER", userLanguageMap, "/users");
 
         return ResponseBuilder.getInstance()
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("user", user)
+                .addHttpResponseEntityData("user", persistantUser)
                 .getResponse();
     }
 
@@ -503,6 +531,28 @@ public class UserServiceImpl extends AbstractService implements UserService {
         return ResponseBuilder.getInstance().
                 setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
                 .addHttpResponseEntityData("user", persisteUser)
+                .getResponse();
+    }
+
+    @Override
+    public ResponseBodyEntity changeUserPasswordByToken(String token, UserProfilePasswordValidator userProfilePasswordValidator) {
+
+        UserProfile persistantUser = userDao.getUserByToken(token);
+        if (persistantUser == null) {
+            return ResponseBuilder.getInstance()
+                    .setHttpResponseEntityResultCode(ResponseCode.ENTITY_NOT_FOUND)
+                    .setHttpResponseEntityResultDescription(this.getMessageBasedOnLanguage("user.unknownOrDeleted", null))
+                    .getResponse();
+        }
+
+        persistantUser.setPassword(passwordEncoder.encode(userProfilePasswordValidator.getNewPassword()));
+        persistantUser.setEnabled(true);
+        persistantUser.setResetPasswordToken(null);
+        persistantUser.setResetPasswordTokenValidity(null);
+
+        return ResponseBuilder.getInstance().
+                setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("user", persistantUser)
                 .getResponse();
     }
 

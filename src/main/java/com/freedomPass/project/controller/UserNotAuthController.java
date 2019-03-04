@@ -6,10 +6,13 @@ import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
 import com.freedomPass.project.model.NotificationEvents;
+import com.freedomPass.project.model.UserCompanyInfo;
+import com.freedomPass.project.model.UserOutletInfo;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.model.UserProfileNotificationEvent;
 import com.freedomPass.project.service.NotificationEventsService;
 import com.freedomPass.project.service.UserProfileNotificationEventService;
+import com.freedomPass.project.service.UserService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,8 +32,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/newUser")
-public class UserPurchasedController extends AbstractController {
+@RequestMapping("/guest")
+public class UserNotAuthController extends AbstractController {
 
     @Autowired
     UserProfileNotificationEventService userProfileNotificationEventService;
@@ -38,23 +41,25 @@ public class UserPurchasedController extends AbstractController {
     @Autowired
     NotificationEventsService notificationEventsService;
 
-    @PostMapping("/add")
-    public ResponseEntity addUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult userProfileBindingResults,
-            @ModelAttribute @Valid UserProfilePasswordValidator userProfilePasswordValidator, BindingResult userProfilePasswordValidatorBindingResults) throws AddressException {
+    @Autowired
+    UserService userService;
 
-        userProfile.setPassword(userProfilePasswordValidator.getNewPassword());
+    @GetMapping("/auth/token/{token}")
+    public ResponseEntity getUserByToken(@PathVariable String token) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntity(userService.getUserByToken(token))
+                .returnClientResponse();
+    }
+
+    @PostMapping("/updatePassword/{token}")
+    public ResponseEntity updatePassword(@PathVariable String token,
+            @ModelAttribute @Valid UserProfilePasswordValidator userProfilePasswordValidator,
+            BindingResult userProfilePasswordValidatorBindingResults) {
+
         // Validate User Inputs
-        ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userProfileBindingResults, null);
+        ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userProfilePasswordValidatorBindingResults, null);
 
-        if (responseBodyEntity != null) {
-            return ResponseBuilder.getInstance()
-                    .setHttpStatus(HttpStatus.OK)
-                    .setHttpResponseEntity(responseBodyEntity)
-                    .returnClientResponse();
-        }
-
-        // Validate Passwords Structure
-        responseBodyEntity = super.checkValidationResults(userProfilePasswordValidatorBindingResults, null);
         if (responseBodyEntity != null) {
             return ResponseBuilder.getInstance()
                     .setHttpStatus(HttpStatus.OK)
@@ -73,8 +78,26 @@ public class UserPurchasedController extends AbstractController {
 
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
-                .setHttpResponseEntity(userService.addUser(userProfile, null, null))
+                .setHttpResponseEntity(userService.changeUserPasswordByToken(token, userProfilePasswordValidator))
                 .returnClientResponse();
+    }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity resetPassword(UserProfile user) throws AddressException {
+        if (user != null && user.getEmail() != null) {
+            userService.sendEmailAndUpdateToken(user.getEmail());
+            return ResponseBuilder.getInstance()
+                    .setHttpStatus(HttpStatus.OK)
+                    .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                    .addHttpResponseEntityData("success", "Email sent to " + user.getEmail())
+                    .returnClientResponse();
+        } else {
+            return ResponseBuilder.getInstance()
+                    .setHttpStatus(HttpStatus.OK)
+                    .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                    .addHttpResponseEntityData("success", "User does not exist")
+                    .returnClientResponse();
+        }
     }
 
 }

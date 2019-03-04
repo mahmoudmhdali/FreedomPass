@@ -12,6 +12,8 @@ public interface UserDao {
 
     UserProfile getUser(Long id);
 
+    UserProfile getUserByToken(String token);
+
     UserProfile getUser(String email);
 
     UserProfile filterByMobileNumber(String mobileNumber);

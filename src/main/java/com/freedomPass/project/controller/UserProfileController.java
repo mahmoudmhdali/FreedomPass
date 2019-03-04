@@ -7,6 +7,7 @@ import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
 import com.freedomPass.project.model.NotificationEvents;
 import com.freedomPass.project.model.UserCompanyInfo;
+import com.freedomPass.project.model.UserOutletInfo;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.model.UserProfileNotificationEvent;
 import com.freedomPass.project.service.NotificationEventsService;
@@ -14,6 +15,7 @@ import com.freedomPass.project.service.UserProfileNotificationEventService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -92,6 +94,14 @@ public class UserProfileController extends AbstractController {
                 .returnClientResponse();
     }
 
+    @GetMapping("/auth/token/{token}")
+    public ResponseEntity getUserByToken(@PathVariable String token) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntity(userService.getUserByToken(token))
+                .returnClientResponse();
+    }
+
     @RequestMapping("/view")
     public ResponseEntity getUserByEmail(@RequestParam("email") String email) {
         return ResponseBuilder.getInstance()
@@ -103,12 +113,9 @@ public class UserProfileController extends AbstractController {
     @PostMapping("/add")
     public ResponseEntity addUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult userProfileBindingResults,
             @ModelAttribute @Valid UserCompanyInfo userCompanyInfo, BindingResult userCompanyInfoBindingResults,
-            @ModelAttribute @Valid UserProfilePasswordValidator userProfilePasswordValidator, BindingResult userProfilePasswordValidatorBindingResults) {
-
-        userProfile.setPassword(userProfilePasswordValidator.getNewPassword());
+            @ModelAttribute @Valid UserOutletInfo userOutletInfo, BindingResult userOutletInfoBindingResults) throws AddressException {
         // Validate User Inputs
         ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userProfileBindingResults, null);
-
         if (responseBodyEntity != null) {
             return ResponseBuilder.getInstance()
                     .setHttpStatus(HttpStatus.OK)
@@ -116,32 +123,95 @@ public class UserProfileController extends AbstractController {
                     .returnClientResponse();
         }
 
-        // Validate Passwords Structure
-        responseBodyEntity = super.checkValidationResults(userProfilePasswordValidatorBindingResults, null);
-        if (responseBodyEntity != null) {
-            return ResponseBuilder.getInstance()
-                    .setHttpStatus(HttpStatus.OK)
-                    .setHttpResponseEntity(responseBodyEntity)
-                    .returnClientResponse();
+        UserProfile loggedInUser = this.getAuthenticatedUser();
+        if (loggedInUser != null) {
+            if (loggedInUser.getType() != 0 && loggedInUser.getType() != 1 && loggedInUser.getType() != 99) {
+                responseBodyEntity = ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.UNAUTHORIZED_USER_ACTION)
+                        .setHttpResponseEntityResultDescription("Access denied for this resource. Contact your service provider for more help")
+                        .getResponse();
+                return ResponseBuilder.getInstance()
+                        .setHttpStatus(HttpStatus.OK)
+                        .setHttpResponseEntity(userService.addUser(userProfile, userCompanyInfo, userOutletInfo))
+                        .returnClientResponse();
+            }
+            if (loggedInUser.getType() == 1) {
+                userProfile.setType(3);
+                userProfile.setParentId(loggedInUser.getId());
+            }
+            if ((loggedInUser.getType() == 0 || loggedInUser.getType() == 99) && userProfile.getType() == null) {
+                responseBodyEntity = ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                        .addHttpResponseEntityData("type", "Type is required")
+                        .getResponse();
+                return ResponseBuilder.getInstance()
+                        .setHttpStatus(HttpStatus.OK)
+                        .setHttpResponseEntity(userService.addUser(userProfile, userCompanyInfo, userOutletInfo))
+                        .returnClientResponse();
+            }
+            if (loggedInUser.getType() == 0 && userProfile.getType() != 0 && userProfile.getType() != 1 && userProfile.getType() != 2 && userProfile.getType() != 3) {
+                responseBodyEntity = ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                        .addHttpResponseEntityData("type", "Type not exist")
+                        .getResponse();
+                return ResponseBuilder.getInstance()
+                        .setHttpStatus(HttpStatus.OK)
+                        .setHttpResponseEntity(userService.addUser(userProfile, userCompanyInfo, userOutletInfo))
+                        .returnClientResponse();
+            }
+        } else {
+            userProfile.setType(4);
         }
 
-        // Valdidate Passwords matching
-        if (!userProfilePasswordValidator.matchPasswords()) {
-            return ResponseBuilder.getInstance()
-                    .setHttpStatus(HttpStatus.OK)
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("confirmPassword", this.getMessageBasedOnLanguage("user.controller.passwordMismatch", null))
-                    .returnClientResponse();
+        if (null != userProfile.getType()) {
+            switch (userProfile.getType()) {
+                case 0: {
+                    break;
+                }
+                case 1: {
+                    responseBodyEntity = super.checkValidationResults(userCompanyInfoBindingResults, new String[]{"id"});
+                    if (responseBodyEntity != null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpStatus(HttpStatus.OK)
+                                .setHttpResponseEntity(responseBodyEntity)
+                                .returnClientResponse();
+                    }
+                    break;
+                }
+                case 2: {
+                    responseBodyEntity = super.checkValidationResults(userOutletInfoBindingResults, new String[]{"id"});
+                    if (responseBodyEntity != null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpStatus(HttpStatus.OK)
+                                .setHttpResponseEntity(responseBodyEntity)
+                                .returnClientResponse();
+                    }
+                    break;
+                }
+                case 3: {
+                    break;
+                }
+                case 4: {
+                    break;
+                }
+                case 99: {
+                    break;
+                }
+                default:
+                    break;
+            }
         }
 
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
-                .setHttpResponseEntity(userService.addUser(userProfile))
+                .setHttpResponseEntity(userService.addUser(userProfile, userCompanyInfo, userOutletInfo))
                 .returnClientResponse();
     }
 
     @PostMapping("/update")
-    public ResponseEntity updateUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult groupBindingResults) {
+    public ResponseEntity updateUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult groupBindingResults,
+            @ModelAttribute @Valid UserCompanyInfo userCompanyInfo, BindingResult userCompanyInfoBindingResults,
+            @ModelAttribute @Valid UserOutletInfo userOutletInfo, BindingResult userOutletInfoBindingResults) {
         ResponseBodyEntity responseBodyEntity = this.checkValidationResults(groupBindingResults, new String[]{"password", "confirmPassword"});
         if (responseBodyEntity != null) {
             return ResponseBuilder.getInstance()
@@ -150,28 +220,49 @@ public class UserProfileController extends AbstractController {
                     .returnClientResponse();
         }
 
-        // Valdiate Groups if they at least one group is provided correctly
-        if (userProfile.getGroupCollection() == null) {
-            return ResponseBuilder.getInstance()
-                    .setHttpStatus(HttpStatus.OK)
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("group", this.getMessageBasedOnLanguage("user.controller.groupShoulBeSelected", null))
-                    .returnClientResponse();
-        }
-        boolean isValid = super.checkIfOneCollectionEntryIsNotNull(userProfile.getGroupCollection());
-
-        if (!isValid) {
-            return ResponseBuilder.getInstance()
-                    .setHttpStatus(HttpStatus.OK)
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("group", this.getMessageBasedOnLanguage("user.controller.groupShoulBeSelected", null))
-                    .returnClientResponse();
+        if (null != userProfile.getType()) {
+            switch (userProfile.getType()) {
+                case 0: {
+                    break;
+                }
+                case 1: {
+                    responseBodyEntity = super.checkValidationResults(userCompanyInfoBindingResults, new String[]{"id"});
+                    if (responseBodyEntity != null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpStatus(HttpStatus.OK)
+                                .setHttpResponseEntity(responseBodyEntity)
+                                .returnClientResponse();
+                    }
+                    break;
+                }
+                case 2: {
+                    responseBodyEntity = super.checkValidationResults(userOutletInfoBindingResults, new String[]{"id"});
+                    if (responseBodyEntity != null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpStatus(HttpStatus.OK)
+                                .setHttpResponseEntity(responseBodyEntity)
+                                .returnClientResponse();
+                    }
+                    break;
+                }
+                case 3: {
+                    break;
+                }
+                case 4: {
+                    break;
+                }
+                case 99: {
+                    break;
+                }
+                default:
+                    break;
+            }
         }
 
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .setHttpResponseEntity(userService.updateUser(userProfile))
+                .setHttpResponseEntity(userService.updateUser(userProfile, userCompanyInfo, userOutletInfo))
                 .returnClientResponse();
     }
 

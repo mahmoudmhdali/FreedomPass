@@ -1,5 +1,6 @@
 package com.freedomPass.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Collection;
@@ -41,6 +42,7 @@ public class OutletOfferType implements Serializable {
     @Column(name = "NAME")
     private String name;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "outletOfferType", cascade = CascadeType.ALL)
     private Collection<UserOutletOffer> userOutletOffers;
 
@@ -57,6 +59,14 @@ public class OutletOfferType implements Serializable {
     @Column(name = "DELETED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Date getCreatedDate() {
         return createdDate;
