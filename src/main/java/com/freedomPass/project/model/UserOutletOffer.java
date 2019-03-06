@@ -59,19 +59,15 @@ public class UserOutletOffer implements Serializable {
     @NotBlank(message = "validation.userInfo.infoRequired")
     private String info;
 
-    @JsonIgnore
     @Transient
     private String imageName1;
 
-    @JsonIgnore
     @Transient
     private String imageName2;
 
-    @JsonIgnore
     @Transient
     private String imageName3;
 
-    @JsonIgnore
     @Transient
     private String imageName4;
 

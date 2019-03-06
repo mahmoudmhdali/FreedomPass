@@ -79,6 +79,16 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     @Override
+    public List<UserProfile> getOutletUsers() {
+        return userDao.getOutletUsers();
+    }
+
+    @Override
+    public List<UserProfile> getCompanyUsers() {
+        return userDao.getCompanyUsers();
+    }
+
+    @Override
     public UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes) {
         return userDao.getUsersPagination(excludeLoggedInUserID, type, headID, pageNumber, maxRes);
     }
@@ -505,6 +515,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
 
         persistantUser.setName(user.getName());
+        persistantUser.setLastName(user.getLastName());
         persistantUser.setMobileNumber(user.getMobileNumber());
         persistantUser.setLanguage(user.getLanguage());
 

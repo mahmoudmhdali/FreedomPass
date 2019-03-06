@@ -77,12 +77,12 @@ public class UserOutletOfferController extends AbstractController {
     }
 
     @PostMapping(value = "/add", consumes = "multipart/form-data")
-    public ResponseEntity addUser(@RequestPart("info") @Valid UserOutletOffer userOutletOffer, BindingResult userOutletOfferBindingResults,
+    public ResponseEntity addOffer(@RequestPart("info") @Valid UserOutletOffer userOutletOffer, BindingResult userOutletOfferBindingResults,
             @RequestPart("outlet") @Valid UserOutletInfo userOutletInfo, BindingResult userOutletInfoBindingResults,
             @RequestPart(value = "uploadFile1", required = false) MultipartFile file1,
             @RequestPart(value = "uploadFile2", required = false) MultipartFile file2,
             @RequestPart(value = "uploadFile3", required = false) MultipartFile file3,
-            @RequestPart(value = "uploadFile4", required = false) MultipartFile file4) throws AddressException {
+            @RequestPart(value = "uploadFile4", required = false) MultipartFile file4) throws AddressException, IOException {
         // Validate User Inputs
         ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userOutletOfferBindingResults, null);
         if (responseBodyEntity != null) {
@@ -94,6 +94,27 @@ public class UserOutletOfferController extends AbstractController {
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntity(userOutletOfferService.addOffer(userOutletOffer, userOutletInfo, file1, file2, file3, file4))
+                .returnClientResponse();
+    }
+
+    @PostMapping(value = "/edit", consumes = "multipart/form-data")
+    public ResponseEntity editOffer(@RequestPart("info") @Valid UserOutletOffer userOutletOffer, BindingResult userOutletOfferBindingResults,
+            @RequestPart("outlet") @Valid UserOutletInfo userOutletInfo, BindingResult userOutletInfoBindingResults,
+            @RequestPart(value = "uploadFile1", required = false) MultipartFile file1,
+            @RequestPart(value = "uploadFile2", required = false) MultipartFile file2,
+            @RequestPart(value = "uploadFile3", required = false) MultipartFile file3,
+            @RequestPart(value = "uploadFile4", required = false) MultipartFile file4) throws AddressException, IOException {
+        // Validate User Inputs
+        ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userOutletOfferBindingResults, null);
+        if (responseBodyEntity != null) {
+            return ResponseBuilder.getInstance()
+                    .setHttpStatus(HttpStatus.OK)
+                    .setHttpResponseEntity(responseBodyEntity)
+                    .returnClientResponse();
+        }
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntity(userOutletOfferService.editOffer(userOutletOffer, userOutletInfo, file1, file2, file3, file4))
                 .returnClientResponse();
     }
 

@@ -39,6 +39,41 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
     }
 
     @Override
+    public List<UserProfile> getOutletUsers() {
+        Criteria criteria = createEntityCriteria();
+        criteria.addOrder(Order.asc("name"));
+        criteria.add(Restrictions.eq("type", 2));
+        criteria.add(Restrictions.isNull("deletedDate"));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);  // To avoid duplicates.
+        List<UserProfile> users = (List<UserProfile>) criteria.list();
+        for (UserProfile user : users) {
+            Hibernate.initialize(user.getGroupCollection());
+            Hibernate.initialize(user.getUserOutletInfo());
+            Hibernate.initialize(user.getUserOutletInfo().getOutletCategoryCollection());
+            Hibernate.initialize(user.getUserOutletInfo().getUserOutletInfoImagesCollection());
+            Hibernate.initialize(user.getUserOutletInfo().getUserOutletInfoLocationsCollection());
+        }
+        return users;
+    }
+
+    @Override
+    public List<UserProfile> getCompanyUsers() {
+        Criteria criteria = createEntityCriteria();
+        criteria.addOrder(Order.asc("name"));
+        criteria.add(Restrictions.eq("type", 1));
+        criteria.add(Restrictions.isNull("deletedDate"));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);  // To avoid duplicates.
+        List<UserProfile> users = (List<UserProfile>) criteria.list();
+        for (UserProfile user : users) {
+            Hibernate.initialize(user.getGroupCollection());
+            Hibernate.initialize(user.getUserCompanyInfo());
+            Hibernate.initialize(user.getUserCompanyInfo().getUserCompanyInfoImagesCollection());
+            Hibernate.initialize(user.getUserCompanyInfo().getUserCompanyInfoLocationsCollection());
+        }
+        return users;
+    }
+
+    @Override
     public UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes) {
         Criteria criteria = createEntityCriteria();
         if (type == 1) {

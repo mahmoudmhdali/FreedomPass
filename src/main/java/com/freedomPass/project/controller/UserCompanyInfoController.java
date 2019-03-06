@@ -18,6 +18,15 @@ public class UserCompanyInfoController extends AbstractController {
     @Autowired
     UserCompanyInfoService userCompanyInfoService;
 
+    @GetMapping("/userProfile")
+    public ResponseEntity getUserCompany() {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("users", userService.getCompanyUsers())
+                .returnClientResponse();
+    }
+
     @GetMapping
     public ResponseEntity getUserCompanyInfos() {
         return ResponseBuilder.getInstance()

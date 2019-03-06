@@ -50,11 +50,7 @@ public abstract class AbstractController {
         ResponseBuilder responseBuilder = ResponseBuilder.getInstance();
         UserProfile user = getAuthenticatedUser();
         Locale locale = null;
-        if (user != null) {
-            locale = new Locale(getAuthenticatedUser().getLanguage().getPrefix().toLowerCase());
-        } else {
-            locale = new Locale("en");
-        }
+        locale = new Locale("en");
         Set<String> byPassFieldsSet = new HashSet<>();
         if (byPassFields != null) {
             byPassFieldsSet = new HashSet<>(Arrays.asList(byPassFields));
