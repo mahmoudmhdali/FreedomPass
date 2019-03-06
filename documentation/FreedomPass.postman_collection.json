@@ -796,7 +796,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletInfo",
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletInfo/userProfile",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -807,7 +807,8 @@
 							"port": "8084",
 							"path": [
 								"FreedomPass",
-								"userOutletInfo"
+								"userOutletInfo",
+								"userProfile"
 							]
 						}
 					},
@@ -885,7 +886,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8084/FreedomPass/userCompanyInfo",
+							"raw": "http://127.0.0.1:8084/FreedomPass/userCompanyInfo/userProfile",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -896,7 +897,8 @@
 							"port": "8084",
 							"path": [
 								"FreedomPass",
-								"userCompanyInfo"
+								"userCompanyInfo",
+								"userProfile"
 							]
 						}
 					},
@@ -968,12 +970,14 @@
 								{
 									"key": "newPassword",
 									"value": "Admin@124",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "confirmPassword",
 									"value": "Admin@124",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "mobileNumber",
@@ -1093,7 +1097,7 @@
 						"header": [
 							{
 								"key": "Token",
-								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJjOWNhZTY4NS0zMDcyLTQ2MjktYmNmMS1jMjQwOWFlNWJjZGIiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTUxMDg0NTE1LCJleHAiOjE1NTEyMTQxMTV9.0NnSPRrDRdsVr8ESmNo-3oGkay3FDQGnzcLkprRpCv0rky-GJtfDK5VpSa3_xRXbCTGSyawNLMkdIXlhEocQ5A"
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1MWMwY2VkZS04MmQ4LTQxNmEtOGMxNi1lNmM4MTY4ZTNiNDQiLCJzdWIiOiJhZG1pbkBmcmVlZG9tcGFzcy5jb20iLCJpYXQiOjE1NTE5MDI4NjcsImV4cCI6MTU1MjAzMjQ2N30.6Wrx_lhs2p2nnYl8JqU1yRDmXCRqdZp7hVjo15KAyuyNpALNLLIo5e3fNXqbdqFXW9QrRkyHHfqSgBWyZN3hHg"
 							}
 						],
 						"body": {
