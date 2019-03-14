@@ -5,25 +5,25 @@
  */
 package com.freedomPass.project.helpermodel;
 
-import com.freedomPass.project.model.UserOutletOffer;
+import com.freedomPass.project.model.AdminPasses;
 import java.util.List;
 
 /**
  *
  * @author mahmoudmhdali
  */
-public class OffersPagination {
+public class AdminPassesPagination {
 
     private int maxPages;
     private int currentPage;
     private int totalResults;
-    List<UserOutletOffer> offers;
+    List<AdminPasses> passes;
 
-    public OffersPagination(int maxPages, int currentPage, int totalResults, List<UserOutletOffer> offers) {
+    public AdminPassesPagination(int maxPages, int currentPage, int totalResults, List<AdminPasses> passes) {
         this.maxPages = maxPages;
         this.currentPage = currentPage;
         this.totalResults = totalResults;
-        this.offers = offers;
+        this.passes = passes;
     }
 
     public int getMaxPages() {
@@ -50,11 +50,11 @@ public class OffersPagination {
         this.totalResults = totalResults;
     }
 
-    public List<UserOutletOffer> getOffers() {
-        return offers;
+    public List<AdminPasses> getPasses() {
+        return passes;
     }
 
-    public void setOffers(List<UserOutletOffer> offers) {
-        this.offers = offers;
+    public void setPasses(List<AdminPasses> passes) {
+        this.passes = passes;
     }
 }

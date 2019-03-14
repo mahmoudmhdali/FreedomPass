@@ -5,9 +5,7 @@
  */
 package com.freedomPass.api.configuration.converter;
 
-import com.freedomPass.project.model.Group;
 import com.freedomPass.project.model.UserOutletInfo;
-import com.freedomPass.project.service.GroupService;
 import com.freedomPass.project.service.UserOutletInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;

@@ -23,7 +23,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.CreationTimestamp;
@@ -123,6 +122,13 @@ public class UserOutletOffer implements Serializable {
     @Column(name = "DELETED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
+
+    public UserOutletOffer() {
+    }
+
+    public UserOutletOffer(Long id) {
+        this.id = id;
+    }
 
     public Date getCreatedDate() {
         return createdDate;

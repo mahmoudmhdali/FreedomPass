@@ -1,6 +1,5 @@
 package com.freedomPass.project.dao;
 
-import com.freedomPass.project.model.OutletCategory;
 import com.freedomPass.project.model.OutletOfferType;
 import java.util.List;
 import org.hibernate.Criteria;

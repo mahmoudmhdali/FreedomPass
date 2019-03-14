@@ -5,6 +5,7 @@ import com.freedomPass.project.model.validation.ValidName;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.CreationTimestamp;
@@ -37,11 +38,19 @@ public class AdminPasses implements Serializable {
 
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     @GenericGenerator(name = "SEQ_GEN", strategy = "com.freedomPass.project.model.SequenceIdGenerator")
     @GeneratedValue(generator = "SEQ_GEN")
     private Long id;
+
+    @Transient
+    private String imageName1;
+
+    @Transient
+    private List<Long> offersCollection;
+
+    @Transient
+    private List<Long> passesCollection;
 
     @Basic(optional = false)
     @Column(name = "VALIDITY")
@@ -62,6 +71,10 @@ public class AdminPasses implements Serializable {
     @Column(name = "IMAGE_PATH")
     private String imagePath;
 
+    @Basic(optional = false)
+    @Column(name = "FILE_NAME")
+    private String fileName;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "adminPasses", cascade = CascadeType.ALL)
     private Collection<UserCompanyPasses> userCompanyPasses;
 
@@ -70,6 +83,9 @@ public class AdminPasses implements Serializable {
         @JoinColumn(name = "PASS_ID", referencedColumnName = "ID")})
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<UserOutletOffer> userOutletOfferCollection;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
+    private Collection<UserPassPurchased> userPassPurchased;
 
     @CreationTimestamp
     @Column(name = "CREATED_DATE")
@@ -165,11 +181,51 @@ public class AdminPasses implements Serializable {
         this.userOutletOfferCollection = userOutletOfferCollection;
     }
 
+    public String getImageName1() {
+        return imageName1;
+    }
+
+    public void setImageName1(String imageName1) {
+        this.imageName1 = imageName1;
+    }
+
+    public List<Long> getOffersCollection() {
+        return offersCollection;
+    }
+
+    public void setOffersCollection(List<Long> offersCollection) {
+        this.offersCollection = offersCollection;
+    }
+
+    public List<Long> getPassesCollection() {
+        return passesCollection;
+    }
+
+    public void setPassesCollection(List<Long> passesCollection) {
+        this.passesCollection = passesCollection;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);
         return hash;
+    }
+
+    public Collection<UserPassPurchased> getUserPassPurchased() {
+        return userPassPurchased;
+    }
+
+    public void setUserPassPurchased(Collection<UserPassPurchased> userPassPurchased) {
+        this.userPassPurchased = userPassPurchased;
     }
 
     @Override

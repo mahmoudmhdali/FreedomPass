@@ -4,13 +4,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import com.freedomPass.api.commons.ContextHolder;
+import com.freedomPass.api.configuration.converter.AdminPassConverter;
 import com.freedomPass.api.configuration.converter.GroupConverter;
 import com.freedomPass.api.configuration.converter.LanguageConverter;
 import com.freedomPass.api.configuration.converter.OutletOfferTypeConverter;
 import com.freedomPass.api.configuration.converter.ReportConverter;
 import com.freedomPass.api.configuration.converter.ReportStyleConverter;
 import com.freedomPass.api.configuration.converter.RoleConverter;
+import com.freedomPass.api.configuration.converter.UserCompanyInfoConverter;
+import com.freedomPass.api.configuration.converter.UserConverter;
 import com.freedomPass.api.configuration.converter.UserOutletInfoConverter;
+import com.freedomPass.api.configuration.converter.UserOutletOfferConverter;
 import com.freedomPass.api.configuration.converter.UserProfileNotificationEventConverter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,6 +70,14 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
     @Autowired
     @Lazy
     RoleConverter roleConverter;
+
+    @Autowired
+    @Lazy
+    UserConverter userConverter;
+
+    @Autowired
+    @Lazy
+    UserCompanyInfoConverter userCompanyInfoConverter;
     /**
      * Added @Lazy to prevent using messageSource in UserService before its
      * being created here
@@ -81,6 +93,10 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
     @Autowired
     @Lazy
     GroupConverter groupConverter;
+
+    @Autowired
+    @Lazy
+    UserOutletOfferConverter userOutletOfferConverter;
 
     @Autowired
     @Lazy
@@ -101,6 +117,10 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
     @Autowired
     @Lazy
     UserProfileNotificationEventConverter userProfileNotificationEventConverter;
+
+    @Autowired
+    @Lazy
+    AdminPassConverter adminPassConverter;
 
     @Autowired
     private ContextHolder context;
@@ -129,13 +149,17 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(roleConverter);
+        registry.addConverter(adminPassConverter);
+        registry.addConverter(userConverter);
         registry.addConverter(groupConverter);
+        registry.addConverter(userOutletOfferConverter);
         registry.addConverter(userOutletInfoConverter);
         registry.addConverter(uutletOfferTypeConverter);
         registry.addConverter(reportStyleConverter);
         registry.addConverter(reportConverter);
         registry.addConverter(languageConverter);
         registry.addConverter(userProfileNotificationEventConverter);
+        registry.addConverter(userCompanyInfoConverter);
     }
 
     /**

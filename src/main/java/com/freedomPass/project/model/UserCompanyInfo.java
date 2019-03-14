@@ -1,8 +1,8 @@
 package com.freedomPass.project.model;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.freedomPass.project.model.validation.ValidName;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -20,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -82,6 +83,12 @@ public class UserCompanyInfo implements Serializable {
     @Column(name = "DELETED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
+
+    @Transient
+    private String userCompanyName;
+
+    @Transient
+    private Long userCompanyID;
 
     public Date getCreatedDate() {
         return createdDate;
@@ -161,6 +168,18 @@ public class UserCompanyInfo implements Serializable {
 
     public void setUserCompanyPasses(Collection<UserCompanyPasses> userCompanyPasses) {
         this.userCompanyPasses = userCompanyPasses;
+    }
+
+    @JsonGetter(value = "userCompanyName")
+    public String getUserCompanyName() {
+        userCompanyName = userProfileId.getName();
+        return userCompanyName;
+    }
+
+    @JsonGetter(value = "userCompanyID")
+    public Long getUserCompanyID() {
+        userCompanyID = userProfileId.getId();
+        return userCompanyID;
     }
 
     @Override

@@ -44,15 +44,15 @@ public class UserPassPurchased implements Serializable {
     @Basic(optional = false)
     @Column(name = "VALID_TILL")
     private Date validTill;
-    
+
     @JsonIgnore
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private UserProfile userProfileId;
-    
-    @JoinColumn(name = "USER_COMPANY_PASS_ID", referencedColumnName = "ID")
+
+    @JoinColumn(name = "PASS_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private UserCompanyPasses userCompanyPasses;
+    private AdminPasses adminPasses;
 
     public Boolean getIsPaid() {
         return isPaid;
@@ -94,12 +94,12 @@ public class UserPassPurchased implements Serializable {
         this.userProfileId = userProfileId;
     }
 
-    public UserCompanyPasses getUserCompanyPasses() {
-        return userCompanyPasses;
+    public AdminPasses getAdminPasses() {
+        return adminPasses;
     }
 
-    public void setUserCompanyPasses(UserCompanyPasses userCompanyPasses) {
-        this.userCompanyPasses = userCompanyPasses;
+    public void setAdminPasses(AdminPasses adminPasses) {
+        this.adminPasses = adminPasses;
     }
 
     @Override

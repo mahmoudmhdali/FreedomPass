@@ -1,8 +1,6 @@
 package com.freedomPass.project.service;
 
-import com.freedomPass.project.dao.OutletCategoryDao;
 import com.freedomPass.project.dao.OutletOfferTypeDao;
-import com.freedomPass.project.model.OutletCategory;
 import com.freedomPass.project.model.OutletOfferType;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

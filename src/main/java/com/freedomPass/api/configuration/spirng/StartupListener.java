@@ -73,9 +73,11 @@ public class StartupListener implements ApplicationListener<ContextRefreshedEven
         if (!localFileMgr.checkIfDirExists(context.getCatalina().getCatalinaWorkInstanceDir() + "/QRCodes")) {
             localFileMgr.createDirectory(context.getCatalina().getCatalinaWorkInstanceDir() + "/QRCodes");
         }
-
         if (!localFileMgr.checkIfDirExists(context.getCatalina().getCatalinaWorkInstanceDir() + "/OffersImages")) {
             localFileMgr.createDirectory(context.getCatalina().getCatalinaWorkInstanceDir() + "/OffersImages");
+        }
+        if (!localFileMgr.checkIfDirExists(context.getCatalina().getCatalinaWorkInstanceDir() + "/PackagesImages")) {
+            localFileMgr.createDirectory(context.getCatalina().getCatalinaWorkInstanceDir() + "/PackagesImages");
         }
         if (!localFileMgr.checkIfDirExists(context.getCatalina().getCatalinaWorkInstanceDir() + "/MySQLDumps")) {
             localFileMgr.createDirectory(context.getCatalina().getCatalinaWorkInstanceDir() + "/MySQLDumps");

@@ -2,10 +2,8 @@ package com.freedomPass.project.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,7 +30,6 @@ public class UserCompanyPasses implements Serializable {
 
     @Id
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ID")
     @GenericGenerator(name = "SEQ_GEN", strategy = "com.freedomPass.project.model.SequenceIdGenerator")
     @GeneratedValue(generator = "SEQ_GEN")
@@ -43,6 +39,10 @@ public class UserCompanyPasses implements Serializable {
     @Column(name = "NUMBER_OF_USERS")
     private Integer numberOfUsers;
 
+    @Basic(optional = false)
+    @Column(name = "REMAINING_USERS")
+    private Integer remainingUsers;
+
     @JoinColumn(name = "USER_COMPANY_INFO_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private UserCompanyInfo userCompanyInfo;
@@ -50,9 +50,6 @@ public class UserCompanyPasses implements Serializable {
     @JoinColumn(name = "PASS_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private AdminPasses adminPasses;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfileId", cascade = CascadeType.ALL)
-    private Collection<UserPassPurchased> userPassPurchased;
 
     @CreationTimestamp
     @Column(name = "CREATED_DATE")
@@ -100,6 +97,14 @@ public class UserCompanyPasses implements Serializable {
         this.numberOfUsers = numberOfUsers;
     }
 
+    public Integer getRemainingUsers() {
+        return remainingUsers;
+    }
+
+    public void setRemainingUsers(Integer remainingUsers) {
+        this.remainingUsers = remainingUsers;
+    }
+
     public Long getId() {
         return id;
     }
@@ -122,14 +127,6 @@ public class UserCompanyPasses implements Serializable {
 
     public void setAdminPasses(AdminPasses adminPasses) {
         this.adminPasses = adminPasses;
-    }
-
-    public Collection<UserPassPurchased> getUserPassPurchased() {
-        return userPassPurchased;
-    }
-
-    public void setUserPassPurchased(Collection<UserPassPurchased> userPassPurchased) {
-        this.userPassPurchased = userPassPurchased;
     }
 
     @Override

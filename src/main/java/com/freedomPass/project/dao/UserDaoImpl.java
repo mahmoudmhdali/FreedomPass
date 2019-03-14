@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -115,6 +114,16 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
         for (Group group : user.getGroupCollection()) {
             Hibernate.initialize(group.getRoleCollection());
         }
+        Hibernate.initialize(user.getUserCompanyInfo());
+        if (user.getUserCompanyInfo() != null) {
+            Hibernate.initialize(user.getUserCompanyInfo().getUserCompanyInfoImagesCollection());
+            Hibernate.initialize(user.getUserCompanyInfo().getUserCompanyInfoLocationsCollection());
+        } else if (user.getUserOutletInfo() != null) {
+            Hibernate.initialize(user.getUserOutletInfo().getUserOutletInfoImagesCollection());
+            Hibernate.initialize(user.getUserOutletInfo().getUserOutletInfoLocationsCollection());
+        } else {
+            Hibernate.initialize(user.getUserPassPurchased());
+        }
         return user;
     }
 
@@ -130,7 +139,7 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
             Hibernate.initialize(user.getLanguage());
             Hibernate.initialize(user.getUserPassPurchased());
             for (UserPassPurchased userPassPurchased : user.getUserPassPurchased()) {
-                Hibernate.initialize(userPassPurchased.getUserCompanyPasses().getAdminPasses().getUserOutletOfferCollection());
+                Hibernate.initialize(userPassPurchased.getAdminPasses().getUserOutletOfferCollection());
             }
             for (Group group : user.getGroupCollection()) {
                 Hibernate.initialize(group.getRoleCollection());

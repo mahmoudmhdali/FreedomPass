@@ -1,10 +1,8 @@
 package com.freedomPass.project.controller;
 
-import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
-import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
 import com.freedomPass.project.model.NotificationEvents;
 import com.freedomPass.project.model.UserCompanyInfo;
 import com.freedomPass.project.model.UserOutletInfo;

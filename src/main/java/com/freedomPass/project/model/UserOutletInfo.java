@@ -2,7 +2,6 @@ package com.freedomPass.project.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.freedomPass.project.model.validation.ValidName;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;

@@ -17,7 +17,6 @@ import com.freedomPass.project.model.UserAttempt;
 import com.freedomPass.project.model.UserCompanyInfo;
 import com.freedomPass.project.model.UserOutletInfo;
 import com.freedomPass.project.model.UserProfile;
-import com.freedomPass.project.model.UserProfileNotificationEvent;
 import com.freedomPass.project.model.WebNotifications;
 import com.google.zxing.WriterException;
 import java.io.IOException;
