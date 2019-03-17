@@ -1,6 +1,7 @@
 package com.freedomPass.project.service;
 
 import com.freedomPass.api.commons.ContextHolder;
+import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.dao.AdminPassesDao;
 import com.freedomPass.project.helpermodel.AdminPassesPagination;
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
@@ -74,11 +75,15 @@ public class AdminPassesServiceImpl extends AbstractService implements AdminPass
         if (image1 != null) {
             String imageExtension = FilenameUtils.getExtension(image1.getOriginalFilename());
             if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
-                Path originalFile = dir.resolve(fileName);
-                Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                adminPass.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
-                adminPass.setImagePath("/PackagesImages/" + fileName);
+                try {
+                    String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
+                    Path originalFile = dir.resolve(fileName);
+                    Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                    adminPass.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
+                    adminPass.setImagePath("/PackagesImages/" + fileName);
+                } catch (Exception ex) {
+                    Logger.ERROR("1- Error addPass 1 on API [" + ex.getMessage() + "]", "", "");
+                }
             } else {
                 return ResponseBuilder.getInstance()
                         .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
@@ -143,8 +148,12 @@ public class AdminPassesServiceImpl extends AbstractService implements AdminPass
                 persistantAdminPasse.setFileName(null);
                 persistantAdminPasse.setImagePath(null);
                 if (toRemoveImage != null) {
-                    Path oldFile = dir.resolve(toRemoveImage.replace("/PackagesImages/", ""));
-                    Files.delete(oldFile);
+                        Path oldFile = dir.resolve(toRemoveImage.replace("/PackagesImages/", ""));
+                    try {
+                        Files.delete(oldFile);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editPass 1 on API [" + ex.getMessage() + "]", oldFile, "");
+                    }
                 }
             }
             return ResponseBuilder.getInstance().

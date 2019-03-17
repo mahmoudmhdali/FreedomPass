@@ -54,7 +54,6 @@ public class UserPassPurchasedServiceImpl extends AbstractService implements Use
     public ResponseBodyEntity editUserPassPurchased(UserPassPurchased userPassPurchased) {
         UserPassPurchased persistantUserPassPurchased = userPassPurchasedDao.getUserPassPurchased(userPassPurchased.getId());
         if (persistantUserPassPurchased != null) {
-            UserProfile loggedInUser = getAuthenticatedUser();
             return ResponseBuilder.getInstance().
                     setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
                     .addHttpResponseEntityData("Message", "User Pass updated succesfully")

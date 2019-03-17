@@ -1,5 +1,6 @@
 package com.freedomPass.project.dao;
 
+import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.model.UserOutletInfoImages;
 import com.freedomPass.project.model.UserOutletInfoLocations;
 import com.freedomPass.project.model.UserOutletOfferImages;
@@ -12,7 +13,11 @@ public class UserOutletInfoLocationsDaoImpl extends AbstractDao<Long, UserOutlet
     @Override
     public void deleteLocations(Collection<UserOutletInfoLocations> locations) {
         for (UserOutletInfoLocations location : locations) {
-            delete(location);
+            try {
+                delete(location);
+            } catch (Exception ex) {
+                Logger.ERROR("1- Error UserOutletInfoLocationsDao 1 on API [" + ex.getMessage() + "]", location, "");
+            }
         }
     }
 }

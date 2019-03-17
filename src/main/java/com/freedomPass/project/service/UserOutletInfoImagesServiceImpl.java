@@ -1,6 +1,7 @@
 package com.freedomPass.project.service;
 
 import com.freedomPass.api.commons.ContextHolder;
+import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.dao.OutletOfferTypeDao;
 import com.freedomPass.project.dao.UserOutletInfoImagesDao;
 import com.freedomPass.project.dao.UserOutletInfoDao;
@@ -88,15 +89,19 @@ public class UserOutletInfoImagesServiceImpl extends AbstractService implements 
             if (image1 != null) {
                 String imageExtension = FilenameUtils.getExtension(image1.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = user.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserOutletInfoImages userOutletInfoImage = new UserOutletInfoImages();
-                    userOutletInfoImage.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
-                    userOutletInfoImage.setImageIndex(1);
-                    userOutletInfoImage.setPath("/profile_photos/" + fileName);
-                    userOutletInfoImage.setUserOutletInfo(user.getUserOutletInfo());
-                    userOutletInfoImages.add(userOutletInfoImage);
+                    try {
+                        String fileName = user.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserOutletInfoImages userOutletInfoImage = new UserOutletInfoImages();
+                        userOutletInfoImage.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
+                        userOutletInfoImage.setImageIndex(1);
+                        userOutletInfoImage.setPath("/profile_photos/" + fileName);
+                        userOutletInfoImage.setUserOutletInfo(user.getUserOutletInfo());
+                        userOutletInfoImages.add(userOutletInfoImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editImages 1 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -111,15 +116,19 @@ public class UserOutletInfoImagesServiceImpl extends AbstractService implements 
             if (image2 != null) {
                 String imageExtension = FilenameUtils.getExtension(image2.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = user.getId() + "-" + System.currentTimeMillis() + "-2." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image2.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserOutletInfoImages userOutletInfoImage = new UserOutletInfoImages();
-                    userOutletInfoImage.setFileName(image2.getOriginalFilename().replace("." + FilenameUtils.getExtension(image2.getOriginalFilename()), ""));
-                    userOutletInfoImage.setImageIndex(2);
-                    userOutletInfoImage.setPath("/profile_photos/" + fileName);
-                    userOutletInfoImage.setUserOutletInfo(user.getUserOutletInfo());
-                    userOutletInfoImages.add(userOutletInfoImage);
+                    try {
+                        String fileName = user.getId() + "-" + System.currentTimeMillis() + "-2." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image2.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserOutletInfoImages userOutletInfoImage = new UserOutletInfoImages();
+                        userOutletInfoImage.setFileName(image2.getOriginalFilename().replace("." + FilenameUtils.getExtension(image2.getOriginalFilename()), ""));
+                        userOutletInfoImage.setImageIndex(2);
+                        userOutletInfoImage.setPath("/profile_photos/" + fileName);
+                        userOutletInfoImage.setUserOutletInfo(user.getUserOutletInfo());
+                        userOutletInfoImages.add(userOutletInfoImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editImages 2 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -134,15 +143,19 @@ public class UserOutletInfoImagesServiceImpl extends AbstractService implements 
             if (image3 != null) {
                 String imageExtension = FilenameUtils.getExtension(image3.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = user.getId() + "-" + System.currentTimeMillis() + "-3." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image3.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserOutletInfoImages userOutletInfoImage = new UserOutletInfoImages();
-                    userOutletInfoImage.setFileName(image3.getOriginalFilename().replace("." + FilenameUtils.getExtension(image3.getOriginalFilename()), ""));
-                    userOutletInfoImage.setImageIndex(3);
-                    userOutletInfoImage.setPath("/profile_photos/" + fileName);
-                    userOutletInfoImage.setUserOutletInfo(user.getUserOutletInfo());
-                    userOutletInfoImages.add(userOutletInfoImage);
+                    try {
+                        String fileName = user.getId() + "-" + System.currentTimeMillis() + "-3." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image3.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserOutletInfoImages userOutletInfoImage = new UserOutletInfoImages();
+                        userOutletInfoImage.setFileName(image3.getOriginalFilename().replace("." + FilenameUtils.getExtension(image3.getOriginalFilename()), ""));
+                        userOutletInfoImage.setImageIndex(3);
+                        userOutletInfoImage.setPath("/profile_photos/" + fileName);
+                        userOutletInfoImage.setUserOutletInfo(user.getUserOutletInfo());
+                        userOutletInfoImages.add(userOutletInfoImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editImages 3 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -157,15 +170,19 @@ public class UserOutletInfoImagesServiceImpl extends AbstractService implements 
             if (image4 != null) {
                 String imageExtension = FilenameUtils.getExtension(image4.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = user.getId() + "-" + System.currentTimeMillis() + "-4." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image4.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserOutletInfoImages userOutletInfoImage = new UserOutletInfoImages();
-                    userOutletInfoImage.setFileName(image4.getOriginalFilename().replace("." + FilenameUtils.getExtension(image4.getOriginalFilename()), ""));
-                    userOutletInfoImage.setImageIndex(4);
-                    userOutletInfoImage.setPath("/profile_photos/" + fileName);
-                    userOutletInfoImage.setUserOutletInfo(user.getUserOutletInfo());
-                    userOutletInfoImages.add(userOutletInfoImage);
+                    try {
+                        String fileName = user.getId() + "-" + System.currentTimeMillis() + "-4." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image4.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserOutletInfoImages userOutletInfoImage = new UserOutletInfoImages();
+                        userOutletInfoImage.setFileName(image4.getOriginalFilename().replace("." + FilenameUtils.getExtension(image4.getOriginalFilename()), ""));
+                        userOutletInfoImage.setImageIndex(4);
+                        userOutletInfoImage.setPath("/profile_photos/" + fileName);
+                        userOutletInfoImage.setUserOutletInfo(user.getUserOutletInfo());
+                        userOutletInfoImages.add(userOutletInfoImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editImages 4 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -181,8 +198,12 @@ public class UserOutletInfoImagesServiceImpl extends AbstractService implements 
             for (UserOutletInfoImages image : persistantUserOutletInfoImages) {
                 if (!toKeepImages.contains(image)) {
                     Path originalFile = dir.resolve(image.getPath().replace("/profile_photos/", ""));
-                    Files.delete(originalFile);
-                    userOutletInfoImagesDao.deleteImage(image);
+                    try {
+                        Files.delete(originalFile);
+                        userOutletInfoImagesDao.deleteImage(image);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editImages 1 on API [" + ex.getMessage() + "]", image, "");
+                    }
                 }
             }
 

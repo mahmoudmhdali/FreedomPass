@@ -1,5 +1,6 @@
 package com.freedomPass.project.service;
 
+import com.freedomPass.api.commons.Logger;
 import com.freedomPass.api.commons.utils.QRCodeGenerator;
 import com.freedomPass.api.commons.utils.SessionUtils;
 import com.freedomPass.api.commons.utils.Utils;
@@ -30,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.internet.AddressException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -290,16 +290,22 @@ public class UserServiceImpl extends AbstractService implements UserService {
         c.setTime(new Date());
         c.add(Calendar.DATE, 3);
         user.setResetPasswordTokenValidity(c.getTime());
-        userDao.addUser(user);
-        String[] email = {user.getEmail()};
-        sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\nhttp://localhost:4200/#/sessions/changePassword?token=" + token, email, "Account Created");
+        try {
+            userDao.addUser(user);
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error addUser 1 on API [" + ex.getMessage() + "]", user, "");
+        }
+        try {
+            String[] email = {user.getEmail()};
+            sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\nhttp://localhost:4200/#/sessions/changePassword?token=" + token, email, "Account Created");
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error addUser 2 on API [" + ex.getMessage() + "]", user.getEmail(), "");
+        }
         try {
             qRCodeGenerator.generateQRCodeImage(user.getId().toString(), 350, 350);
             user.setQrCodePath("/QRCodes/" + user.getId().toString() + ".png");
-        } catch (WriterException ex) {
-            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error addUser 3 on API [" + ex.getMessage() + "]", user.getId(), "");
         }
         return ResponseBuilder.getInstance().
                 setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
@@ -309,16 +315,20 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     @Override
     public void sendEmailAndUpdateToken(String email) throws AddressException {
-        UserProfile user = userDao.getUser(email);
-        if (user != null) {
-            String token = Utils.generateToken();
-            user.setResetPasswordToken(token);
-            Calendar c = Calendar.getInstance();
-            c.setTime(new Date());
-            c.add(Calendar.DATE, 3);
-            user.setResetPasswordTokenValidity(c.getTime());
-            String[] emails = {user.getEmail()};
-            sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\nhttp://localhost:4200/#/sessions/changePassword?token=" + token, emails, "Account Created");
+        try {
+            UserProfile user = userDao.getUser(email);
+            if (user != null) {
+                String token = Utils.generateToken();
+                user.setResetPasswordToken(token);
+                Calendar c = Calendar.getInstance();
+                c.setTime(new Date());
+                c.add(Calendar.DATE, 3);
+                user.setResetPasswordTokenValidity(c.getTime());
+                String[] emails = {user.getEmail()};
+                sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\nhttp://localhost:4200/#/sessions/changePassword?token=" + token, emails, "Account Created");
+            }
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error sendEmailAndUpdateToken 1 on API [" + ex.getMessage() + "]", email, "");
         }
     }
 
@@ -447,11 +457,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
                     .getResponse();
         }
         persistantUser.setDeletedDate(new Date());
-        notificationEngine.deleteUser(persistantUser.getId());
-
-        HashMap<String, String> userLanguageMap = new HashMap<>();
-        userLanguageMap.put("$USER_NAME$", persistantUser.getName());
-        this.addNotification("DELETE_USER", userLanguageMap, null);
 
         return ResponseBuilder.getInstance()
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)

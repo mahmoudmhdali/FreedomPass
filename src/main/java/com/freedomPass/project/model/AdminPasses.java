@@ -245,6 +245,8 @@ public class AdminPasses implements Serializable {
     public String toString() {
         return "\"com.freedomPass.project.model.UserProfile\" : {\"id\" : \"" + id + "\","
                 + "\"name\" : \"" + name + "\","
+                + "\"fileName\" : \"" + fileName + "\","
+                + "\"imagePath\" : \"" + imagePath + "\","
                 + "\"description\" : \"" + description + "\","
                 + "\"validity\" : " + validity + "}";
     }

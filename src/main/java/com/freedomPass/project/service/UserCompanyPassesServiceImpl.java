@@ -41,7 +41,6 @@ public class UserCompanyPassesServiceImpl extends AbstractService implements Use
 
     @Override
     public ResponseBodyEntity addUserCompanyPasses(UserCompanyPasses userCompanyPasses) {
-        UserProfile loggedInUser = getAuthenticatedUser();
         userCompanyPasses.setRemainingUsers(userCompanyPasses.getNumberOfUsers());
         userCompanyPassesDao.addUserCompanyPasses(userCompanyPasses);
         return ResponseBuilder.getInstance().

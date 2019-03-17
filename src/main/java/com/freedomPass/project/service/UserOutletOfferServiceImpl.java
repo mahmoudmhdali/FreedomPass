@@ -1,6 +1,7 @@
 package com.freedomPass.project.service;
 
 import com.freedomPass.api.commons.ContextHolder;
+import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.dao.OutletOfferTypeDao;
 import com.freedomPass.project.dao.UserOutletInfoDao;
 import com.freedomPass.project.dao.UserOutletOfferDao;
@@ -151,15 +152,19 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
         if (image1 != null) {
             String imageExtension = FilenameUtils.getExtension(image1.getOriginalFilename());
             if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
-                Path originalFile = dir.resolve(fileName);
-                Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
-                userOutletOfferImage.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
-                userOutletOfferImage.setImageIndex(1);
-                userOutletOfferImage.setPath("/OffersImages/" + fileName);
-                userOutletOfferImage.setUserOutletOffer(userOutletOffer);
-                userOutletOfferImages.add(userOutletOfferImage);
+                try {
+                    String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
+                    Path originalFile = dir.resolve(fileName);
+                    Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                    UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
+                    userOutletOfferImage.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
+                    userOutletOfferImage.setImageIndex(1);
+                    userOutletOfferImage.setPath("/OffersImages/" + fileName);
+                    userOutletOfferImage.setUserOutletOffer(userOutletOffer);
+                    userOutletOfferImages.add(userOutletOfferImage);
+                } catch (Exception ex) {
+                    Logger.ERROR("1- Error addOffer 1 on API [" + ex.getMessage() + "]", "", "");
+                }
             } else {
                 numberOfNotAlLowed++;
             }
@@ -167,15 +172,19 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
         if (image2 != null) {
             String imageExtension = FilenameUtils.getExtension(image2.getOriginalFilename());
             if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-2." + imageExtension;
-                Path originalFile = dir.resolve(fileName);
-                Files.copy(image2.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
-                userOutletOfferImage.setFileName(image2.getOriginalFilename().replace("." + FilenameUtils.getExtension(image2.getOriginalFilename()), ""));
-                userOutletOfferImage.setImageIndex(2);
-                userOutletOfferImage.setPath("/OffersImages/" + fileName);
-                userOutletOfferImage.setUserOutletOffer(userOutletOffer);
-                userOutletOfferImages.add(userOutletOfferImage);
+                try {
+                    String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-2." + imageExtension;
+                    Path originalFile = dir.resolve(fileName);
+                    Files.copy(image2.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                    UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
+                    userOutletOfferImage.setFileName(image2.getOriginalFilename().replace("." + FilenameUtils.getExtension(image2.getOriginalFilename()), ""));
+                    userOutletOfferImage.setImageIndex(2);
+                    userOutletOfferImage.setPath("/OffersImages/" + fileName);
+                    userOutletOfferImage.setUserOutletOffer(userOutletOffer);
+                    userOutletOfferImages.add(userOutletOfferImage);
+                } catch (Exception ex) {
+                    Logger.ERROR("1- Error addOffer 2 on API [" + ex.getMessage() + "]", "", "");
+                }
             } else {
                 numberOfNotAlLowed++;
             }
@@ -183,15 +192,19 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
         if (image3 != null) {
             String imageExtension = FilenameUtils.getExtension(image3.getOriginalFilename());
             if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-3." + imageExtension;
-                Path originalFile = dir.resolve(fileName);
-                Files.copy(image3.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
-                userOutletOfferImage.setFileName(image3.getOriginalFilename().replace("." + FilenameUtils.getExtension(image3.getOriginalFilename()), ""));
-                userOutletOfferImage.setImageIndex(3);
-                userOutletOfferImage.setPath("/OffersImages/" + fileName);
-                userOutletOfferImage.setUserOutletOffer(userOutletOffer);
-                userOutletOfferImages.add(userOutletOfferImage);
+                try {
+                    String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-3." + imageExtension;
+                    Path originalFile = dir.resolve(fileName);
+                    Files.copy(image3.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                    UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
+                    userOutletOfferImage.setFileName(image3.getOriginalFilename().replace("." + FilenameUtils.getExtension(image3.getOriginalFilename()), ""));
+                    userOutletOfferImage.setImageIndex(3);
+                    userOutletOfferImage.setPath("/OffersImages/" + fileName);
+                    userOutletOfferImage.setUserOutletOffer(userOutletOffer);
+                    userOutletOfferImages.add(userOutletOfferImage);
+                } catch (Exception ex) {
+                    Logger.ERROR("1- Error addOffer 3 on API [" + ex.getMessage() + "]", "", "");
+                }
             } else {
                 numberOfNotAlLowed++;
             }
@@ -199,15 +212,19 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
         if (image4 != null) {
             String imageExtension = FilenameUtils.getExtension(image4.getOriginalFilename());
             if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-4." + imageExtension;
-                Path originalFile = dir.resolve(fileName);
-                Files.copy(image4.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
-                userOutletOfferImage.setFileName(image4.getOriginalFilename().replace("." + FilenameUtils.getExtension(image4.getOriginalFilename()), ""));
-                userOutletOfferImage.setImageIndex(4);
-                userOutletOfferImage.setPath("/OffersImages/" + fileName);
-                userOutletOfferImage.setUserOutletOffer(userOutletOffer);
-                userOutletOfferImages.add(userOutletOfferImage);
+                try {
+                    String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-4." + imageExtension;
+                    Path originalFile = dir.resolve(fileName);
+                    Files.copy(image4.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                    UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
+                    userOutletOfferImage.setFileName(image4.getOriginalFilename().replace("." + FilenameUtils.getExtension(image4.getOriginalFilename()), ""));
+                    userOutletOfferImage.setImageIndex(4);
+                    userOutletOfferImage.setPath("/OffersImages/" + fileName);
+                    userOutletOfferImage.setUserOutletOffer(userOutletOffer);
+                    userOutletOfferImages.add(userOutletOfferImage);
+                } catch (Exception ex) {
+                    Logger.ERROR("1- Error addOffer 4 on API [" + ex.getMessage() + "]", "", "");
+                }
             } else {
                 numberOfNotAlLowed++;
             }
@@ -310,15 +327,19 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
             if (image1 != null) {
                 String imageExtension = FilenameUtils.getExtension(image1.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
-                    userOutletOfferImage.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
-                    userOutletOfferImage.setImageIndex(1);
-                    userOutletOfferImage.setPath("/OffersImages/" + fileName);
-                    userOutletOfferImage.setUserOutletOffer(userOutletOffer);
-                    userOutletOfferImages.add(userOutletOfferImage);
+                    try {
+                        String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
+                        userOutletOfferImage.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
+                        userOutletOfferImage.setImageIndex(1);
+                        userOutletOfferImage.setPath("/OffersImages/" + fileName);
+                        userOutletOfferImage.setUserOutletOffer(userOutletOffer);
+                        userOutletOfferImages.add(userOutletOfferImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editOffer 1 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -334,15 +355,19 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
             if (image2 != null) {
                 String imageExtension = FilenameUtils.getExtension(image2.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-2." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image2.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
-                    userOutletOfferImage.setFileName(image2.getOriginalFilename().replace("." + FilenameUtils.getExtension(image2.getOriginalFilename()), ""));
-                    userOutletOfferImage.setImageIndex(2);
-                    userOutletOfferImage.setPath("/OffersImages/" + fileName);
-                    userOutletOfferImage.setUserOutletOffer(userOutletOffer);
-                    userOutletOfferImages.add(userOutletOfferImage);
+                    try {
+                        String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-2." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image2.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
+                        userOutletOfferImage.setFileName(image2.getOriginalFilename().replace("." + FilenameUtils.getExtension(image2.getOriginalFilename()), ""));
+                        userOutletOfferImage.setImageIndex(2);
+                        userOutletOfferImage.setPath("/OffersImages/" + fileName);
+                        userOutletOfferImage.setUserOutletOffer(userOutletOffer);
+                        userOutletOfferImages.add(userOutletOfferImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editOffer 2 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -358,15 +383,19 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
             if (image3 != null) {
                 String imageExtension = FilenameUtils.getExtension(image3.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-3." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image3.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
-                    userOutletOfferImage.setFileName(image3.getOriginalFilename().replace("." + FilenameUtils.getExtension(image3.getOriginalFilename()), ""));
-                    userOutletOfferImage.setImageIndex(3);
-                    userOutletOfferImage.setPath("/OffersImages/" + fileName);
-                    userOutletOfferImage.setUserOutletOffer(userOutletOffer);
-                    userOutletOfferImages.add(userOutletOfferImage);
+                    try {
+                        String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-3." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image3.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
+                        userOutletOfferImage.setFileName(image3.getOriginalFilename().replace("." + FilenameUtils.getExtension(image3.getOriginalFilename()), ""));
+                        userOutletOfferImage.setImageIndex(3);
+                        userOutletOfferImage.setPath("/OffersImages/" + fileName);
+                        userOutletOfferImage.setUserOutletOffer(userOutletOffer);
+                        userOutletOfferImages.add(userOutletOfferImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editOffer 3 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -381,15 +410,19 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
             if (image4 != null) {
                 String imageExtension = FilenameUtils.getExtension(image4.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-4." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image4.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
-                    userOutletOfferImage.setFileName(image4.getOriginalFilename().replace("." + FilenameUtils.getExtension(image4.getOriginalFilename()), ""));
-                    userOutletOfferImage.setImageIndex(4);
-                    userOutletOfferImage.setPath("/OffersImages/" + fileName);
-                    userOutletOfferImage.setUserOutletOffer(userOutletOffer);
-                    userOutletOfferImages.add(userOutletOfferImage);
+                    try {
+                        String fileName = loggedInUser.getId() + "-" + System.currentTimeMillis() + "-4." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image4.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserOutletOfferImages userOutletOfferImage = new UserOutletOfferImages();
+                        userOutletOfferImage.setFileName(image4.getOriginalFilename().replace("." + FilenameUtils.getExtension(image4.getOriginalFilename()), ""));
+                        userOutletOfferImage.setImageIndex(4);
+                        userOutletOfferImage.setPath("/OffersImages/" + fileName);
+                        userOutletOfferImage.setUserOutletOffer(userOutletOffer);
+                        userOutletOfferImages.add(userOutletOfferImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editOffer 4 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -405,8 +438,12 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
             for (UserOutletOfferImages image : persistantUserOutletOfferImages) {
                 if (!toKeepImages.contains(image)) {
                     Path originalFile = dir.resolve(image.getPath().replace("/OffersImages/", ""));
-                    Files.delete(originalFile);
-                    userOutletOfferImagesDao.deleteImage(image);
+                    try {
+                        Files.delete(originalFile);
+                        userOutletOfferImagesDao.deleteImage(image);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editOffer 5 on API [" + ex.getMessage() + "]", image, "");
+                    }
                 }
             }
 

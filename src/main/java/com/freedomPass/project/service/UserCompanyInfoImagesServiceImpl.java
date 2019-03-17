@@ -1,6 +1,7 @@
 package com.freedomPass.project.service;
 
 import com.freedomPass.api.commons.ContextHolder;
+import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.dao.OutletOfferTypeDao;
 import com.freedomPass.project.dao.UserCompanyInfoImagesDao;
 import com.freedomPass.project.dao.UserOutletInfoDao;
@@ -88,15 +89,19 @@ public class UserCompanyInfoImagesServiceImpl extends AbstractService implements
             if (image1 != null) {
                 String imageExtension = FilenameUtils.getExtension(image1.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = user.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserCompanyInfoImages userCompanyInfoImage = new UserCompanyInfoImages();
-                    userCompanyInfoImage.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
-                    userCompanyInfoImage.setImageIndex(1);
-                    userCompanyInfoImage.setPath("/profile_photos/" + fileName);
-                    userCompanyInfoImage.setUserCompanyInfo(user.getUserCompanyInfo());
-                    userCompanyInfoImages.add(userCompanyInfoImage);
+                    try {
+                        String fileName = user.getId() + "-" + System.currentTimeMillis() + "-1." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image1.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserCompanyInfoImages userCompanyInfoImage = new UserCompanyInfoImages();
+                        userCompanyInfoImage.setFileName(image1.getOriginalFilename().replace("." + FilenameUtils.getExtension(image1.getOriginalFilename()), ""));
+                        userCompanyInfoImage.setImageIndex(1);
+                        userCompanyInfoImage.setPath("/profile_photos/" + fileName);
+                        userCompanyInfoImage.setUserCompanyInfo(user.getUserCompanyInfo());
+                        userCompanyInfoImages.add(userCompanyInfoImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editImages 1 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -111,15 +116,19 @@ public class UserCompanyInfoImagesServiceImpl extends AbstractService implements
             if (image2 != null) {
                 String imageExtension = FilenameUtils.getExtension(image2.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = user.getId() + "-" + System.currentTimeMillis() + "-2." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image2.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserCompanyInfoImages userCompanyInfoImage = new UserCompanyInfoImages();
-                    userCompanyInfoImage.setFileName(image2.getOriginalFilename().replace("." + FilenameUtils.getExtension(image2.getOriginalFilename()), ""));
-                    userCompanyInfoImage.setImageIndex(2);
-                    userCompanyInfoImage.setPath("/profile_photos/" + fileName);
-                    userCompanyInfoImage.setUserCompanyInfo(user.getUserCompanyInfo());
-                    userCompanyInfoImages.add(userCompanyInfoImage);
+                    try {
+                        String fileName = user.getId() + "-" + System.currentTimeMillis() + "-2." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image2.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserCompanyInfoImages userCompanyInfoImage = new UserCompanyInfoImages();
+                        userCompanyInfoImage.setFileName(image2.getOriginalFilename().replace("." + FilenameUtils.getExtension(image2.getOriginalFilename()), ""));
+                        userCompanyInfoImage.setImageIndex(2);
+                        userCompanyInfoImage.setPath("/profile_photos/" + fileName);
+                        userCompanyInfoImage.setUserCompanyInfo(user.getUserCompanyInfo());
+                        userCompanyInfoImages.add(userCompanyInfoImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editPass 2 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -134,15 +143,19 @@ public class UserCompanyInfoImagesServiceImpl extends AbstractService implements
             if (image3 != null) {
                 String imageExtension = FilenameUtils.getExtension(image3.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = user.getId() + "-" + System.currentTimeMillis() + "-3." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image3.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserCompanyInfoImages userCompanyInfoImage = new UserCompanyInfoImages();
-                    userCompanyInfoImage.setFileName(image3.getOriginalFilename().replace("." + FilenameUtils.getExtension(image3.getOriginalFilename()), ""));
-                    userCompanyInfoImage.setImageIndex(3);
-                    userCompanyInfoImage.setPath("/profile_photos/" + fileName);
-                    userCompanyInfoImage.setUserCompanyInfo(user.getUserCompanyInfo());
-                    userCompanyInfoImages.add(userCompanyInfoImage);
+                    try {
+                        String fileName = user.getId() + "-" + System.currentTimeMillis() + "-3." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image3.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserCompanyInfoImages userCompanyInfoImage = new UserCompanyInfoImages();
+                        userCompanyInfoImage.setFileName(image3.getOriginalFilename().replace("." + FilenameUtils.getExtension(image3.getOriginalFilename()), ""));
+                        userCompanyInfoImage.setImageIndex(3);
+                        userCompanyInfoImage.setPath("/profile_photos/" + fileName);
+                        userCompanyInfoImage.setUserCompanyInfo(user.getUserCompanyInfo());
+                        userCompanyInfoImages.add(userCompanyInfoImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editPass 3 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -157,15 +170,19 @@ public class UserCompanyInfoImagesServiceImpl extends AbstractService implements
             if (image4 != null) {
                 String imageExtension = FilenameUtils.getExtension(image4.getOriginalFilename());
                 if (imageExtension.toLowerCase().equals("jpg") || imageExtension.toLowerCase().equals("jpeg") || imageExtension.toLowerCase().equals("png")) {
-                    String fileName = user.getId() + "-" + System.currentTimeMillis() + "-4." + imageExtension;
-                    Path originalFile = dir.resolve(fileName);
-                    Files.copy(image4.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
-                    UserCompanyInfoImages userCompanyInfoImage = new UserCompanyInfoImages();
-                    userCompanyInfoImage.setFileName(image4.getOriginalFilename().replace("." + FilenameUtils.getExtension(image4.getOriginalFilename()), ""));
-                    userCompanyInfoImage.setImageIndex(4);
-                    userCompanyInfoImage.setPath("/profile_photos/" + fileName);
-                    userCompanyInfoImage.setUserCompanyInfo(user.getUserCompanyInfo());
-                    userCompanyInfoImages.add(userCompanyInfoImage);
+                    try {
+                        String fileName = user.getId() + "-" + System.currentTimeMillis() + "-4." + imageExtension;
+                        Path originalFile = dir.resolve(fileName);
+                        Files.copy(image4.getInputStream(), originalFile, StandardCopyOption.REPLACE_EXISTING);
+                        UserCompanyInfoImages userCompanyInfoImage = new UserCompanyInfoImages();
+                        userCompanyInfoImage.setFileName(image4.getOriginalFilename().replace("." + FilenameUtils.getExtension(image4.getOriginalFilename()), ""));
+                        userCompanyInfoImage.setImageIndex(4);
+                        userCompanyInfoImage.setPath("/profile_photos/" + fileName);
+                        userCompanyInfoImage.setUserCompanyInfo(user.getUserCompanyInfo());
+                        userCompanyInfoImages.add(userCompanyInfoImage);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editPass 4 on API [" + ex.getMessage() + "]", "", "");
+                    }
                 } else {
                     numberOfNotAlLowed++;
                 }
@@ -181,8 +198,12 @@ public class UserCompanyInfoImagesServiceImpl extends AbstractService implements
             for (UserCompanyInfoImages image : persistantUserCompanyInfoImages) {
                 if (!toKeepImages.contains(image)) {
                     Path originalFile = dir.resolve(image.getPath().replace("/profile_photos/", ""));
-                    Files.delete(originalFile);
-                    userCompanyInfoImagesDao.deleteImage(image);
+                    try {
+                        Files.delete(originalFile);
+                        userCompanyInfoImagesDao.deleteImage(image);
+                    } catch (Exception ex) {
+                        Logger.ERROR("1- Error editPass 5 on API [" + ex.getMessage() + "]", image, "");
+                    }
                 }
             }
 

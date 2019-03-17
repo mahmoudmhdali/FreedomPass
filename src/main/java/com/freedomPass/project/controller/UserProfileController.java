@@ -1,5 +1,6 @@
 package com.freedomPass.project.controller;
 
+import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
@@ -365,17 +366,22 @@ public class UserProfileController extends AbstractController {
     }
 
     private synchronized ResponseBodyEntity manageAddUserUnderCompany(UserProfile userProfile, AdminPasses adminPass, Long packageId) {
-        UserProfile persistantUser = userService.toUser(userProfile.getEmail());
-        UserPassPurchased userPassPurchased = new UserPassPurchased();
-        userPassPurchased.setAdminPasses(adminPass);
-        userPassPurchased.setIsPaid(false);
-        userPassPurchased.setStatus(0);
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        c.add(Calendar.YEAR, 1);
-        userPassPurchased.setValidTill(c.getTime());
-        userPassPurchased.setUserProfileId(persistantUser);
-        return userPassPurchasedService.addUserPassPurchased(userPassPurchased, packageId);
+        try {
+            UserProfile persistantUser = userService.toUser(userProfile.getEmail());
+            UserPassPurchased userPassPurchased = new UserPassPurchased();
+            userPassPurchased.setAdminPasses(adminPass);
+            userPassPurchased.setIsPaid(false);
+            userPassPurchased.setStatus(0);
+            Calendar c = Calendar.getInstance();
+            c.setTime(new Date());
+            c.add(Calendar.YEAR, 1);
+            userPassPurchased.setValidTill(c.getTime());
+            userPassPurchased.setUserProfileId(persistantUser);
+            return userPassPurchasedService.addUserPassPurchased(userPassPurchased, packageId);
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error manageAddUserUnderCompany 1 on API [" + ex.getMessage() + "]", "", "");
+        }
+        return null;
     }
 
     @PostMapping("/update")

@@ -165,4 +165,11 @@ public class UserCompanyPasses implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "\"com.freedomPass.project.model.UserProfile\" : {\"id\" : \"" + id + "\","
+                + "\"remainingUsers\" : \"" + remainingUsers + "\","
+                + "\"numberOfUsers\" : " + numberOfUsers + "}";
+    }
 }
