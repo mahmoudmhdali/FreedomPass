@@ -23,6 +23,7 @@ import java.util.Scanner;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 import oracle.jdbc.OracleTypes;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
 import org.json.JSONArray;
@@ -52,8 +53,12 @@ public class Utils {
         return diffsec;
     }
 
-    public static String generateToken() {
+    public static String generateUUIDToken() {
         return UUID.randomUUID().toString();
+    }
+
+    public static String generateToken() {
+        return RandomStringUtils.randomAlphanumeric(7);
     }
 
     public static Long generateUniqueInteger() {

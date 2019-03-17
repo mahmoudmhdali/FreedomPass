@@ -25,6 +25,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -61,13 +62,9 @@ public class UserProfile implements Serializable, UserDetails {
     @ValidName
     private String name;
 
-    @Basic(optional = false)
-    @Column(name = "LAST_NAME")
-    @Size(min = 5, max = 20, message = "validation.userProfile.nameRange")
-    @NotBlank(message = "validation.userProfile.nameRequired")
-    @ValidName
-    private String lastName;
-
+    @Transient
+    private Long packageId;
+    
     @Basic(optional = false)
     @Column(name = "QR_CODE_PATH")
     private String qrCodePath;
@@ -216,14 +213,6 @@ public class UserProfile implements Serializable, UserDetails {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public Integer getType() {

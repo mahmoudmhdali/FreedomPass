@@ -52,8 +52,8 @@ public class UserPassPurchasedController extends AbstractController {
                 .returnClientResponse();
     }
 
-    @PostMapping("/add")
-    public ResponseEntity addUserPassPurchased(@ModelAttribute @Valid UserPassPurchased userPassPurchased, BindingResult userPassPurchasedBindingResults) throws AddressException {
+    @PostMapping("/add/{packageId}")
+    public ResponseEntity addUserPassPurchased(@PathVariable Long packageId, @ModelAttribute @Valid UserPassPurchased userPassPurchased, BindingResult userPassPurchasedBindingResults) throws AddressException {
         // Validate User Inputs
         ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userPassPurchasedBindingResults, null);
         if (responseBodyEntity != null) {
@@ -64,7 +64,7 @@ public class UserPassPurchasedController extends AbstractController {
         }
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
-                .setHttpResponseEntity(userPassPurchasedService.addUserPassPurchased(userPassPurchased))
+                .setHttpResponseEntity(userPassPurchasedService.addUserPassPurchased(userPassPurchased, packageId))
                 .returnClientResponse();
     }
 

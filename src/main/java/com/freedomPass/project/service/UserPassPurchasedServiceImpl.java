@@ -5,6 +5,7 @@ import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserPassPurchasedPagination;
+import com.freedomPass.project.model.UserCompanyPasses;
 import com.freedomPass.project.model.UserPassPurchased;
 import com.freedomPass.project.model.UserProfile;
 import java.util.List;
@@ -18,6 +19,9 @@ public class UserPassPurchasedServiceImpl extends AbstractService implements Use
 
     @Autowired
     UserPassPurchasedDao userPassPurchasedDao;
+
+    @Autowired
+    UserCompanyPassesService userCompanyPassesService;
 
     @Override
     public List<UserPassPurchased> getUserPassPurchaseds() {
@@ -35,12 +39,14 @@ public class UserPassPurchasedServiceImpl extends AbstractService implements Use
     }
 
     @Override
-    public ResponseBodyEntity addUserPassPurchased(UserPassPurchased userPassPurchased) {
-        UserProfile loggedInUser = getAuthenticatedUser();
+    public ResponseBodyEntity addUserPassPurchased(UserPassPurchased userPassPurchased, Long packageId) {
+        UserCompanyPasses userCompanyPass = userCompanyPassesService.getUserCompanyPasse(packageId);
         userPassPurchasedDao.addUserPassPurchased(userPassPurchased);
+        int currentUsers = userCompanyPass.getRemainingUsers();
+        userCompanyPass.setRemainingUsers(currentUsers - 1);
         return ResponseBuilder.getInstance().
                 setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("userPassPurchased", userPassPurchased)
+                .addHttpResponseEntityData("remainingUsers", currentUsers - 1)
                 .getResponse();
     }
 

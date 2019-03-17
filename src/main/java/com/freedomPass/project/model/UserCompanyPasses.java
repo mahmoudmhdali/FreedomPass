@@ -1,5 +1,6 @@
 package com.freedomPass.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.CreationTimestamp;
@@ -43,9 +45,13 @@ public class UserCompanyPasses implements Serializable {
     @Column(name = "REMAINING_USERS")
     private Integer remainingUsers;
 
+    @JsonIgnore
     @JoinColumn(name = "USER_COMPANY_INFO_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private UserCompanyInfo userCompanyInfo;
+
+    @Transient
+    private String userCompanyName;
 
     @JoinColumn(name = "PASS_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -64,6 +70,17 @@ public class UserCompanyPasses implements Serializable {
     @Column(name = "DELETED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
+
+    public String getUserCompanyName() {
+        if (userCompanyInfo != null) {
+            userCompanyName = userCompanyInfo.getUserCompanyName();
+        }
+        return userCompanyName;
+    }
+
+    public void setUserCompanyName(String userCompanyName) {
+        this.userCompanyName = userCompanyName;
+    }
 
     public Date getCreatedDate() {
         return createdDate;

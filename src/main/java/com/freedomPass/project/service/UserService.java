@@ -3,6 +3,7 @@ package com.freedomPass.project.service;
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
 import com.freedomPass.project.helpermodel.UsersPagination;
+import com.freedomPass.project.model.AdminPasses;
 import com.freedomPass.project.model.UserAttempt;
 import com.freedomPass.project.model.UserCompanyInfo;
 import com.freedomPass.project.model.UserOutletInfo;

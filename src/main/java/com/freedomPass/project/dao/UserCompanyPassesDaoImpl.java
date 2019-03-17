@@ -27,7 +27,22 @@ public class UserCompanyPassesDaoImpl extends AbstractDao<Long, UserCompanyPasse
         if (userCompanyPasse == null || userCompanyPasse.getDeletedDate() != null) {
             return null;
         }
+        Hibernate.initialize(userCompanyPasse.getUserCompanyInfo().getUserProfileId());
         return userCompanyPasse;
+    }
+
+    @Override
+    public List<UserCompanyPasses> getUserCompanyPassesByCompanyUserId(Long id) {
+        Criteria criteria = createEntityCriteria()
+                .createAlias("userCompanyInfo", "userCompanyInfoAlias")
+                .add(Restrictions.eq("userCompanyInfoAlias.id", id))
+                .add(Restrictions.isNull("deletedDate"));
+        List<UserCompanyPasses> userCompanyPasses = (List<UserCompanyPasses>) criteria.list();
+        for (UserCompanyPasses userCompanyPass : userCompanyPasses) {
+            Hibernate.initialize(userCompanyPass.getAdminPasses());
+            Hibernate.initialize(userCompanyPass.getUserCompanyInfo().getUserProfileId());
+        }
+        return userCompanyPasses;
     }
 
     @Override

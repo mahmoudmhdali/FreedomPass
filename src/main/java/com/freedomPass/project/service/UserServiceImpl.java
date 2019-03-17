@@ -11,11 +11,13 @@ import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserProfilePasswordValidator;
 import com.freedomPass.project.helpermodel.UsersPagination;
+import com.freedomPass.project.model.AdminPasses;
 import com.freedomPass.project.model.Group;
 import com.freedomPass.project.model.Language;
 import com.freedomPass.project.model.UserAttempt;
 import com.freedomPass.project.model.UserCompanyInfo;
 import com.freedomPass.project.model.UserOutletInfo;
+import com.freedomPass.project.model.UserPassPurchased;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.model.WebNotifications;
 import com.google.zxing.WriterException;
@@ -72,6 +74,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
     @Autowired
     QRCodeGenerator qRCodeGenerator;
 
+    @Autowired
+    UserPassPurchasedService userPassPurchasedService;
+
     @Override
     public List<UserProfile> getUsers(Long excludeLoggedInUserID, Integer type, Long headID) {
         return userDao.getUsers(excludeLoggedInUserID, type, headID);
@@ -98,7 +103,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (userProfle == null) {
             return ResponseBuilder.getInstance()
                     .setHttpResponseEntityResultCode(ResponseCode.ENTITY_NOT_FOUND)
-                    .setHttpResponseEntityResultDescription(this.getMessageBasedOnLanguage("user.notFound", null))
+                    .setHttpResponseEntityResultDescription("User Not Found")
                     .getResponse();
         }
         return ResponseBuilder.getInstance()
@@ -113,7 +118,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (userProfle == null) {
             return ResponseBuilder.getInstance()
                     .setHttpResponseEntityResultCode(ResponseCode.ENTITY_NOT_FOUND)
-                    .setHttpResponseEntityResultDescription(this.getMessageBasedOnLanguage("user.notFound", null))
+                    .setHttpResponseEntityResultDescription("User Not Found")
                     .getResponse();
         }
         return ResponseBuilder.getInstance()
@@ -128,7 +133,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (userProfle == null) {
             return ResponseBuilder.getInstance()
                     .setHttpResponseEntityResultCode(ResponseCode.ENTITY_NOT_FOUND)
-                    .setHttpResponseEntityResultDescription(this.getMessageBasedOnLanguage("user.notFound", null))
+                    .setHttpResponseEntityResultDescription("User Token Not Found")
                     .getResponse();
         }
         return ResponseBuilder.getInstance()
@@ -156,12 +161,22 @@ public class UserServiceImpl extends AbstractService implements UserService {
     public ResponseBodyEntity addUser(UserProfile user, UserCompanyInfo userCompanyInfo, UserOutletInfo userOutletInfo) throws AddressException {
         user.setCountry(1);
         user.setEnabled(true);
+        user.setCreatedDate(new Date());
 
-        if (userDao.getUser(user.getEmail()) != null) {
-            return ResponseBuilder.getInstance()
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("email", this.getMessageBasedOnLanguage("user.emailTaken", null))
-                    .getResponse();
+        UserProfile persistantUser = userDao.getUser(user.getEmail());
+
+        if (persistantUser != null) {
+            if (user.getType() == 3 && (persistantUser.getType() == 3 || persistantUser.getType() == 4)) {
+                return ResponseBuilder.getInstance().
+                        setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                        .addHttpResponseEntityData("user", persistantUser)
+                        .getResponse();
+            } else {
+                return ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                        .addHttpResponseEntityData("email", "Email already taken")
+                        .getResponse();
+            }
         }
 
         Long msisdnLength = (Long) settingsEngine.getFirstLevelSetting("MSISDN_LENGTH");
@@ -277,7 +292,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         user.setResetPasswordTokenValidity(c.getTime());
         userDao.addUser(user);
         String[] email = {user.getEmail()};
-        sendEmail("http://localhost:4200/#/sessions/changePassword?token=" + token, email, "Account Created");
+        sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\nhttp://localhost:4200/#/sessions/changePassword?token=" + token, email, "Account Created");
         try {
             qRCodeGenerator.generateQRCodeImage(user.getId().toString(), 350, 350);
             user.setQrCodePath("/QRCodes/" + user.getId().toString() + ".png");
@@ -303,7 +318,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             c.add(Calendar.DATE, 3);
             user.setResetPasswordTokenValidity(c.getTime());
             String[] emails = {user.getEmail()};
-            sendEmail("http://localhost:4200/#/sessions/changePassword?token=" + token, emails, "Account Created");
+            sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\nhttp://localhost:4200/#/sessions/changePassword?token=" + token, emails, "Account Created");
         }
     }
 
@@ -347,9 +362,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
 
         persistantUser.setName(user.getName());
-        persistantUser.setLastName(user.getLastName());
         persistantUser.setEmail(user.getEmail().toLowerCase());
         persistantUser.setMobileNumber(user.getMobileNumber());
+        persistantUser.setLanguage(languageService.getLanguage(Long.parseLong("1")));
 
         if (null != persistantUser.getType()) {
             switch (persistantUser.getType()) {
@@ -405,7 +420,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (persistantUser == null) {
             return ResponseBuilder.getInstance()
                     .setHttpResponseEntityResultCode(ResponseCode.ENTITY_NOT_FOUND)
-                    .setHttpResponseEntityResultDescription(this.getMessageBasedOnLanguage("user.notFound", null))
+                    .setHttpResponseEntityResultDescription("User Not Found")
                     .getResponse();
         }
 
@@ -514,9 +529,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
 
         persistantUser.setName(user.getName());
-        persistantUser.setLastName(user.getLastName());
         persistantUser.setMobileNumber(user.getMobileNumber());
-        persistantUser.setLanguage(user.getLanguage());
 
         return ResponseBuilder.getInstance()
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
@@ -532,7 +545,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (!passwordEncoder.matches(user.getPassword(), persisteUser.getPassword())) {
             return ResponseBuilder.getInstance()
                     .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("password", this.getMessageBasedOnLanguage("user.incorrectPassword", null))
+                    .addHttpResponseEntityData("password", "Incorret Password")
                     .getResponse();
         }
 

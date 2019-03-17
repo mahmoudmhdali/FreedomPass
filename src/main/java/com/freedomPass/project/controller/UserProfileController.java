@@ -3,18 +3,26 @@ package com.freedomPass.project.controller;
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
+import com.freedomPass.project.model.AdminPasses;
 import com.freedomPass.project.model.NotificationEvents;
 import com.freedomPass.project.model.UserCompanyInfo;
+import com.freedomPass.project.model.UserCompanyPasses;
 import com.freedomPass.project.model.UserOutletInfo;
+import com.freedomPass.project.model.UserPassPurchased;
 import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.model.UserProfileNotificationEvent;
 import com.freedomPass.project.service.NotificationEventsService;
+import com.freedomPass.project.service.UserCompanyPassesService;
+import com.freedomPass.project.service.UserPassPurchasedService;
 import com.freedomPass.project.service.UserProfileNotificationEventService;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.mail.internet.AddressException;
 import javax.validation.Valid;
+import oracle.net.aso.n;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +45,12 @@ public class UserProfileController extends AbstractController {
 
     @Autowired
     NotificationEventsService notificationEventsService;
+
+    @Autowired
+    UserCompanyPassesService userCompanyPassesService;
+
+    @Autowired
+    UserPassPurchasedService userPassPurchasedService;
 
     @GetMapping
     public ResponseEntity getUsers() {
@@ -130,7 +144,7 @@ public class UserProfileController extends AbstractController {
                         .getResponse();
                 return ResponseBuilder.getInstance()
                         .setHttpStatus(HttpStatus.OK)
-                        .setHttpResponseEntity(userService.addUser(userProfile, userCompanyInfo, userOutletInfo))
+                        .setHttpResponseEntity(responseBodyEntity)
                         .returnClientResponse();
             }
             if (loggedInUser.getType() == 1) {
@@ -144,7 +158,7 @@ public class UserProfileController extends AbstractController {
                         .getResponse();
                 return ResponseBuilder.getInstance()
                         .setHttpStatus(HttpStatus.OK)
-                        .setHttpResponseEntity(userService.addUser(userProfile, userCompanyInfo, userOutletInfo))
+                        .setHttpResponseEntity(responseBodyEntity)
                         .returnClientResponse();
             }
             if (loggedInUser.getType() == 0 && userProfile.getType() != 0 && userProfile.getType() != 1 && userProfile.getType() != 2 && userProfile.getType() != 3) {
@@ -154,7 +168,7 @@ public class UserProfileController extends AbstractController {
                         .getResponse();
                 return ResponseBuilder.getInstance()
                         .setHttpStatus(HttpStatus.OK)
-                        .setHttpResponseEntity(userService.addUser(userProfile, userCompanyInfo, userOutletInfo))
+                        .setHttpResponseEntity(responseBodyEntity)
                         .returnClientResponse();
             }
         } else {
@@ -204,6 +218,164 @@ public class UserProfileController extends AbstractController {
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntity(userService.addUser(userProfile, userCompanyInfo, userOutletInfo))
                 .returnClientResponse();
+    }
+
+    @PostMapping("/addCompanyUser/{packageId}")
+    public ResponseEntity addCompanyUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult userProfileBindingResults,
+            @ModelAttribute @Valid UserCompanyInfo userCompanyInfo, BindingResult userCompanyInfoBindingResults,
+            @ModelAttribute @Valid UserOutletInfo userOutletInfo, BindingResult userOutletInfoBindingResults,
+            @PathVariable Long packageId) throws AddressException {
+        // Validate User Inputs
+        ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userProfileBindingResults, null);
+        if (responseBodyEntity != null) {
+            return ResponseBuilder.getInstance()
+                    .setHttpStatus(HttpStatus.OK)
+                    .setHttpResponseEntity(responseBodyEntity)
+                    .returnClientResponse();
+        }
+
+        UserProfile loggedInUser = this.getAuthenticatedUser();
+        if (loggedInUser != null) {
+            if (loggedInUser.getType() != 0 && loggedInUser.getType() != 1 && loggedInUser.getType() != 99) {
+                responseBodyEntity = ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.UNAUTHORIZED_USER_ACTION)
+                        .setHttpResponseEntityResultDescription("Access denied for this resource. Contact your service provider for more help")
+                        .getResponse();
+                return ResponseBuilder.getInstance()
+                        .setHttpStatus(HttpStatus.OK)
+                        .setHttpResponseEntity(responseBodyEntity)
+                        .returnClientResponse();
+            }
+            if (loggedInUser.getType() == 1) {
+                userProfile.setType(3);
+                userProfile.setParentId(loggedInUser.getId());
+            }
+            if ((loggedInUser.getType() == 0 || loggedInUser.getType() == 99) && userProfile.getType() == null) {
+                responseBodyEntity = ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                        .addHttpResponseEntityData("type", "Type is required")
+                        .getResponse();
+                return ResponseBuilder.getInstance()
+                        .setHttpStatus(HttpStatus.OK)
+                        .setHttpResponseEntity(responseBodyEntity)
+                        .returnClientResponse();
+            }
+            if (loggedInUser.getType() == 0 && userProfile.getType() != 0 && userProfile.getType() != 1 && userProfile.getType() != 2 && userProfile.getType() != 3) {
+                responseBodyEntity = ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                        .addHttpResponseEntityData("type", "Type not exist")
+                        .getResponse();
+                return ResponseBuilder.getInstance()
+                        .setHttpStatus(HttpStatus.OK)
+                        .setHttpResponseEntity(responseBodyEntity)
+                        .returnClientResponse();
+            }
+        } else {
+            userProfile.setType(4);
+        }
+
+        AdminPasses adminPass = null;
+        UserCompanyPasses userCompanyPass = null;
+        if (null != userProfile.getType()) {
+            switch (userProfile.getType()) {
+                case 0: {
+                    break;
+                }
+                case 1: {
+                    responseBodyEntity = super.checkValidationResults(userCompanyInfoBindingResults, new String[]{"id"});
+                    if (responseBodyEntity != null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpStatus(HttpStatus.OK)
+                                .setHttpResponseEntity(responseBodyEntity)
+                                .returnClientResponse();
+                    }
+                    break;
+                }
+                case 2: {
+                    responseBodyEntity = super.checkValidationResults(userOutletInfoBindingResults, new String[]{"id"});
+                    if (responseBodyEntity != null) {
+                        return ResponseBuilder.getInstance()
+                                .setHttpStatus(HttpStatus.OK)
+                                .setHttpResponseEntity(responseBodyEntity)
+                                .returnClientResponse();
+                    }
+                    break;
+                }
+                case 3: {
+                    userCompanyPass = userCompanyPassesService.getUserCompanyPasse(packageId);
+                    adminPass = userCompanyPass.getAdminPasses();
+                    if (userCompanyPass != null) {
+                        if (userCompanyPass.getRemainingUsers() > 0) {
+                            if (userCompanyPass.getUserCompanyInfo().getId().longValue() != loggedInUser.getUserCompanyInfo().getId().longValue()) {
+                                responseBodyEntity = ResponseBuilder.getInstance()
+                                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                                        .addHttpResponseEntityData("packageId", "Package not found")
+                                        .getResponse();
+                                return ResponseBuilder.getInstance()
+                                        .setHttpStatus(HttpStatus.OK)
+                                        .setHttpResponseEntity(responseBodyEntity)
+                                        .returnClientResponse();
+                            }
+                        } else {
+                            responseBodyEntity = ResponseBuilder.getInstance()
+                                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                                    .addHttpResponseEntityData("packageId", "No more remaining users for this package")
+                                    .getResponse();
+                            return ResponseBuilder.getInstance()
+                                    .setHttpStatus(HttpStatus.OK)
+                                    .setHttpResponseEntity(responseBodyEntity)
+                                    .returnClientResponse();
+                        }
+                    } else {
+                        responseBodyEntity = ResponseBuilder.getInstance()
+                                .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                                .addHttpResponseEntityData("packageId", "Package not found")
+                                .getResponse();
+                        return ResponseBuilder.getInstance()
+                                .setHttpStatus(HttpStatus.OK)
+                                .setHttpResponseEntity(responseBodyEntity)
+                                .returnClientResponse();
+                    }
+                    break;
+                }
+                case 4: {
+                    break;
+                }
+                case 99: {
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+
+        responseBodyEntity = userService.addUser(userProfile, userCompanyInfo, userOutletInfo);
+        if (responseBodyEntity.getCode() == ResponseCode.SUCCESS) {
+            manageAddUserUnderCompany(userProfile, adminPass, packageId);
+            return ResponseBuilder.getInstance()
+                    .setHttpStatus(HttpStatus.OK)
+                    .setHttpResponseEntity(responseBodyEntity)
+                    .returnClientResponse();
+        }
+
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntity(responseBodyEntity)
+                .returnClientResponse();
+    }
+
+    private synchronized ResponseBodyEntity manageAddUserUnderCompany(UserProfile userProfile, AdminPasses adminPass, Long packageId) {
+        UserProfile persistantUser = userService.toUser(userProfile.getEmail());
+        UserPassPurchased userPassPurchased = new UserPassPurchased();
+        userPassPurchased.setAdminPasses(adminPass);
+        userPassPurchased.setIsPaid(false);
+        userPassPurchased.setStatus(0);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.YEAR, 1);
+        userPassPurchased.setValidTill(c.getTime());
+        userPassPurchased.setUserProfileId(persistantUser);
+        return userPassPurchasedService.addUserPassPurchased(userPassPurchased, packageId);
     }
 
     @PostMapping("/update")

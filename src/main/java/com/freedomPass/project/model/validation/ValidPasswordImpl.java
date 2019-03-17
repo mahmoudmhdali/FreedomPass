@@ -41,10 +41,10 @@ public class ValidPasswordImpl implements ConstraintValidator<ValidPassword, Str
                 //        PasswordValidator validator = new PasswordValidator(Arrays.asList(
                 new LengthRule(8, 30),
                 new UppercaseCharacterRule(1),
-                new DigitCharacterRule(1),
-                new SpecialCharacterRule(1),
-                new NumericalSequenceRule(3, false),
-                new AlphabeticalSequenceRule(3, false),
+//                new DigitCharacterRule(1),
+//                new SpecialCharacterRule(1),
+//                new NumericalSequenceRule(3, false),
+//                new AlphabeticalSequenceRule(3, false),
                 //                new QwertySequenceRule(3, false),
                 new WhitespaceRule()));
 
@@ -70,11 +70,8 @@ public class ValidPasswordImpl implements ConstraintValidator<ValidPassword, Str
     }
 
     private MessageResolver getResolver() {
-        UserProfile user = getAuthenticatedUser();
+        // UserProfile user = getAuthenticatedUser();
         String userLang = "en";
-        if (user != null) {
-            userLang = getAuthenticatedUser().getLanguage().getPrefix().toLowerCase();
-        }
         Properties props = new Properties();
         try {
             props.load(new FileInputStream(this.getClass().getResource("/passwordValidationmessages." + userLang + ".properties").getFile()));

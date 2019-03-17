@@ -7,6 +7,8 @@ import java.util.List;
 public interface UserCompanyPassesDao {
 
     List<UserCompanyPasses> getUserCompanyPasses();
+    
+    List<UserCompanyPasses> getUserCompanyPassesByCompanyUserId(Long id);
 
     UserCompanyPasses getUserCompanyPasse(Long id);
 

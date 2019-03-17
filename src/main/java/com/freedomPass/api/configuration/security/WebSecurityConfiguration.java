@@ -108,8 +108,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // NEW ROLES BASED ON FREEDOM PASS APP
                 .antMatchers("/users", "/users/{pageNumber}/{maxResult}", "/users/{id}", "/users/view").hasAnyRole("SYSTEM", "COMPANY", "OUR_SYSTEM_USER", "VIEW_USERS", "ADD_USERS", "EDIT_USERS", "DELETE_USERS", "VIEW_GROUPS")
                 .antMatchers("/users/add").hasAnyRole("SYSTEM", "COMPANY", "OUR_SYSTEM_USER", "ADD_USERS")
-                .antMatchers("/users/update").hasAnyRole("SYSTEM", "COMPANY", "OUR_SYSTEM_USER", "EDIT_USERS")
-                .antMatchers("/users/delete").hasAnyRole("SYSTEM", "COMPANY", "OUR_SYSTEM_USER", "DELETE_USERS")
+                .antMatchers("/users/update").hasAnyRole("SYSTEM", "OUR_SYSTEM_USER", "EDIT_USERS")
+                .antMatchers("/users/delete").hasAnyRole("SYSTEM", "OUR_SYSTEM_USER", "DELETE_USERS")
                 .antMatchers("/userOutletOffer/add").hasAnyRole("SYSTEM")
                 // Allow anonymous access to "/" path
                 .antMatchers("/**").permitAll()

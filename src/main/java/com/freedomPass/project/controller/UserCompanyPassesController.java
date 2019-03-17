@@ -4,6 +4,7 @@ import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.model.UserCompanyPasses;
+import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.service.UserCompanyPassesService;
 import javax.mail.internet.AddressException;
 import javax.validation.Valid;
@@ -21,10 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/userCompanyPasses")
 public class UserCompanyPassesController extends AbstractController {
-
+    
     @Autowired
     UserCompanyPassesService userCompanyPassesService;
-
+    
     @GetMapping
     public ResponseEntity getUserCompanyPasses() {
         return ResponseBuilder.getInstance()
@@ -33,7 +34,7 @@ public class UserCompanyPassesController extends AbstractController {
                 .addHttpResponseEntityData("userCompanyPasses", userCompanyPassesService.getUserCompanyPasses())
                 .returnClientResponse();
     }
-
+    
     @GetMapping("/{id}")
     public ResponseEntity getUserCompanyPasses(@PathVariable Long id) {
         return ResponseBuilder.getInstance()
@@ -42,7 +43,7 @@ public class UserCompanyPassesController extends AbstractController {
                 .addHttpResponseEntityData("userCompanyPasse", userCompanyPassesService.getUserCompanyPasse(id))
                 .returnClientResponse();
     }
-
+    
     @GetMapping("/{pageNumber}/{maxResult}")
     public ResponseEntity getUserCompanyPassesPagination(@PathVariable Integer pageNumber, @PathVariable Integer maxResult) {
         return ResponseBuilder.getInstance()
@@ -51,7 +52,7 @@ public class UserCompanyPassesController extends AbstractController {
                 .addHttpResponseEntityData("userCompanyPasses", userCompanyPassesService.getUserCompanyPassesPagination(pageNumber, maxResult))
                 .returnClientResponse();
     }
-
+    
     @PostMapping("/add")
     public ResponseEntity addUserCompanyPasses(@ModelAttribute @Valid UserCompanyPasses userCompanyPasses, BindingResult userCompanyPassesBindingResults) throws AddressException {
         // Validate User Inputs
@@ -67,5 +68,15 @@ public class UserCompanyPassesController extends AbstractController {
                 .setHttpResponseEntity(userCompanyPassesService.addUserCompanyPasses(userCompanyPasses))
                 .returnClientResponse();
     }
-
+    
+    @GetMapping("/myPackages")
+    public ResponseEntity myPackages() {
+        UserProfile user = getAuthenticatedUser();
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("userCompanyPasses", userCompanyPassesService.getUserCompanyPassesByCompanyUserId(user.getUserCompanyInfo().getId()))
+                .returnClientResponse();
+    }
+    
 }

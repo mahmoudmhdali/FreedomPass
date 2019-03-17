@@ -25,6 +25,11 @@ public class UserCompanyPassesServiceImpl extends AbstractService implements Use
     }
 
     @Override
+    public List<UserCompanyPasses> getUserCompanyPassesByCompanyUserId(Long id) {
+        return userCompanyPassesDao.getUserCompanyPassesByCompanyUserId(id);
+    }
+
+    @Override
     public UserCompanyPasses getUserCompanyPasse(Long id) {
         return userCompanyPassesDao.getUserCompanyPasse(id);
     }

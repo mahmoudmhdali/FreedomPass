@@ -9,6 +9,8 @@ public interface UserCompanyPassesService {
 
     List<UserCompanyPasses> getUserCompanyPasses();
 
+    List<UserCompanyPasses> getUserCompanyPassesByCompanyUserId(Long id);
+
     UserCompanyPasses getUserCompanyPasse(Long id);
 
     UserCompanyPassPagination getUserCompanyPassesPagination(int pageNumber, int maxRes);
