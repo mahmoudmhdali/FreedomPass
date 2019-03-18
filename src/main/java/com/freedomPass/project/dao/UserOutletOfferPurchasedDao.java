@@ -8,4 +8,8 @@ public interface UserOutletOfferPurchasedDao {
     List<UserOutletOfferPurchased> getUserOutletOfferPurchaseds();
 
     UserOutletOfferPurchased getUserOutletOfferPurchased(Long id);
+
+    UserOutletOfferPurchased getUserOutletOfferPurchasedByOfferIDAndUserID(Long offerID, Long userID);
+
+    void addUserOutletOfferPurchased(UserOutletOfferPurchased userOutletOfferPurchased);
 }

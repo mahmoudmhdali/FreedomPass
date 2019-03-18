@@ -67,37 +67,39 @@ public class Logger {
     private static int writeLogData(String outputMessage, String inputData, int logType, String subDirectory) {
         StackTraceElement[] functions = Thread.currentThread().getStackTrace();
         try {
-            String mainPath = logRootPath + "/" + Utils.getFormattedDateAsString("yyyy-MM-dd");
-            localFileMgr.createDirectory(mainPath);
-            String hours = ENABLE_HOURLY_LOGS ? " HH" : "";
-            String fileLogType = "";
-            boolean writeLog = false;
-            if (logType == LOG_TYPE_DEBUG && logType <= LOG_LEVEL) {
-                fileLogType = "DEBUG";
-                writeLog = true;
-            } else if (logType == LOG_TYPE_NORMAL && logType <= LOG_LEVEL) {
-                fileLogType = "NORMAL";
-                writeLog = true;
-            } else if (logType == LOG_TYPE_BRIEF && logType <= LOG_LEVEL) {
-                fileLogType = "BRIEF";
-                writeLog = true;
-            } else if (logType == LOG_TYPE_ERROR && logType <= LOG_LEVEL) {
-                fileLogType = "ERRORS";
-                writeLog = true;
-            }
-            if (writeLog) {
-                if (!subDirectory.equals("")) {
-                    localFileMgr.createDirectory(mainPath + "/" + subDirectory);
-                    subDirectory = "/" + subDirectory;
+            if (!logRootPath.equals("")) {
+                String mainPath = logRootPath + "/" + Utils.getFormattedDateAsString("yyyy-MM-dd");
+                localFileMgr.createDirectory(mainPath);
+                String hours = ENABLE_HOURLY_LOGS ? " HH" : "";
+                String fileLogType = "";
+                boolean writeLog = false;
+                if (logType == LOG_TYPE_DEBUG && logType <= LOG_LEVEL) {
+                    fileLogType = "DEBUG";
+                    writeLog = true;
+                } else if (logType == LOG_TYPE_NORMAL && logType <= LOG_LEVEL) {
+                    fileLogType = "NORMAL";
+                    writeLog = true;
+                } else if (logType == LOG_TYPE_BRIEF && logType <= LOG_LEVEL) {
+                    fileLogType = "BRIEF";
+                    writeLog = true;
+                } else if (logType == LOG_TYPE_ERROR && logType <= LOG_LEVEL) {
+                    fileLogType = "ERRORS";
+                    writeLog = true;
                 }
-                String path = mainPath + subDirectory + "/" + logRootDirName + "_" + fileLogType + "_" + Utils.getFormattedDateAsString("dd-MM-yyyy" + hours + "") + ".log";
-                inputData = inputData.equals("") ? inputData : " ==> Input[" + inputData + "]";
-                outputMessage = outputMessage.equals("") ? outputMessage : " ==> Output[" + outputMessage + "]";
-                if (logType == LOG_TYPE_ERROR || immediatFlush) {
-                    log_data_to_file(path, Utils.getFormattedDateAsString("dd-MM-yyyy HH:mm:ss") + " ==> Class: " + functions[3].getClassName() + " ==> Method: " + functions[3].getMethodName() + inputData + outputMessage);
-                } else {
-                    start_log_buffer_timer();
-                    append_to_buffer(path, Utils.getFormattedDateAsString("dd-MM-yyyy HH:mm:ss") + " ==> Class: " + functions[3].getClassName() + " ==> Method: " + functions[3].getMethodName() + inputData + outputMessage);
+                if (writeLog) {
+                    if (!subDirectory.equals("")) {
+                        localFileMgr.createDirectory(mainPath + "/" + subDirectory);
+                        subDirectory = "/" + subDirectory;
+                    }
+                    String path = mainPath + subDirectory + "/" + logRootDirName + "_" + fileLogType + "_" + Utils.getFormattedDateAsString("dd-MM-yyyy" + hours + "") + ".log";
+                    inputData = inputData.equals("") ? inputData : " ==> Input[" + inputData + "]";
+                    outputMessage = outputMessage.equals("") ? outputMessage : " ==> Output[" + outputMessage + "]";
+                    if (logType == LOG_TYPE_ERROR || immediatFlush) {
+                        log_data_to_file(path, Utils.getFormattedDateAsString("dd-MM-yyyy HH:mm:ss") + " ==> Class: " + functions[3].getClassName() + " ==> Method: " + functions[3].getMethodName() + inputData + outputMessage);
+                    } else {
+                        start_log_buffer_timer();
+                        append_to_buffer(path, Utils.getFormattedDateAsString("dd-MM-yyyy HH:mm:ss") + " ==> Class: " + functions[3].getClassName() + " ==> Method: " + functions[3].getMethodName() + inputData + outputMessage);
+                    }
                 }
             }
             return 0;

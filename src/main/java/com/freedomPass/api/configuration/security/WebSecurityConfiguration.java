@@ -122,6 +122,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/userOutletInfo/editLocations").hasAnyRole("OUTLET")
                 .antMatchers("/userOutletOffer/add").hasAnyRole("SYSTEM", "OUR_SYSTEM_USER")
                 .antMatchers("/userOutletOffer/edit").hasAnyRole("SYSTEM", "OUR_SYSTEM_USER")
+                .antMatchers("/userOutletOfferPurchased/**").hasAnyRole("OUTLET")
                 // Allow anonymous access to "/" path
                 .antMatchers("/**").permitAll()
                 .and()

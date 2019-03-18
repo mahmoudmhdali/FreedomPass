@@ -2,6 +2,7 @@ package com.freedomPass.project.controller;
 
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
+import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.service.UserOutletOfferPurchasedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,15 @@ public class UserOutletOfferPurchasedController extends AbstractController {
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
                 .addHttpResponseEntityData("userOutletOfferPurchased", userOutletOfferPurchasedService.getUserOutletOfferPurchased(id))
+                .returnClientResponse();
+    }
+
+    @GetMapping("/purchase/{offerID}/{userID}")
+    public ResponseEntity myPackages(@PathVariable Long offerID, @PathVariable Long userID) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("userCompanyPasses", userOutletOfferPurchasedService.addUserOutletOfferPurchased(offerID, userID))
                 .returnClientResponse();
     }
 

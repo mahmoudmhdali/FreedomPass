@@ -34,4 +34,29 @@ public class UserOutletOfferPurchasedDaoImpl extends AbstractDao<Long, UserOutle
         return null;
     }
 
+    @Override
+    public UserOutletOfferPurchased getUserOutletOfferPurchasedByOfferIDAndUserID(Long offerID, Long userID) {
+        try {
+            Criteria criteria = createEntityCriteria()
+                    .createAlias("userProfileId", "userProfileIdAlias")
+                    .add(Restrictions.eq("userProfileIdAlias.id", userID))
+                    .createAlias("userOutletOffer", "userOutletOfferAlias")
+                    .add(Restrictions.eq("userOutletOfferAlias.id", offerID));
+            UserOutletOfferPurchased userOutletOfferPurchased = (UserOutletOfferPurchased) criteria.uniqueResult();
+            return userOutletOfferPurchased;
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error UserOutletPurchasedDao 2 on API [" + ex.getMessage() + "]", "Offer ID: " + offerID + ". User ID" + userID, "");
+        }
+        return null;
+    }
+
+    @Override
+    public void addUserOutletOfferPurchased(UserOutletOfferPurchased userOutletOfferPurchased) {
+        try {
+            save(userOutletOfferPurchased);
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error UserOutletPurchasedDao 4 on API [" + ex.getMessage() + "]", userOutletOfferPurchased, "");
+        }
+    }
+
 }
