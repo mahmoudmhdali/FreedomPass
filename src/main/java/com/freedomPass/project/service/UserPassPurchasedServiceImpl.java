@@ -7,7 +7,6 @@ import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.helpermodel.UserPassPurchasedPagination;
 import com.freedomPass.project.model.UserCompanyPasses;
 import com.freedomPass.project.model.UserPassPurchased;
-import com.freedomPass.project.model.UserProfile;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

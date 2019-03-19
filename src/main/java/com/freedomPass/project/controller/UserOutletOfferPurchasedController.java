@@ -2,7 +2,6 @@ package com.freedomPass.project.controller;
 
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
-import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.service.UserOutletOfferPurchasedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

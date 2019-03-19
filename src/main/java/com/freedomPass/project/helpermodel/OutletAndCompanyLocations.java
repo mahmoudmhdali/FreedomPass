@@ -1,8 +1,5 @@
 package com.freedomPass.project.helpermodel;
 
-import com.freedomPass.project.model.UserProfile;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 public class OutletAndCompanyLocations {
 
     private String longitude1;
