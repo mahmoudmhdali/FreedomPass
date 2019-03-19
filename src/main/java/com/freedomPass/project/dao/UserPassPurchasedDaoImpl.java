@@ -17,8 +17,7 @@ public class UserPassPurchasedDaoImpl extends AbstractDao<Long, UserPassPurchase
     @Override
     public List<UserPassPurchased> getUserPassPurchaseds() {
         try {
-            Criteria criteria = createEntityCriteria()
-                    .add(Restrictions.isNull("deletedDate"));
+            Criteria criteria = createEntityCriteria();
             List<UserPassPurchased> userPassPurchased = (List<UserPassPurchased>) criteria.list();
             return userPassPurchased;
         } catch (Exception ex) {
@@ -43,7 +42,6 @@ public class UserPassPurchasedDaoImpl extends AbstractDao<Long, UserPassPurchase
         try {
             Criteria criteria = createEntityCriteria();
             criteria.addOrder(Order.asc("createdDate"));
-            criteria.add(Restrictions.isNull("deletedDate"));
             criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);  // To avoid duplicates.
             criteria.setProjection(Projections.rowCount());
             Number totalResults = (Number) criteria.uniqueResult();

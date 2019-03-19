@@ -172,13 +172,17 @@ public class UserCompanyInfo implements Serializable {
 
     @JsonGetter(value = "userCompanyName")
     public String getUserCompanyName() {
-        userCompanyName = userProfileId.getName();
+        if (Hibernate.isInitialized(userProfileId)) {
+            userCompanyName = userProfileId.getName();
+        }
         return userCompanyName;
     }
 
     @JsonGetter(value = "userCompanyID")
     public Long getUserCompanyID() {
-        userCompanyID = userProfileId.getId();
+        if (Hibernate.isInitialized(userProfileId)) {
+            userCompanyID = userProfileId.getId();
+        }
         return userCompanyID;
     }
 

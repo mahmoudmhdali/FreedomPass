@@ -137,6 +137,7 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
                 Hibernate.initialize(group.getRoleCollection());
             }
             Hibernate.initialize(user.getUserCompanyInfo());
+            Hibernate.initialize(user.getUserOutletInfo());
             if (user.getUserCompanyInfo() != null) {
                 Hibernate.initialize(user.getUserCompanyInfo().getUserCompanyInfoImagesCollection());
                 Hibernate.initialize(user.getUserCompanyInfo().getUserCompanyInfoLocationsCollection());

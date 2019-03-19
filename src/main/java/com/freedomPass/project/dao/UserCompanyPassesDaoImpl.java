@@ -20,6 +20,10 @@ public class UserCompanyPassesDaoImpl extends AbstractDao<Long, UserCompanyPasse
             Criteria criteria = createEntityCriteria()
                     .add(Restrictions.isNull("deletedDate"));
             List<UserCompanyPasses> userCompanyPasses = (List<UserCompanyPasses>) criteria.list();
+            for (UserCompanyPasses userCompanyPass : userCompanyPasses) {
+                Hibernate.initialize(userCompanyPass.getAdminPasses());
+                Hibernate.initialize(userCompanyPass.getUserCompanyInfo().getUserProfileId());
+            }
             return userCompanyPasses;
         } catch (Exception ex) {
             Logger.ERROR("1- Error UserCompanyPassesDao 1 on API [" + ex.getMessage() + "]", "", "");
@@ -34,6 +38,7 @@ public class UserCompanyPassesDaoImpl extends AbstractDao<Long, UserCompanyPasse
             if (userCompanyPasse == null || userCompanyPasse.getDeletedDate() != null) {
                 return null;
             }
+            Hibernate.initialize(userCompanyPasse.getAdminPasses());
             Hibernate.initialize(userCompanyPasse.getUserCompanyInfo().getUserProfileId());
             return userCompanyPasse;
         } catch (Exception ex) {
