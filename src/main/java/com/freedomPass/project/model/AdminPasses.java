@@ -65,6 +65,8 @@ public class AdminPasses implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "DESCRIPTION")
+    @Size(min = 5, max = 300, message = "validation.adminpasses.descriptionRange")
+    @NotBlank(message = "validation.adminpasses.descriptionRequired")
     private String description;
 
     @Basic(optional = false)

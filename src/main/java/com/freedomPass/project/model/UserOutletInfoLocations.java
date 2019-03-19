@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -38,10 +39,12 @@ public class UserOutletInfoLocations implements Serializable {
 
     @Basic(optional = false)
     @Column(name = "longitude")
+    @Size(max = 30, message = "validation.userInfo.infoRange")
     private String longitude;
 
     @Basic(optional = false)
     @Column(name = "latitude")
+    @Size(max = 30, message = "validation.userInfo.infoRange")
     private String latitude;
 
     @JsonIgnore
