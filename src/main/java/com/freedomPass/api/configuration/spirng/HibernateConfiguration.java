@@ -28,7 +28,8 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({"com.freedomPass.api.configuration.spring"})
-@PropertySource(value = "file:${catalina.home}/work/FreedomPass/config/application.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "file:${catalina.home}/webapps/FreedomPass_Admin/assets/api_images/FreedomPass/config/application.properties", ignoreResourceNotFound = true)
+//@PropertySource(value = "file:${catalina.home}/work/FreedomPass/config/application.properties", ignoreResourceNotFound = true)
 public class HibernateConfiguration {
 
     @Autowired

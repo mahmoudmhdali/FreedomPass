@@ -291,7 +291,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
         try {
             String[] email = {user.getEmail()};
-            sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\nhttp://localhost:4200/#/sessions/changePassword?token=" + token, email, "Account Created");
+            String webURL = (String) settingsEngine.getFirstLevelSetting("WEB_URL");
+            sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\n" + webURL + token, email, "Account Created");
         } catch (Exception ex) {
             Logger.ERROR("1- Error addUser 2 on API [" + ex.getMessage() + "]", user.getEmail(), "");
         }
@@ -319,7 +320,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 c.add(Calendar.DATE, 3);
                 user.setResetPasswordTokenValidity(c.getTime());
                 String[] emails = {user.getEmail()};
-                sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\nhttp://localhost:4200/#/sessions/changePassword?token=" + token, emails, "Account Created");
+                String webURL = (String) settingsEngine.getFirstLevelSetting("WEB_URL");
+                sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\n" + webURL + token, emails, "Account Created");
             }
         } catch (Exception ex) {
             Logger.ERROR("1- Error sendEmailAndUpdateToken 1 on API [" + ex.getMessage() + "]", email, "");

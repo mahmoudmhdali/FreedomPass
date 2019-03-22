@@ -17,7 +17,9 @@ public class CatalinaService {
     }
 
     public String getCatalinaWorkDir() {
-        return getCatalinaHome() + "/work/";
+//        return getCatalinaHome() + "/work/";
+        return getCatalinaHome() + "/webapps/FreedomPass_Admin/assets/api_images/";
+        // http://35.229.113.142:8080/FreedomPass_Admin/images/
     }
 
     public String getCatalinaLogDir() {
