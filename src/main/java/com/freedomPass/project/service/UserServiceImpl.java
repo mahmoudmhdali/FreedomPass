@@ -87,8 +87,8 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     @Override
-    public UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes) {
-        return userDao.getUsersPagination(excludeLoggedInUserID, type, headID, pageNumber, maxRes);
+    public UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes, int usersType) {
+        return userDao.getUsersPagination(excludeLoggedInUserID, type, headID, pageNumber, maxRes, usersType);
     }
 
     @Override
@@ -604,5 +604,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
     @Override
     public void updateNotSeen(long userID) {
         webNotificationsDao.updateNotSeen(userID);
+    }
+
+    @Override
+    public List<UserProfile> getUserOutletInfosByCategory(Long id) {
+        return userDao.getUserOutletInfosByCategory(id);
     }
 }

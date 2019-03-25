@@ -19,7 +19,7 @@ public interface UserService {
 
     List<UserProfile> getCompanyUsers();
 
-    UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes);
+    UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes, int usersType);
 
     ResponseBodyEntity getUser(Long id);
 
@@ -62,5 +62,7 @@ public interface UserService {
     void updateNotSeen(long userID);
     
     ResponseBodyEntity getCountWebNotifications(long userID);
+
+    List<UserProfile> getUserOutletInfosByCategory(Long id);
     
 }

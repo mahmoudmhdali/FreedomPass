@@ -76,7 +76,21 @@ public class UserProfileController extends AbstractController {
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("users", userService.getUsersPagination(excludeLoggedInUserID, user.getType(), user.getId(), pageNumber, maxResult))
+                .addHttpResponseEntityData("users", userService.getUsersPagination(excludeLoggedInUserID, user.getType(), user.getId(), pageNumber, maxResult, -99))
+                .returnClientResponse();
+    }
+
+    @GetMapping("{type}/{pageNumber}/{maxResult}")
+    public ResponseEntity getUsersPagination(@PathVariable Integer type, @PathVariable Integer pageNumber, @PathVariable Integer maxResult) {
+        UserProfile user = super.getAuthenticatedUser();
+        Long excludeLoggedInUserID = -999999L; // in case you need to include logged in user to the list its set to his ID
+        if (super.getAuthenticatedUser() != null) {
+            excludeLoggedInUserID = super.getAuthenticatedUser().getId();
+        }
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("users", userService.getUsersPagination(excludeLoggedInUserID, user.getType(), user.getId(), pageNumber, maxResult, type))
                 .returnClientResponse();
     }
 
@@ -122,10 +136,12 @@ public class UserProfileController extends AbstractController {
                 .returnClientResponse();
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add/{type}")
     public ResponseEntity addUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult userProfileBindingResults,
             @ModelAttribute @Valid UserCompanyInfo userCompanyInfo, BindingResult userCompanyInfoBindingResults,
-            @ModelAttribute @Valid UserOutletInfo userOutletInfo, BindingResult userOutletInfoBindingResults) throws AddressException {
+            @ModelAttribute @Valid UserOutletInfo userOutletInfo, BindingResult userOutletInfoBindingResults,
+            @PathVariable Integer type) throws AddressException {
+        userProfile.setType(type);
         // Validate User Inputs
         ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userProfileBindingResults, null);
         if (responseBodyEntity != null) {

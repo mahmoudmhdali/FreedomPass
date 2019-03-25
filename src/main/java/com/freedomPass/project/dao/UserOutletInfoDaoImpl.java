@@ -34,26 +34,6 @@ public class UserOutletInfoDaoImpl extends AbstractDao<Long, UserOutletInfo> imp
     }
 
     @Override
-    public List<UserOutletInfo> getUserOutletInfosByCategory(Long id) {
-        try {
-            Criteria criteria = createEntityCriteria()
-                    .createAlias("outletCategoryCollection", "outletCategory")
-                    .add(Restrictions.eq("outletCategory.id", id))
-                    .add(Restrictions.isNull("deletedDate"));
-            List<UserOutletInfo> userOutletInfos = (List<UserOutletInfo>) criteria.list();
-            for (UserOutletInfo userOutletInfo : userOutletInfos) {
-                Hibernate.initialize(userOutletInfo.getOutletCategoryCollection());
-                Hibernate.initialize(userOutletInfo.getUserOutletInfoImagesCollection());
-                Hibernate.initialize(userOutletInfo.getUserOutletInfoLocationsCollection());
-            }
-            return userOutletInfos;
-        } catch (Exception ex) {
-            Logger.ERROR("1- Error UserOutletDao 2 on API [" + ex.getMessage() + "]", id, "");
-        }
-        return null;
-    }
-
-    @Override
     public UserOutletInfo getUserOutletInfo(Long id) {
         try {
             UserOutletInfo userOutletInfo = getByKey(id);

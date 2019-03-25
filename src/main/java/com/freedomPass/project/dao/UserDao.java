@@ -12,7 +12,7 @@ public interface UserDao {
 
     List<UserProfile> getCompanyUsers();
 
-    UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes);
+    UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes, int usersType);
 
     UserProfile getUser(Long id);
 
@@ -27,4 +27,6 @@ public interface UserDao {
     void addUser(UserProfile user);
 
     void deleteUser(UserProfile user);
+
+    List<UserProfile> getUserOutletInfosByCategory(Long id);
 }

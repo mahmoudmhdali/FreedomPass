@@ -89,7 +89,7 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
     }
 
     @Override
-    public UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes) {
+    public UsersPagination getUsersPagination(Long excludeLoggedInUserID, Integer type, Long headID, int pageNumber, int maxRes, int usersType) {
         try {
             Criteria criteria = createEntityCriteria();
             if (type == 1) {
@@ -97,6 +97,9 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
             }
             if (type == 2 || type == 3 || type == 4) {
                 return null;
+            }
+            if (usersType != -99) {
+                criteria.add(Restrictions.eq("type", usersType));
             }
             criteria.addOrder(Order.asc("name"));
             criteria.add(Restrictions.ne("id", excludeLoggedInUserID)); // To avoid including logged in user
@@ -239,6 +242,28 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
         } catch (Exception ex) {
             Logger.ERROR("1- Error UserDao 11 on API [" + ex.getMessage() + "]", user, "");
         }
+    }
+
+    @Override
+    public List<UserProfile> getUserOutletInfosByCategory(Long id) {
+        try {
+            Criteria criteria = createEntityCriteria()
+                    .createAlias("userOutletInfo", "userOutlet")
+                    .createAlias("userOutlet.outletCategoryCollection", "outletCategory")
+                    .add(Restrictions.eq("outletCategory.id", id))
+                    .add(Restrictions.isNull("deletedDate"));
+            List<UserProfile> users = (List<UserProfile>) criteria.list();
+            for (UserProfile user : users) {
+                Hibernate.initialize(user.getGroupCollection());
+                Hibernate.initialize(user.getUserOutletInfo());
+                Hibernate.initialize(user.getUserOutletInfo().getUserOutletInfoImagesCollection());
+                Hibernate.initialize(user.getUserOutletInfo().getUserOutletInfoLocationsCollection());
+            }
+            return users;
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error UserOutletDao 2 on API [" + ex.getMessage() + "]", id, "");
+        }
+        return null;
     }
 
 }

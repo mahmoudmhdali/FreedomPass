@@ -25,6 +25,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -96,6 +97,9 @@ public class UserOutletOffer implements Serializable {
     @Transient
     private Long userOutletID;
 
+    @Transient
+    private Long userSubOutletID;
+
     @JoinColumn(name = "TYPE", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private OutletOfferType outletOfferType;
@@ -146,8 +150,18 @@ public class UserOutletOffer implements Serializable {
 
     @JsonGetter(value = "userOutletID")
     public Long getUserOutletID() {
-        userOutletID = userOutletInfo.getId();
+        if (Hibernate.isInitialized(userOutletInfo)) {
+            userOutletID = userOutletInfo.getUserProfileId().getId();
+        }
         return userOutletID;
+    }
+
+    @JsonGetter(value = "userSubOutletID")
+    public Long getUserSubOutletID() {
+        if (Hibernate.isInitialized(userOutletInfo)) {
+            userSubOutletID = userOutletInfo.getId();
+        }
+        return userSubOutletID;
     }
 
     public Date getUpdatedDate() {

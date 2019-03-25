@@ -20,11 +20,6 @@ public class UserOutletInfoServiceImpl extends AbstractService implements UserOu
     }
 
     @Override
-    public List<UserOutletInfo> getUserOutletInfosByCategory(Long id) {
-        return userOutletInfoDao.getUserOutletInfosByCategory(id);
-    }
-
-    @Override
     public UserOutletInfo getUserOutletInfo(Long id) {
         return userOutletInfoDao.getUserOutletInfo(id);
     }

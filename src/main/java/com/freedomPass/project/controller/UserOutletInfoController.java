@@ -69,7 +69,7 @@ public class UserOutletInfoController extends AbstractController {
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("userOutletInfo", userOutletInfoService.getUserOutletInfosByCategory(id))
+                .addHttpResponseEntityData("userOutletInfo", userService.getUserOutletInfosByCategory(id))
                 .returnClientResponse();
     }
 
