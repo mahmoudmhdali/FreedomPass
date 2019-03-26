@@ -321,7 +321,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 user.setResetPasswordTokenValidity(c.getTime());
                 String[] emails = {user.getEmail()};
                 String webURL = (String) settingsEngine.getFirstLevelSetting("WEB_URL");
-                sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\n" + webURL + token, emails, "Account Created");
+                sendEmail("Enter this pin in Freedom Pass app to activate your account\nPIN: " + token + "\nOr follow the below link\n" + webURL + token, emails, "Reset Password");
             }
         } catch (Exception ex) {
             Logger.ERROR("1- Error sendEmailAndUpdateToken 1 on API [" + ex.getMessage() + "]", email, "");
