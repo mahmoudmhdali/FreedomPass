@@ -29,10 +29,9 @@ public class UserPurchasedController extends AbstractController {
     NotificationEventsService notificationEventsService;
 
     @PostMapping("/add")
-    public ResponseEntity addUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult userProfileBindingResults,
-            @ModelAttribute @Valid UserProfilePasswordValidator userProfilePasswordValidator, BindingResult userProfilePasswordValidatorBindingResults) throws AddressException {
+    public ResponseEntity addUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult userProfileBindingResults) throws AddressException {
 
-        userProfile.setPassword(userProfilePasswordValidator.getNewPassword());
+        userProfile.setType(4);
         // Validate User Inputs
         ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userProfileBindingResults, null);
 
@@ -40,24 +39,6 @@ public class UserPurchasedController extends AbstractController {
             return ResponseBuilder.getInstance()
                     .setHttpStatus(HttpStatus.OK)
                     .setHttpResponseEntity(responseBodyEntity)
-                    .returnClientResponse();
-        }
-
-        // Validate Passwords Structure
-        responseBodyEntity = super.checkValidationResults(userProfilePasswordValidatorBindingResults, null);
-        if (responseBodyEntity != null) {
-            return ResponseBuilder.getInstance()
-                    .setHttpStatus(HttpStatus.OK)
-                    .setHttpResponseEntity(responseBodyEntity)
-                    .returnClientResponse();
-        }
-
-        // Valdidate Passwords matching
-        if (!userProfilePasswordValidator.matchPasswords()) {
-            return ResponseBuilder.getInstance()
-                    .setHttpStatus(HttpStatus.OK)
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("confirmPassword", this.getMessageBasedOnLanguage("user.controller.passwordMismatch", null))
                     .returnClientResponse();
         }
 
