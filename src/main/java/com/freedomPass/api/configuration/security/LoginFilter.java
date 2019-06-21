@@ -125,11 +125,6 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
                                     .getHttpResponseEntity())
             );
         } else if (exception instanceof org.springframework.security.authentication.DisabledException) {
-            try {
-                userService.sendEmailAndUpdateToken(username);
-            } catch (AddressException ex) {
-                Logger.getLogger(LoginFilter.class.getName()).log(Level.SEVERE, null, ex);
-            }
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write(
                     new ObjectMapper().writeValueAsString(
