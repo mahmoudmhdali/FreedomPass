@@ -39,7 +39,7 @@ public class Report implements Serializable {
     @Id
     @Basic(optional = false)
     @Column(name = "ID")
-    @GenericGenerator(name = "SEQ_GEN", strategy = "com.freedomPass.project.model.SequenceIdGenerator")
+    @GenericGenerator(name = "SEQ_GEN", strategy = "com.citerneApp.project.model.SequenceIdGenerator")
     @GeneratedValue(generator = "SEQ_GEN")
     private Long id;
 
@@ -193,7 +193,7 @@ public class Report implements Serializable {
         if (Hibernate.isInitialized(reportStyleCollection)) {
             reportStyleCollectionString = Objects.toString(reportStyleCollection);
         }
-        return "\"com.freedomPass.project.model.Group\" : {\"id\" : \"" + id + "\","
+        return "\"com.citerneApp.project.model.Group\" : {\"id\" : \"" + id + "\","
                 + "\"name\" : \"" + name + "\","
                 + "\"procName\" : \"" + procName + "\","
                 + "\"lastQueryContainsWhere\" : \"" + lastQueryContainsWhere + "\","

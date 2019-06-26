@@ -3,13 +3,16 @@ package com.freedomPass.project.service;
 import com.freedomPass.project.dao.UserDao;
 import com.freedomPass.project.dao.UserOutletOfferDao;
 import com.freedomPass.project.dao.UserOutletOfferPurchasedDao;
+import com.freedomPass.project.dao.UserOutletOfferPurchasedHistoryDao;
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.model.UserOutletOffer;
 import com.freedomPass.project.model.UserOutletOfferPurchased;
+import com.freedomPass.project.model.UserOutletOfferPurchasedHistory;
 import com.freedomPass.project.model.UserPassPurchased;
 import com.freedomPass.project.model.UserProfile;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,9 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
 
     @Autowired
     UserOutletOfferPurchasedDao userOutletOfferPurchasedDao;
+
+    @Autowired
+    UserOutletOfferPurchasedHistoryDao userOutletOfferPurchasedHistoryDao;
 
     @Autowired
     UserOutletOfferDao userOutletOfferDao;
@@ -54,7 +60,7 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
         if (offer == null) {
             return ResponseBuilder.getInstance().
                     setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                    .addHttpResponseEntityData("Message", "Offer does not exist")
+                    .addHttpResponseEntityData("Message", "Voucher does not exist")
                     .getResponse();
         }
 
@@ -68,7 +74,7 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
         if (offer.getUserOutletInfo().getUserProfileId().getId().longValue() != loggedInUser.getId().longValue()) {
             return ResponseBuilder.getInstance().
                     setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                    .addHttpResponseEntityData("Message", "Offer cannot be used by this user")
+                    .addHttpResponseEntityData("Message", "Voucher does not exist.")
                     .getResponse();
         }
 
@@ -80,7 +86,7 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
                             if (offerPurchased.getTypeOfUsage() == 1) {
                                 return ResponseBuilder.getInstance().
                                         setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                                        .addHttpResponseEntityData("Message", "Offer is removed")
+                                        .addHttpResponseEntityData("Message", "Voucher is removed")
                                         .getResponse();
                             } else {
                                 return ResponseBuilder.getInstance().
@@ -101,11 +107,29 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
             if (userOutletOfferPurchased == null) {
                 userOutletOfferPurchased = new UserOutletOfferPurchased();
                 userOutletOfferPurchased.setCounter(1);
-                userOutletOfferPurchased.setNextResetDate(new Date());
+                Calendar c = Calendar.getInstance();
+                c.setTime(new Date()); // Now use today date.
+                if (offer.getTypeOfUsage() == 1) {
+                    c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                    c.set(Calendar.WEEK_OF_YEAR, c.get(Calendar.WEEK_OF_YEAR) + 1);
+                } else if (offer.getTypeOfUsage() == 2) {
+                    c.set(Calendar.MONTH, c.get(Calendar.MONTH) + 1);
+                    c.set(Calendar.DAY_OF_MONTH, 1);
+                } else if (offer.getTypeOfUsage() == 1) {
+                    c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
+                    c.set(Calendar.MONTH, 1);
+                    c.set(Calendar.DAY_OF_MONTH, 1);
+                }
+                userOutletOfferPurchased.setNextResetDate(c.getTime());
                 userOutletOfferPurchased.setUsedDate(new Date());
                 userOutletOfferPurchased.setUserOutletOffer(offer);
                 userOutletOfferPurchased.setUserProfileId(user);
                 userOutletOfferPurchasedDao.addUserOutletOfferPurchased(userOutletOfferPurchased);
+                UserOutletOfferPurchasedHistory userOutletOfferPurchasedHistory = new UserOutletOfferPurchasedHistory();
+                userOutletOfferPurchasedHistory.setUsedDate(new Date());
+                userOutletOfferPurchasedHistory.setUserOutletOffer(offer);
+                userOutletOfferPurchasedHistory.setUserProfileId(user);
+                userOutletOfferPurchasedHistoryDao.addUserOutletOfferPurchasedHistory(userOutletOfferPurchasedHistory);
             } else {
                 if (offer.getOutletOfferType().getId() == 2) {
                     return ResponseBuilder.getInstance().
@@ -114,12 +138,49 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
                             .getResponse();
                 } else {
                     if (userOutletOfferPurchased.getCounter() >= offerExist) {
-                        return ResponseBuilder.getInstance().
-                                setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                                .addHttpResponseEntityData("Message", "User already reached offer max limit")
-                                .getResponse();
+                        if ((new Date()).compareTo(userOutletOfferPurchased.getNextResetDate()) > 0) {
+                            userOutletOfferPurchased.setCounter(1);
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(new Date()); // Now use today date.
+                            if (offer.getTypeOfUsage() == 1) {
+                                c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                                c.set(Calendar.WEEK_OF_YEAR, c.get(Calendar.WEEK_OF_YEAR) + 1);
+                            } else if (offer.getTypeOfUsage() == 2) {
+                                c.set(Calendar.MONTH, c.get(Calendar.MONTH) + 1);
+                                c.set(Calendar.DAY_OF_MONTH, 1);
+                            } else if (offer.getTypeOfUsage() == 1) {
+                                c.set(Calendar.YEAR, c.get(Calendar.YEAR) + 1);
+                                c.set(Calendar.MONTH, 1);
+                                c.set(Calendar.DAY_OF_MONTH, 1);
+                            }
+                            userOutletOfferPurchased.setNextResetDate(c.getTime());
+                            userOutletOfferPurchased.setUsedDate(new Date());
+                            UserOutletOfferPurchasedHistory userOutletOfferPurchasedHistory = new UserOutletOfferPurchasedHistory();
+                            userOutletOfferPurchasedHistory.setUsedDate(new Date());
+                            userOutletOfferPurchasedHistory.setUserOutletOffer(offer);
+                            userOutletOfferPurchasedHistory.setUserProfileId(user);
+                            userOutletOfferPurchasedHistoryDao.addUserOutletOfferPurchasedHistory(userOutletOfferPurchasedHistory);
+                        } else {
+                            String type = "";
+                            if (offer.getTypeOfUsage() == 1) {
+                                type = "week";
+                            } else if (offer.getTypeOfUsage() == 2) {
+                                type = "month";
+                            } else if (offer.getTypeOfUsage() == 1) {
+                                type = "year";
+                            }
+                            return ResponseBuilder.getInstance().
+                                    setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                                    .addHttpResponseEntityData("Message", "User already reached voucher max limit. (" + offer.getNumberOfUsage() + " times during this " + type + ")")
+                                    .getResponse();
+                        }
                     } else {
                         userOutletOfferPurchased.setCounter(userOutletOfferPurchased.getCounter() + 1);
+                        UserOutletOfferPurchasedHistory userOutletOfferPurchasedHistory = new UserOutletOfferPurchasedHistory();
+                        userOutletOfferPurchasedHistory.setUsedDate(new Date());
+                        userOutletOfferPurchasedHistory.setUserOutletOffer(offer);
+                        userOutletOfferPurchasedHistory.setUserProfileId(user);
+                        userOutletOfferPurchasedHistoryDao.addUserOutletOfferPurchasedHistory(userOutletOfferPurchasedHistory);
                     }
                 }
             }
@@ -131,7 +192,7 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
             if (offer.getTypeOfUsage() == 1) {
                 return ResponseBuilder.getInstance().
                         setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                        .addHttpResponseEntityData("Message", "User does not have access to this offer")
+                        .addHttpResponseEntityData("Message", "User does not have access to this voucher")
                         .getResponse();
             } else {
                 return ResponseBuilder.getInstance().
