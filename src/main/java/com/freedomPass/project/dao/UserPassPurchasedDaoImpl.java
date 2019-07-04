@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 @Repository("userPassPurchasedDao")
@@ -21,6 +22,21 @@ public class UserPassPurchasedDaoImpl extends AbstractDao<Long, UserPassPurchase
             return userPassPurchased;
         } catch (Exception ex) {
             Logger.ERROR("1- Error UserPassPurchasedDao 1 on API [" + ex.getMessage() + "]", "", "");
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserPassPurchased> getUserPassPurchasedsGifted(Long userID, boolean isGifted) {
+        try {
+            Criteria criteria = createEntityCriteria()
+                    .createAlias("userProfileId", "userProfileIdAlias")
+                    .add(Restrictions.eq("userProfileId.id", userID))
+                    .add(Restrictions.eq("isGifted", isGifted));
+            List<UserPassPurchased> userPassPurchased = (List<UserPassPurchased>) criteria.list();
+            return userPassPurchased;
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error UserPassPurchasedDao 5 on API [" + ex.getMessage() + "]", "", "");
         }
         return null;
     }

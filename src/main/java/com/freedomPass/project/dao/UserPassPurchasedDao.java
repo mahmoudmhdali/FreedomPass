@@ -13,4 +13,6 @@ public interface UserPassPurchasedDao {
     UserPassPurchasedPagination getUserPassPurchasedPagination(int pageNumber, int maxRes);
 
     void addUserPassPurchased(UserPassPurchased userPassPurchased);
+
+    List<UserPassPurchased> getUserPassPurchasedsGifted(Long userID, boolean isGifted);
 }

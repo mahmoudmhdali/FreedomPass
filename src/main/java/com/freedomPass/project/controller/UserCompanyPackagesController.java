@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/userCompanyPasses")
-public class UserCompanyPassesController extends AbstractController {
+public class UserCompanyPackagesController extends AbstractController {
 
     @Autowired
     UserCompanyPassesService userCompanyPassesService;

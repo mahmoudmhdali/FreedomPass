@@ -38,6 +38,10 @@ public class UserPassPurchased implements Serializable {
     private Boolean isPaid;
 
     @Basic(optional = false)
+    @Column(name = "IS_GIFTED")
+    private Boolean isGifted;
+
+    @Basic(optional = false)
     @Column(name = "STATUS")
     private Integer status;
 
@@ -60,6 +64,14 @@ public class UserPassPurchased implements Serializable {
 
     public void setIsPaid(Boolean isPaid) {
         this.isPaid = isPaid;
+    }
+
+    public Boolean getIsGifted() {
+        return isGifted;
+    }
+
+    public void setIsGifted(Boolean isGifted) {
+        this.isGifted = isGifted;
     }
 
     public Date getValidTill() {

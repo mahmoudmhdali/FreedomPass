@@ -38,15 +38,22 @@ public class UserPassPurchasedServiceImpl extends AbstractService implements Use
     }
 
     @Override
-    public ResponseBodyEntity addUserPassPurchased(UserPassPurchased userPassPurchased, Long packageId) {
-        UserCompanyPasses userCompanyPass = userCompanyPassesService.getUserCompanyPasse(packageId);
+    public ResponseBodyEntity addUserPassPurchased(UserPassPurchased userPassPurchased, Long packageId, boolean isGifted) {
         userPassPurchasedDao.addUserPassPurchased(userPassPurchased);
-        int currentUsers = userCompanyPass.getRemainingUsers();
-        userCompanyPass.setRemainingUsers(currentUsers - 1);
-        return ResponseBuilder.getInstance().
-                setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("remainingUsers", currentUsers - 1)
-                .getResponse();
+        if (isGifted) {
+            UserCompanyPasses userCompanyPass = userCompanyPassesService.getUserCompanyPasse(packageId);
+            int currentUsers = userCompanyPass.getRemainingUsers();
+            userCompanyPass.setRemainingUsers(currentUsers - 1);
+            return ResponseBuilder.getInstance().
+                    setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                    .addHttpResponseEntityData("remainingUsers", currentUsers - 1)
+                    .getResponse();
+        } else {
+            return ResponseBuilder.getInstance().
+                    setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                    .addHttpResponseEntityData("success", "Success")
+                    .getResponse();
+        }
     }
 
     @Override

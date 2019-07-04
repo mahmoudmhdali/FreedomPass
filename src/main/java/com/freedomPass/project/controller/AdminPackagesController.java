@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/adminPasses")
-public class AdminPassesController extends AbstractController {
+public class AdminPackagesController extends AbstractController {
 
     @Autowired
     AdminPassesService adminPassesService;

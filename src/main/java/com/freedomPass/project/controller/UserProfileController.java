@@ -386,13 +386,14 @@ public class UserProfileController extends AbstractController {
             UserPassPurchased userPassPurchased = new UserPassPurchased();
             userPassPurchased.setAdminPasses(adminPass);
             userPassPurchased.setIsPaid(false);
+            userPassPurchased.setIsGifted(true);
             userPassPurchased.setStatus(0);
             Calendar c = Calendar.getInstance();
             c.setTime(new Date());
             c.add(Calendar.YEAR, 1);
             userPassPurchased.setValidTill(c.getTime());
             userPassPurchased.setUserProfileId(persistantUser);
-            return userPassPurchasedService.addUserPassPurchased(userPassPurchased, packageId);
+            return userPassPurchasedService.addUserPassPurchased(userPassPurchased, packageId, true);
         } catch (Exception ex) {
             Logger.ERROR("1- Error manageAddUserUnderCompany 1 on API [" + ex.getMessage() + "]", "", "");
         }

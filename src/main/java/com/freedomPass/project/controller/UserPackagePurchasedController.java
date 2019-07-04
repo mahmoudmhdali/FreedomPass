@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/userPassPurchased")
-public class UserPassPurchasedController extends AbstractController {
+public class UserPackagePurchasedController extends AbstractController {
 
     @Autowired
     UserPassPurchasedService userPassPurchasedService;
@@ -64,7 +64,7 @@ public class UserPassPurchasedController extends AbstractController {
         }
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
-                .setHttpResponseEntity(userPassPurchasedService.addUserPassPurchased(userPassPurchased, packageId))
+                .setHttpResponseEntity(userPassPurchasedService.addUserPassPurchased(userPassPurchased, packageId, false))
                 .returnClientResponse();
     }
 

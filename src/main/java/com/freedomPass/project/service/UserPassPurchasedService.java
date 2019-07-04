@@ -13,7 +13,7 @@ public interface UserPassPurchasedService {
 
     UserPassPurchasedPagination getUserPassPurchasedPagination(int pageNumber, int maxRes);
 
-    ResponseBodyEntity addUserPassPurchased(UserPassPurchased userPassPurchased, Long packageId);
+    ResponseBodyEntity addUserPassPurchased(UserPassPurchased userPassPurchased, Long packageId, boolean isGifted);
 
     ResponseBodyEntity editUserPassPurchased(UserPassPurchased userPassPurchased);
 
