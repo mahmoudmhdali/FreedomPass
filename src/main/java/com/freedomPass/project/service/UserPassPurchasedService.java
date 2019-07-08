@@ -8,6 +8,8 @@ import java.util.List;
 public interface UserPassPurchasedService {
 
     List<UserPassPurchased> getUserPassPurchaseds();
+    
+    List<UserPassPurchased> getUserPassPurchasedsGifted(Long userID, boolean isGifted, Long headID);
 
     UserPassPurchased getUserPassPurchased(Long id);
 

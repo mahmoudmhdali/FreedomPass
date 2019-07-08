@@ -118,6 +118,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/userCompanyInfo/editLocations").hasAnyRole("COMPANY")
                 .antMatchers("/userCompanyPasses/myPackages").hasAnyRole("COMPANY")
                 .antMatchers("/userPassPurchased/**").hasAnyRole("SYSTEM", "OUR_SYSTEM_USER")
+                .antMatchers("/userPackageTransfer/getPackagesPurchased/**").hasAnyRole("COMPANY")
                 .antMatchers("/userCompanyPasses").hasAnyRole("SYSTEM", "OUR_SYSTEM_USER")
                 .antMatchers("/userCompanyPasses/{id}").hasAnyRole("SYSTEM", "OUR_SYSTEM_USER")
                 .antMatchers("/userCompanyPasses/{pageNumber}/{maxResult}").hasAnyRole("SYSTEM", "OUR_SYSTEM_USER")

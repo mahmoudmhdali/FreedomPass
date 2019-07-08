@@ -4,6 +4,7 @@ import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.model.UserPassPurchased;
+import com.freedomPass.project.model.UserProfile;
 import com.freedomPass.project.service.UserPassPurchasedService;
 import javax.mail.internet.AddressException;
 import javax.validation.Valid;

@@ -57,12 +57,16 @@ public class UserProfileController extends AbstractController {
         UserProfile user = super.getAuthenticatedUser();
         Long excludeLoggedInUserID = -999999L; // in case you need to include logged in user to the list its set to his ID
         if (super.getAuthenticatedUser() != null) {
-            excludeLoggedInUserID = super.getAuthenticatedUser().getId();
+            excludeLoggedInUserID = user.getId();
+        }
+        Long headID = user.getParentId();
+        if (user.getType() == 1) {
+            headID = user.getId();
         }
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("users", userService.getUsers(excludeLoggedInUserID, user.getType(), user.getParentId()))
+                .addHttpResponseEntityData("users", userService.getUsers(excludeLoggedInUserID, user.getType(), headID))
                 .returnClientResponse();
     }
 

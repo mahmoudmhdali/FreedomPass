@@ -14,5 +14,5 @@ public interface UserPassPurchasedDao {
 
     void addUserPassPurchased(UserPassPurchased userPassPurchased);
 
-    List<UserPassPurchased> getUserPassPurchasedsGifted(Long userID, boolean isGifted);
+    List<UserPassPurchased> getUserPassPurchasedsGifted(Long userID, boolean isGifted, Long headID);
 }

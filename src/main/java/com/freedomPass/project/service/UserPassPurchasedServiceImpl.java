@@ -28,6 +28,12 @@ public class UserPassPurchasedServiceImpl extends AbstractService implements Use
     }
 
     @Override
+    public List<UserPassPurchased> getUserPassPurchasedsGifted(Long userID, boolean isGifted, Long headID) {
+        
+        return userPassPurchasedDao.getUserPassPurchasedsGifted(userID, isGifted, headID);
+    }
+
+    @Override
     public UserPassPurchased getUserPassPurchased(Long id) {
         return userPassPurchasedDao.getUserPassPurchased(id);
     }

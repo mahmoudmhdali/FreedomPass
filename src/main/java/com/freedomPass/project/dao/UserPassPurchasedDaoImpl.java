@@ -27,13 +27,16 @@ public class UserPassPurchasedDaoImpl extends AbstractDao<Long, UserPassPurchase
     }
 
     @Override
-    public List<UserPassPurchased> getUserPassPurchasedsGifted(Long userID, boolean isGifted) {
+    public List<UserPassPurchased> getUserPassPurchasedsGifted(Long userID, boolean isGifted, Long headID) {
         try {
             Criteria criteria = createEntityCriteria()
                     .createAlias("userProfileId", "userProfileIdAlias")
                     .add(Restrictions.eq("userProfileId.id", userID))
                     .add(Restrictions.eq("isGifted", isGifted));
             List<UserPassPurchased> userPassPurchased = (List<UserPassPurchased>) criteria.list();
+            for (UserPassPurchased userPassPurchase : userPassPurchased) {
+                Hibernate.initialize(userPassPurchase.getAdminPasses());
+            }
             return userPassPurchased;
         } catch (Exception ex) {
             Logger.ERROR("1- Error UserPassPurchasedDao 5 on API [" + ex.getMessage() + "]", "", "");
