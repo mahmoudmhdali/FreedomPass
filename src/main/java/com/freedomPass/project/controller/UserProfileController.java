@@ -322,14 +322,25 @@ public class UserProfileController extends AbstractController {
                     break;
                 }
                 case 3: {
-                    userCompanyPass = userCompanyPassesService.getUserCompanyPasse(packageId);
-                    adminPass = userCompanyPass.getAdminPasses();
-                    if (userCompanyPass != null) {
-                        if (userCompanyPass.getRemainingUsers() > 0) {
-                            if (userCompanyPass.getUserCompanyInfo().getId().longValue() != loggedInUser.getUserCompanyInfo().getId().longValue()) {
+                    if (packageId.longValue() != 99999999L) {
+                        userCompanyPass = userCompanyPassesService.getUserCompanyPasse(packageId);
+                        adminPass = userCompanyPass.getAdminPasses();
+                        if (userCompanyPass != null) {
+                            if (userCompanyPass.getRemainingUsers() > 0) {
+                                if (userCompanyPass.getUserCompanyInfo().getId().longValue() != loggedInUser.getUserCompanyInfo().getId().longValue()) {
+                                    responseBodyEntity = ResponseBuilder.getInstance()
+                                            .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                                            .addHttpResponseEntityData("packageId", "Package not found")
+                                            .getResponse();
+                                    return ResponseBuilder.getInstance()
+                                            .setHttpStatus(HttpStatus.OK)
+                                            .setHttpResponseEntity(responseBodyEntity)
+                                            .returnClientResponse();
+                                }
+                            } else {
                                 responseBodyEntity = ResponseBuilder.getInstance()
                                         .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                                        .addHttpResponseEntityData("packageId", "Package not found")
+                                        .addHttpResponseEntityData("packageId", "No more remaining users for this package")
                                         .getResponse();
                                 return ResponseBuilder.getInstance()
                                         .setHttpStatus(HttpStatus.OK)
@@ -339,22 +350,13 @@ public class UserProfileController extends AbstractController {
                         } else {
                             responseBodyEntity = ResponseBuilder.getInstance()
                                     .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                                    .addHttpResponseEntityData("packageId", "No more remaining users for this package")
+                                    .addHttpResponseEntityData("packageId", "Package not found")
                                     .getResponse();
                             return ResponseBuilder.getInstance()
                                     .setHttpStatus(HttpStatus.OK)
                                     .setHttpResponseEntity(responseBodyEntity)
                                     .returnClientResponse();
                         }
-                    } else {
-                        responseBodyEntity = ResponseBuilder.getInstance()
-                                .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                                .addHttpResponseEntityData("packageId", "Package not found")
-                                .getResponse();
-                        return ResponseBuilder.getInstance()
-                                .setHttpStatus(HttpStatus.OK)
-                                .setHttpResponseEntity(responseBodyEntity)
-                                .returnClientResponse();
                     }
                     break;
                 }
@@ -371,7 +373,9 @@ public class UserProfileController extends AbstractController {
 
         responseBodyEntity = userService.addUser(userProfile, userCompanyInfo, userOutletInfo);
         if (responseBodyEntity.getCode() == ResponseCode.SUCCESS) {
-            manageAddUserUnderCompany(userProfile, adminPass, packageId);
+            if (packageId.longValue() != 99999999L) {
+                manageAddUserUnderCompany(userProfile, adminPass, packageId);
+            }
             return ResponseBuilder.getInstance()
                     .setHttpStatus(HttpStatus.OK)
                     .setHttpResponseEntity(responseBodyEntity)
@@ -394,7 +398,7 @@ public class UserProfileController extends AbstractController {
             userPassPurchased.setStatus(0);
             Calendar c = Calendar.getInstance();
             c.setTime(new Date());
-            c.add(Calendar.YEAR, 1);
+            c.add(Calendar.DAY_OF_YEAR, adminPass.getValidity());
             userPassPurchased.setValidTill(c.getTime());
             userPassPurchased.setUserProfileId(persistantUser);
             return userPassPurchasedService.addUserPassPurchased(userPassPurchased, packageId, true);

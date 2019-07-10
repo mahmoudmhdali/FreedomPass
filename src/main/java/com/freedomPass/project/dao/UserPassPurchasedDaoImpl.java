@@ -32,6 +32,7 @@ public class UserPassPurchasedDaoImpl extends AbstractDao<Long, UserPassPurchase
             Criteria criteria = createEntityCriteria()
                     .createAlias("userProfileId", "userProfileIdAlias")
                     .add(Restrictions.eq("userProfileId.id", userID))
+                    .add(Restrictions.eq("isPaid", false))
                     .add(Restrictions.eq("isGifted", isGifted));
             List<UserPassPurchased> userPassPurchased = (List<UserPassPurchased>) criteria.list();
             for (UserPassPurchased userPassPurchase : userPassPurchased) {

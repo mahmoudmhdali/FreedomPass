@@ -43,6 +43,16 @@ public class AdminPassesServiceImpl extends AbstractService implements AdminPass
     }
 
     @Override
+    public List<AdminPasses> getAdminPassesForUsers() {
+        return adminPassesDao.getAdminPassesForUsers();
+    }
+
+    @Override
+    public List<AdminPasses> getAdminPassesByOfferID(Long offerID) {
+        return adminPassesDao.getAdminPassesByOfferID(offerID);
+    }
+
+    @Override
     public AdminPassesPagination getAdminPassesPagination(int pageNumber, int maxRes) {
         return adminPassesDao.getAdminPassesPagination(pageNumber, maxRes);
     }
@@ -111,6 +121,9 @@ public class AdminPassesServiceImpl extends AbstractService implements AdminPass
         if (persistantAdminPasse != null) {
             UserProfile loggedInUser = getAuthenticatedUser();
             persistantAdminPasse.setName(adminPass.getName());
+            persistantAdminPasse.setValidity(adminPass.getValidity());
+            persistantAdminPasse.setCorporateOnly(adminPass.getCorporateOnly());
+            persistantAdminPasse.setPrice(adminPass.getPrice());
             persistantAdminPasse.setDescription(adminPass.getDescription());
             if (image1 != null) {
                 String extension = FilenameUtils.getExtension(image1.getOriginalFilename()).toLowerCase();
@@ -148,7 +161,7 @@ public class AdminPassesServiceImpl extends AbstractService implements AdminPass
                 persistantAdminPasse.setFileName(null);
                 persistantAdminPasse.setImagePath(null);
                 if (toRemoveImage != null) {
-                        Path oldFile = dir.resolve(toRemoveImage.replace("/PackagesImages/", ""));
+                    Path oldFile = dir.resolve(toRemoveImage.replace("/PackagesImages/", ""));
                     try {
                         Files.delete(oldFile);
                     } catch (Exception ex) {

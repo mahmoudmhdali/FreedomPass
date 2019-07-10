@@ -81,6 +81,12 @@ public class UserPurchasedController extends AbstractController {
                         .addHttpResponseEntityData("Package", "Package no more available")
                         .getResponse();
             }
+            if (adminPass.getCorporateOnly()) {
+                return ResponseBuilder.getInstance()
+                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                        .addHttpResponseEntityData("Package", "Package is available for corporates only")
+                        .getResponse();
+            }
             UserProfile persistantUser = getAuthenticatedUser();
             if (persistantUser != null) {
                 UserPassPurchased userPassPurchased = new UserPassPurchased();

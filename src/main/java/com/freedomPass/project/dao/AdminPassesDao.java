@@ -7,10 +7,14 @@ import java.util.List;
 public interface AdminPassesDao {
 
     List<AdminPasses> getAdminPasses();
+    
+    List<AdminPasses> getAdminPassesForUsers();
 
     AdminPassesPagination getAdminPassesPagination(int pageNumber, int maxRes);
 
     AdminPasses getAdminPasse(Long id);
 
     void addAdminPasse(AdminPasses adminPasse);
+    
+    List<AdminPasses> getAdminPassesByOfferID(Long offerID);
 }

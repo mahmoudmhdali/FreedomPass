@@ -160,17 +160,21 @@ public class UserServiceImpl extends AbstractService implements UserService {
         UserProfile persistantUser = userDao.getUser(user.getEmail());
 
         if (persistantUser != null) {
-            if (user.getType() == 3 && (persistantUser.getType() == 3 || persistantUser.getType() == 4)) {
-                return ResponseBuilder.getInstance().
-                        setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                        .addHttpResponseEntityData("user", persistantUser)
-                        .getResponse();
-            } else {
-                return ResponseBuilder.getInstance()
-                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                        .addHttpResponseEntityData("email", "Email already taken")
-                        .getResponse();
-            }
+//            if (user.getType() == 3 && (persistantUser.getType() == 3 || persistantUser.getType() == 4)) {
+//                return ResponseBuilder.getInstance().
+//                        setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+//                        .addHttpResponseEntityData("user", persistantUser)
+//                        .getResponse();
+//            } else {
+//                return ResponseBuilder.getInstance()
+//                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+//                        .addHttpResponseEntityData("email", "Email already taken")
+//                        .getResponse();
+//            }
+            return ResponseBuilder.getInstance()
+                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+                    .addHttpResponseEntityData("email", "Email already taken")
+                    .getResponse();
         }
 
         Long msisdnLength = (Long) settingsEngine.getFirstLevelSetting("MSISDN_LENGTH");

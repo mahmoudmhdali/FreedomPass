@@ -19,4 +19,6 @@ public interface UserPassPurchasedService {
 
     ResponseBodyEntity editUserPassPurchased(UserPassPurchased userPassPurchased);
 
+    ResponseBodyEntity transferUserPassPurchased(Long fromUser, Long toUser, Long packageID);
+
 }

@@ -37,12 +37,10 @@ public class UserPackageTransferController extends AbstractController {
     }
 
     @PostMapping("/transferPackage/{fromUserID}/{toUserID}/{packageID}")
-    public ResponseEntity transferPackage(@PathVariable Long userID, @PathVariable Long toUserID, @PathVariable Long packageID) {
-        UserProfile user = getAuthenticatedUser();
+    public ResponseEntity transferPackage(@PathVariable Long fromUserID, @PathVariable Long toUserID, @PathVariable Long packageID) {
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
-                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("userPassPurchaseds", userPassPurchasedService.getUserPassPurchasedsGifted(userID, true, user.getId()))
+                .setHttpResponseEntity(userPassPurchasedService.transferUserPassPurchased(fromUserID, toUserID, packageID))
                 .returnClientResponse();
     }
 

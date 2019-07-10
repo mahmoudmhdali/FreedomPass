@@ -36,6 +36,24 @@ public class AdminPackagesController extends AbstractController {
                 .returnClientResponse();
     }
 
+    @GetMapping("/forUsers")
+    public ResponseEntity getAdminPassesForUsers() {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("adminPasses", adminPassesService.getAdminPassesForUsers())
+                .returnClientResponse();
+    }
+
+    @GetMapping("/getByOffer/{offerID}")
+    public ResponseEntity getAdminPassesByOfferID(@PathVariable Long offerID) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("adminPasses", adminPassesService.getAdminPassesByOfferID(offerID))
+                .returnClientResponse();
+    }
+
     @GetMapping("/{pageNumber}/{maxResult}")
     public ResponseEntity getAdminPassesPagination(@PathVariable Integer pageNumber, @PathVariable Integer maxResult) {
         return ResponseBuilder.getInstance()

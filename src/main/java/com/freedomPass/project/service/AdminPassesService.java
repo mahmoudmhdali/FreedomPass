@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface AdminPassesService {
 
     List<AdminPasses> getAdminPasses();
+    
+    List<AdminPasses> getAdminPassesForUsers();
 
     AdminPassesPagination getAdminPassesPagination(int pageNumber, int maxRes);
 
@@ -18,5 +20,7 @@ public interface AdminPassesService {
     ResponseBodyEntity addPass(AdminPasses adminPass, MultipartFile image1) throws IOException;
 
     ResponseBodyEntity editPass(AdminPasses adminPass, MultipartFile image1) throws IOException;
+    
+    List<AdminPasses> getAdminPassesByOfferID(Long offerID);
 
 }

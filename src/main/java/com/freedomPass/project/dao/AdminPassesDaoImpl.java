@@ -4,6 +4,7 @@ import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.helpermodel.AdminPassesPagination;
 import com.freedomPass.project.model.AdminPasses;
 import com.freedomPass.project.model.UserOutletOffer;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -28,6 +29,54 @@ public class AdminPassesDaoImpl extends AbstractDao<Long, AdminPasses> implement
                 }
             }
             return adminPasses;
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error AdminPassesDao 1 on API [" + ex.getMessage() + "]", "", "");
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdminPasses> getAdminPassesForUsers() {
+        try {
+            Criteria criteria = createEntityCriteria()
+                    .add(Restrictions.eq("corporateOnly", false))
+                    .add(Restrictions.isNull("deletedDate"));
+            List<AdminPasses> adminPasses = (List<AdminPasses>) criteria.list();
+            for (AdminPasses adminPasse : adminPasses) {
+                Hibernate.initialize(adminPasse.getUserOutletOfferCollection());
+                for (UserOutletOffer userOutletOffer : adminPasse.getUserOutletOfferCollection()) {
+                    Hibernate.initialize(userOutletOffer.getOutletOfferType());
+                }
+            }
+            return adminPasses;
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error AdminPassesDao 1 on API [" + ex.getMessage() + "]", "", "");
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdminPasses> getAdminPassesByOfferID(Long offerID) {
+        List<AdminPasses> filteredAdminPasses = new ArrayList<>();
+        try {
+            Criteria criteria = createEntityCriteria()
+                    .add(Restrictions.isNull("deletedDate"));
+            List<AdminPasses> adminPasses = (List<AdminPasses>) criteria.list();
+            boolean passAdded = false;
+            for (AdminPasses adminPasse : adminPasses) {
+                passAdded = false;
+                Hibernate.initialize(adminPasse.getUserOutletOfferCollection());
+                for (UserOutletOffer userOutletOffer : adminPasse.getUserOutletOfferCollection()) {
+                    Hibernate.initialize(userOutletOffer.getOutletOfferType());
+                    if (!passAdded
+                            && userOutletOffer.getId().longValue() == offerID.longValue()
+                            && !adminPasse.getCorporateOnly()) {
+                        filteredAdminPasses.add(adminPasse);
+                        passAdded = true;
+                    }
+                }
+            }
+            return filteredAdminPasses;
         } catch (Exception ex) {
             Logger.ERROR("1- Error AdminPassesDao 1 on API [" + ex.getMessage() + "]", "", "");
         }

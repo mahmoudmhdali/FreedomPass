@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f6743158-3252-47e0-82d6-bf6d0e27a477",
+		"_postman_id": "52ff1455-6d5f-4386-a909-e357991d29ef",
 		"name": "FreedomPass",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -18,10 +18,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0ODBiZjhjNy05OWUxLTQ5NjEtYTM5Ni1hYWM4ZWRjNmVhMjIiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwODA3MzgxLCJleHAiOjE1MjA4NTA1ODF9.rmpoQD9RjvC704l0e4vChnVuoGBNseZP0svBtgufMKVAB0Ai7ro_5mWxVOt15Ss2peIoNB-njOIgxCromGDUow"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/users",
 							"protocol": "http",
@@ -50,10 +46,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0YzQyZDY5Yi02NWFmLTQxNDctOGIwOS00MDQ3MzQ3ZDdkNzQiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwODA3NTU1LCJleHAiOjE1MjA4NTA3NTV9.gwdlw2JhHjwfSC-NUxrY5mkCs2WTiSgYt-dRCEv11YgZEGhijpgxxxE2E2K_KQxAQMk_2FgVkcXO4TVP8wOTww"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/users/1520808711979438",
 							"protocol": "http",
@@ -83,10 +75,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/users/view/?email=postman-01@apliman.com",
 							"protocol": "http",
@@ -241,7 +229,10 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI5NGE5NmMxMS05NmQwLTRiNWUtOTdjZi05ZTFlZWQyMWUwZjAiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTkwNjQ4LCJleHAiOjE1MjA2MzM4NDh9.cLhmz__FZU_SdwhpYa0EbXTFe6feYxojHCciO7S0V0U1xoIupB7CRLIztkC4i1oBB6jFj_ip9NStr0WC_Phq3w"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/users/delete/1520591174040305",
 							"protocol": "http",
@@ -350,10 +341,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://localhost:8084/FreedomPass/groups",
 							"protocol": "http",
@@ -379,10 +366,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI0ODBiZjhjNy05OWUxLTQ5NjEtYTM5Ni1hYWM4ZWRjNmVhMjIiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwODA3MzgxLCJleHAiOjE1MjA4NTA1ODF9.rmpoQD9RjvC704l0e4vChnVuoGBNseZP0svBtgufMKVAB0Ai7ro_5mWxVOt15Ss2peIoNB-njOIgxCromGDUow"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/roles",
 							"protocol": "http",
@@ -411,10 +394,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/groups/1519807522707828",
 							"protocol": "http",
@@ -542,7 +521,10 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/groups/delete/3",
 							"protocol": "http",
@@ -577,7 +559,10 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI2ZWU1ZWQzNS02Yjc5LTQ2OWEtYjk3YS00OTczZTI0OTQyZjEiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwNTg0NjM4LCJleHAiOjE1MjA2Mjc4Mzh9.xE1X_vXBv3AZ-552sMgT_Xc1BZCKLaQIrqh5DS2UQTYaWB78ZHaIBdXezfAVu6iYr-tRg6mcZWSzUbmBcCoEWQ"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/groups/deleteSelection?id=1520591611278649",
 							"protocol": "http",
@@ -613,10 +598,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/adminPasses",
 							"protocol": "http",
@@ -637,14 +618,61 @@
 					"response": []
 				},
 				{
+					"name": "Get Packages For User Only",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/adminPasses/forUsers",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"adminPasses",
+								"forUsers"
+							]
+						},
+						"description": "Initialized models:\n\t1- Outlet Offers\n\t2- Outlet Offer Type"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Packages Related To Offer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/adminPasses/getByOffer/1553271492978788",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"adminPasses",
+								"getByOffer",
+								"1553271492978788"
+							]
+						},
+						"description": "Initialized models:\n\t1- Outlet Offers\n\t2- Outlet Offer Type"
+					},
+					"response": []
+				},
+				{
 					"name": "Get Pass By Id",
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/adminPasses/1552865970576697",
 							"protocol": "http",
@@ -670,10 +698,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/adminPasses/1/2",
 							"protocol": "http",
@@ -694,6 +718,45 @@
 						"description": "Initialized models:\n\t1- Outlet Offers\n\t2- Outlet Offer Type"
 					},
 					"response": []
+				},
+				{
+					"name": "Purchase Package",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"disabled": true
+							},
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI3ZmQzODcxNi0zMDRlLTRiZTMtOGUzMi00YTUwOTZjMDk1NTciLCJzdWIiOiJtYWhtb3VkbWhkYWxpQGFwbGltYW4ubmV0IiwiaWF0IjoxNTYyMjU4NDA0LCJleHAiOjE1NjIzODgwMDR9.dX5gINIJHWTp4eWUHU5Z5tfyTr1kb81L7nKO5HXUl9Q5Ejhj6mfnZQsMvn-r4LT3yFWM491svAjiEOhaUHRWGA"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/newUser/purchasePackage/1553270576996382",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"newUser",
+								"purchasePackage",
+								"1553270576996382"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -705,10 +768,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer",
 							"protocol": "http",
@@ -732,10 +791,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/1",
 							"protocol": "http",
@@ -760,10 +815,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/type/1",
 							"protocol": "http",
@@ -789,10 +840,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/outlet/1",
 							"protocol": "http",
@@ -818,10 +865,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/outletOfferType",
 							"protocol": "http",
@@ -850,10 +893,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletInfo/userProfile",
 							"protocol": "http",
@@ -878,10 +917,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletInfo/category/1",
 							"protocol": "http",
@@ -907,10 +942,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletInfo/1",
 							"protocol": "http",
@@ -935,10 +966,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/outletCategory",
 							"protocol": "http",
@@ -967,10 +994,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userCompanyInfo/userProfile",
 							"protocol": "http",
@@ -996,10 +1019,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userCompanyInfo/1",
 							"protocol": "http",
@@ -1029,10 +1048,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI5MTY3ZjM4MS0yNDM2LTQwN2ItOGQ5YS0yZDcwMDZjN2M1YTciLCJzdWIiOiJjb21wYW55MTFAZnJlZWRvbXBhc3MuY29tIiwiaWF0IjoxNTUyNzAwMjAzLCJleHAiOjE1NTI4Mjk4MDN9.C4BZcxdb6_o0Uvq1I1N_70O4CnTX-1NDBhvooLa8lbEvt4EpIHgBCHgxdn1Wprup_-B1W1IV_7Vbpe783UL6GQ"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userCompanyPasses/myPackages",
 							"protocol": "http",
@@ -1062,10 +1077,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJmZmIyMjU2NS1jY2E3LTQ0NDgtOGU3OC05YzAzNDM4MzhmOTgiLCJzdWIiOiJtYWhtb3VkbWhkYWxpQGdtYWlsLmNvbTMiLCJpYXQiOjE1NTI4NjgyODEsImV4cCI6MTU1Mjk5Nzg4MX0.bejZHnBu1pX6UMQ_tRX4Myc7W6OIPfSF7upbBS0CBD2GFI7XRaPiu7iZ21XG8Pe1xdoXujzpOmZORITVDzGDkQ"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOfferPurchased/purchase/{offerID}/{userID}",
 							"protocol": "http",
@@ -1109,17 +1120,17 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "postman-01",
+									"value": "MAHMOUD",
 									"type": "text"
 								},
 								{
 									"key": "lastName",
-									"value": "postman-01",
+									"value": "MHD ALI",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "postman-01@apliman.com",
+									"value": "mahmoudmhdali@apliman.net",
 									"type": "text"
 								},
 								{
@@ -1255,10 +1266,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI1MWMwY2VkZS04MmQ4LTQxNmEtOGMxNi1lNmM4MTY4ZTNiNDQiLCJzdWIiOiJhZG1pbkBmcmVlZG9tcGFzcy5jb20iLCJpYXQiOjE1NTE5MDI4NjcsImV4cCI6MTU1MjAzMjQ2N30.6Wrx_lhs2p2nnYl8JqU1yRDmXCRqdZp7hVjo15KAyuyNpALNLLIo5e3fNXqbdqFXW9QrRkyHHfqSgBWyZN3hHg"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/users",
 							"protocol": "http",
@@ -1282,10 +1289,6 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/guest/auth/token/{token}",
 							"protocol": "http",
@@ -1391,10 +1394,6 @@
 								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJkNGNiMjRmNi01OTQ5LTQ1NzktOWUzMC1mN2Y5ZjUyOWNmODgiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTUyOTU2NjQ3LCJleHAiOjE1NTMwODYyNDd9.8lz89P7ZyaV8uUqS0pqWjFpuwZpzkBAAz7xTOxu3uSjkGOnscnOopWSFI0raTZYpJVFRXL7QNMQVu2CX8r7z1A"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
 							"raw": "http://127.0.0.1:8084/FreedomPass/users/1552866673973439",
 							"protocol": "http",
@@ -1481,7 +1480,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"email\": \"admin@freedompass.com\", \"password\": \"Admin123\"}"
+					"raw": "{\"email\": \"mahmoudmhdali@apliman.net\", \"password\": \"Admin123\"}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8084/FreedomPass/login",
@@ -1511,10 +1510,6 @@
 						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJlZjNkNWIyMy1hZWEyLTQ4NjEtOWQ5Mi1lZWQ0NzU1NjJhYjkiLCJzdWIiOiJzeXN1c2VyQGFwbGltYW4uY29tIiwiaWF0IjoxNTIwODA3MjY2LCJleHAiOjE1MjA4NTA0NjZ9.vVl5ewmkBBFdPGkpvwJ3Oy98OUVgDwy-dYLz6FGRql7dogV1mK547qkKrkoDMEky-gpxe-Y9CE-pucn-oxIGSA"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "http://127.0.0.1:8084/FreedomPass/logout",
 					"protocol": "http",

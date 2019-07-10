@@ -57,6 +57,14 @@ public class AdminPasses implements Serializable {
     private Integer validity;
 
     @Basic(optional = false)
+    @Column(name = "CORPORATE_ONLY")
+    private Boolean corporateOnly;
+
+    @Basic(optional = false)
+    @Column(name = "PRICE")
+    private Integer price;
+
+    @Basic(optional = false)
     @Column(name = "NAME")
     @Size(min = 5, max = 20, message = "validation.userProfile.nameRange")
     @NotBlank(message = "validation.userProfile.nameRequired")
@@ -133,6 +141,22 @@ public class AdminPasses implements Serializable {
 
     public void setValidity(Integer validity) {
         this.validity = validity;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public Boolean getCorporateOnly() {
+        return corporateOnly;
+    }
+
+    public void setCorporateOnly(Boolean corporateOnly) {
+        this.corporateOnly = corporateOnly;
     }
 
     public String getDescription() {
