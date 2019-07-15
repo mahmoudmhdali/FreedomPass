@@ -57,14 +57,14 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
         UserProfile user = userDao.getUser(userID);
         int offerExist = 0; //0 does not exist, > 1 number of existance
 
-        if (offer == null) {
+        if (offer == null || offer.getDeletedDate() != null) {
             return ResponseBuilder.getInstance().
                     setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
                     .addHttpResponseEntityData("Message", "Voucher does not exist")
                     .getResponse();
         }
 
-        if (user == null) {
+        if (user == null || user.getDeletedDate() != null) {
             return ResponseBuilder.getInstance().
                     setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
                     .addHttpResponseEntityData("Message", "User does not exist")

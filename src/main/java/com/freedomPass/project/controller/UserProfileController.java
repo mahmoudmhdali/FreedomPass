@@ -240,11 +240,11 @@ public class UserProfileController extends AbstractController {
                 .returnClientResponse();
     }
 
-    @PostMapping("/addCompanyUser/{packageId}")
+    @PostMapping("/addCompanyUser/{packageId}/{isPaid}")
     public ResponseEntity addCompanyUser(@ModelAttribute @Valid UserProfile userProfile, BindingResult userProfileBindingResults,
             @ModelAttribute @Valid UserCompanyInfo userCompanyInfo, BindingResult userCompanyInfoBindingResults,
             @ModelAttribute @Valid UserOutletInfo userOutletInfo, BindingResult userOutletInfoBindingResults,
-            @PathVariable Long packageId) throws AddressException {
+            @PathVariable Long packageId, @PathVariable boolean isPaid) throws AddressException {
         // Validate User Inputs
         ResponseBodyEntity responseBodyEntity = super.checkValidationResults(userProfileBindingResults, null);
         if (responseBodyEntity != null) {
@@ -374,7 +374,7 @@ public class UserProfileController extends AbstractController {
         responseBodyEntity = userService.addUser(userProfile, userCompanyInfo, userOutletInfo);
         if (responseBodyEntity.getCode() == ResponseCode.SUCCESS) {
             if (packageId.longValue() != 99999999L) {
-                manageAddUserUnderCompany(userProfile, adminPass, packageId);
+                manageAddUserUnderCompany(userProfile, adminPass, packageId, isPaid);
             }
             return ResponseBuilder.getInstance()
                     .setHttpStatus(HttpStatus.OK)
@@ -388,12 +388,12 @@ public class UserProfileController extends AbstractController {
                 .returnClientResponse();
     }
 
-    private synchronized ResponseBodyEntity manageAddUserUnderCompany(UserProfile userProfile, AdminPasses adminPass, Long packageId) {
+    private synchronized ResponseBodyEntity manageAddUserUnderCompany(UserProfile userProfile, AdminPasses adminPass, Long packageId, boolean isPaid) {
         try {
             UserProfile persistantUser = userService.toUser(userProfile.getEmail());
             UserPassPurchased userPassPurchased = new UserPassPurchased();
             userPassPurchased.setAdminPasses(adminPass);
-            userPassPurchased.setIsPaid(false);
+            userPassPurchased.setIsPaid(isPaid);
             userPassPurchased.setIsGifted(true);
             userPassPurchased.setStatus(0);
             Calendar c = Calendar.getInstance();

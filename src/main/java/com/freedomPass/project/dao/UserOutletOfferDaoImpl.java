@@ -35,7 +35,10 @@ public class UserOutletOfferDaoImpl extends AbstractDao<Long, UserOutletOffer> i
     @Override
     public UserOutletOffer getUserOutletOffer(Long id) {
         try {
-            UserOutletOffer userOutletOffer = getByKey(id);
+            Criteria criteria = createEntityCriteria()
+                    .add(Restrictions.eq("id", id))
+                    .add(Restrictions.isNull("deletedDate"));
+            UserOutletOffer userOutletOffer = (UserOutletOffer) criteria.uniqueResult();
             if (userOutletOffer == null || userOutletOffer.getDeletedDate() != null) {
                 return null;
             }
