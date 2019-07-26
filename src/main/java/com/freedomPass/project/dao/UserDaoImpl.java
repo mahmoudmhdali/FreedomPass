@@ -2,7 +2,9 @@ package com.freedomPass.project.dao;
 
 import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.helpermodel.UsersPagination;
+import com.freedomPass.project.model.AdminPasses;
 import com.freedomPass.project.model.Group;
+import com.freedomPass.project.model.UserOutletOffer;
 import com.freedomPass.project.model.UserPassPurchased;
 import com.freedomPass.project.model.UserProfile;
 import java.util.Date;
@@ -149,6 +151,10 @@ public class UserDaoImpl extends AbstractDao<Long, UserProfile> implements UserD
                 Hibernate.initialize(user.getUserOutletInfo().getUserOutletInfoLocationsCollection());
             } else {
                 Hibernate.initialize(user.getUserPassPurchased());
+                for (UserPassPurchased userPassPurchased : user.getUserPassPurchased()) {
+                    Hibernate.initialize(userPassPurchased.getAdminPasses());
+                    Hibernate.initialize(userPassPurchased.getAdminPasses().getUserOutletOfferCollection());
+                }
             }
             return user;
         } catch (Exception ex) {

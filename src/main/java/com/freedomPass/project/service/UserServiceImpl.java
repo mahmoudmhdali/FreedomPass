@@ -282,7 +282,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         user.setGroupCollection(groupCollection);
         user.setEnabled(false);
         user.setPassword("NewUserCreated");
-        String token = Utils.generateToken();
+        String token = Utils.generateToken(7);
         user.setResetPasswordToken(token);
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -317,7 +317,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         try {
             UserProfile user = userDao.getUser(email);
             if (user != null) {
-                String token = Utils.generateToken();
+                String token = Utils.generateToken(7);
                 user.setResetPasswordToken(token);
                 Calendar c = Calendar.getInstance();
                 c.setTime(new Date());

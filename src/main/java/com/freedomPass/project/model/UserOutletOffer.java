@@ -59,6 +59,10 @@ public class UserOutletOffer implements Serializable {
     @NotBlank(message = "validation.userInfo.infoRequired")
     private String info;
 
+    @Basic(optional = false)
+    @Column(name = "OFFER_PIN")
+    private String offerPin;
+
     @Transient
     private String imageName1;
 
@@ -298,6 +302,14 @@ public class UserOutletOffer implements Serializable {
 
     public void setUserOutletOfferImagesCollection(Collection<UserOutletOfferImages> userOutletOfferImagesCollection) {
         this.userOutletOfferImagesCollection = userOutletOfferImagesCollection;
+    }
+
+    public String getOfferPin() {
+        return offerPin;
+    }
+
+    public void setOfferPin(String offerPin) {
+        this.offerPin = offerPin;
     }
 
     @Override

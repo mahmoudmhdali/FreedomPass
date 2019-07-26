@@ -7,11 +7,13 @@ import com.freedomPass.project.dao.UserOutletOfferPurchasedHistoryDao;
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
+import com.freedomPass.project.helpermodel.UserOffersUsed;
 import com.freedomPass.project.model.UserOutletOffer;
 import com.freedomPass.project.model.UserOutletOfferPurchased;
 import com.freedomPass.project.model.UserOutletOfferPurchasedHistory;
 import com.freedomPass.project.model.UserPassPurchased;
 import com.freedomPass.project.model.UserProfile;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,10 +53,8 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
     }
 
     @Override
-    public ResponseBodyEntity addUserOutletOfferPurchased(Long offerID, Long userID) {
-        UserProfile loggedInUser = getAuthenticatedUser();
+    public ResponseBodyEntity addUserOutletOfferPurchased(Long offerID, UserProfile user, UserProfile outletUser) {
         UserOutletOffer offer = userOutletOfferDao.getUserOutletOffer(offerID);
-        UserProfile user = userDao.getUser(userID);
         int offerExist = 0; //0 does not exist, > 1 number of existance
 
         if (offer == null || offer.getDeletedDate() != null) {
@@ -71,7 +71,7 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
                     .getResponse();
         }
 
-        if (offer.getUserOutletInfo().getUserProfileId().getId().longValue() != loggedInUser.getId().longValue()) {
+        if (offer.getUserOutletInfo().getUserProfileId().getId().longValue() != outletUser.getId().longValue()) {
             return ResponseBuilder.getInstance().
                     setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
                     .addHttpResponseEntityData("Message", "Voucher does not exist.")
@@ -95,7 +95,7 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
                                         .getResponse();
                             }
                         } else {
-                            offerExist = offerPurchased.getNumberOfUsage();
+                            offerExist = offerExist + offerPurchased.getNumberOfUsage();
                         }
                     }
                 }
@@ -103,7 +103,7 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
         }
 
         if (offerExist > 0) {
-            UserOutletOfferPurchased userOutletOfferPurchased = getUserOutletOfferPurchasedByOfferIDAndUserID(offerID, userID);
+            UserOutletOfferPurchased userOutletOfferPurchased = getUserOutletOfferPurchasedByOfferIDAndUserID(offerID, user.getId());
             if (userOutletOfferPurchased == null) {
                 userOutletOfferPurchased = new UserOutletOfferPurchased();
                 userOutletOfferPurchased.setCounter(1);
@@ -201,6 +201,23 @@ public class UserOutletOfferPurchasedServiceImpl extends AbstractService impleme
                         .getResponse();
             }
         }
+    }
+
+    @Override
+    public List<UserOffersUsed> getUserOfferUsed() {
+        UserProfile loggedInUser = getAuthenticatedUser();
+        List<UserOffersUsed> userOffersUseds = new ArrayList<>();
+        List<UserOutletOfferPurchased> userOutletOfferPurchased = userOutletOfferPurchasedDao.getUserOutletOfferPurchasedByUserID(loggedInUser.getId());
+        for (UserOutletOfferPurchased userOutletOfferPurchase : userOutletOfferPurchased) {
+            UserOffersUsed userOffersUsed = new UserOffersUsed();
+            userOffersUsed.setOfferID(userOutletOfferPurchase.getUserOutletOffer().getId());
+            userOffersUsed.setOfferType(userOutletOfferPurchase.getUserOutletOffer().getOutletOfferType().getId());
+            userOffersUsed.setMaxNumberOfUsage(userOutletOfferPurchase.getUserOutletOffer().getNumberOfUsage());
+            userOffersUsed.setNumberOfUsedTimes(userOutletOfferPurchase.getCounter());
+            userOffersUsed.setResetDate(userOutletOfferPurchase.getNextResetDate());
+            userOffersUseds.add(userOffersUsed);
+        }
+        return userOffersUseds;
     }
 
 }

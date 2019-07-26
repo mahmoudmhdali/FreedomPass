@@ -57,8 +57,8 @@ public class Utils {
         return UUID.randomUUID().toString();
     }
 
-    public static String generateToken() {
-        return RandomStringUtils.randomAlphanumeric(7);
+    public static String generateToken(int length) {
+        return RandomStringUtils.randomAlphanumeric(length);
     }
 
     public static Long generateUniqueInteger() {

@@ -1465,6 +1465,65 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Activate Offer By PIN",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxNjQ4YjJiYS00ODQ0LTRmYTEtYTNlOS1hYzc1NTYxN2M4MTciLCJzdWIiOiJ1c2VyY29tcGFueTJAZ21haWwuY29tIiwiaWF0IjoxNTY0MTQxNzgxLCJleHAiOjE1NjQyNzEzODF9.z9jNvTtzFDVVbR7PI_PK2IQ-RXBm1K36Wfv-OJDbtUglCQbmFMvJowX-p8EQxxI7OXtOcEm5eiXn5uzSkMIwJw"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/purchaseByOfferPIN/{offerPin}",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userOutletOffer",
+								"purchaseByOfferPIN",
+								"{offerPin}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Offers Used",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Token",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJkOWI0NzE0OS05NzRhLTQwYWUtOWU2OC02ZjRlNjRlNjMwNDQiLCJzdWIiOiJ1c2VyY29tcGFueTFAZ21haWwuY29tIiwiaWF0IjoxNTY0MTUzOTg3LCJleHAiOjE1NjQyODM1ODd9.QMo486XutmRw22Q1aJTR3D9ePlsew9o7rLetZCJgE1plF2zzGuO99xMJcDSA1TEVPVCuU3-O7VjV3enP1amM0w"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/getUserOfferUsed",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8084",
+							"path": [
+								"FreedomPass",
+								"userOutletOffer",
+								"getUserOfferUsed"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -1480,7 +1539,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"email\": \"mahmoudmhdali@apliman.net\", \"password\": \"Admin123\"}"
+					"raw": "{\"email\": \"usercompany1@gmail.com\", \"password\": \"Admin123\"}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:8084/FreedomPass/login",

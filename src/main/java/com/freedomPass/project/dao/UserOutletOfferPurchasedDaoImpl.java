@@ -4,6 +4,7 @@ import com.freedomPass.api.commons.Logger;
 import com.freedomPass.project.model.UserOutletOfferPurchased;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -45,7 +46,25 @@ public class UserOutletOfferPurchasedDaoImpl extends AbstractDao<Long, UserOutle
             UserOutletOfferPurchased userOutletOfferPurchased = (UserOutletOfferPurchased) criteria.uniqueResult();
             return userOutletOfferPurchased;
         } catch (Exception ex) {
-            Logger.ERROR("1- Error UserOutletPurchasedDao 2 on API [" + ex.getMessage() + "]", "Offer ID: " + offerID + ". User ID" + userID, "");
+            Logger.ERROR("1- Error UserOutletPurchasedDao 3 on API [" + ex.getMessage() + "]", "Offer ID: " + offerID + ". User ID" + userID, "");
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserOutletOfferPurchased> getUserOutletOfferPurchasedByUserID(Long userID) {
+        try {
+            Criteria criteria = createEntityCriteria()
+                    .createAlias("userProfileId", "userProfileIdAlias")
+                    .add(Restrictions.eq("userProfileIdAlias.id", userID));
+            List<UserOutletOfferPurchased> userOutletOfferPurchased = (List<UserOutletOfferPurchased>) criteria.list();
+            for (UserOutletOfferPurchased userOutletOfferPurchase : userOutletOfferPurchased) {
+                Hibernate.initialize(userOutletOfferPurchase.getUserOutletOffer());
+                Hibernate.initialize(userOutletOfferPurchase.getUserOutletOffer().getOutletOfferType());
+            }
+            return userOutletOfferPurchased;
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error UserOutletPurchasedDao 4 on API [" + ex.getMessage() + "]", "User ID" + userID, "");
         }
         return null;
     }
@@ -55,7 +74,7 @@ public class UserOutletOfferPurchasedDaoImpl extends AbstractDao<Long, UserOutle
         try {
             save(userOutletOfferPurchased);
         } catch (Exception ex) {
-            Logger.ERROR("1- Error UserOutletPurchasedDao 4 on API [" + ex.getMessage() + "]", userOutletOfferPurchased, "");
+            Logger.ERROR("1- Error UserOutletPurchasedDao 5 on API [" + ex.getMessage() + "]", userOutletOfferPurchased, "");
         }
     }
 

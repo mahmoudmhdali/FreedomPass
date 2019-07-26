@@ -11,5 +11,7 @@ public interface UserOutletOfferPurchasedDao {
 
     UserOutletOfferPurchased getUserOutletOfferPurchasedByOfferIDAndUserID(Long offerID, Long userID);
 
+    List<UserOutletOfferPurchased> getUserOutletOfferPurchasedByUserID(Long userID);
+
     void addUserOutletOfferPurchased(UserOutletOfferPurchased userOutletOfferPurchased);
 }

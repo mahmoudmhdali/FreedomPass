@@ -5,6 +5,8 @@ import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.model.UserOutletInfo;
 import com.freedomPass.project.model.UserOutletOffer;
+import com.freedomPass.project.model.UserProfile;
+import com.freedomPass.project.service.UserOutletOfferPurchasedService;
 import com.freedomPass.project.service.UserOutletOfferService;
 import java.io.IOException;
 import javax.mail.internet.AddressException;
@@ -27,6 +29,9 @@ public class UserOutletOfferController extends AbstractController {
 
     @Autowired
     UserOutletOfferService userOutletOfferService;
+
+    @Autowired
+    UserOutletOfferPurchasedService userOutletOfferPurchasedService;
 
     @GetMapping
     public ResponseEntity getUserOutletOffers() {
@@ -115,4 +120,23 @@ public class UserOutletOfferController extends AbstractController {
                 .returnClientResponse();
     }
 
+    @GetMapping("/purchaseByOfferPIN/{offerPin}")
+    public ResponseEntity myPackages(@PathVariable String offerPin) {
+        UserProfile user = getAuthenticatedUser();
+        UserOutletOffer offer = userOutletOfferService.getUserOutletOfferByPin(offerPin);
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("userCompanyPasses", userOutletOfferPurchasedService.addUserOutletOfferPurchased(offer.getId(), user, offer.getUserOutletInfo().getUserProfileId()))
+                .returnClientResponse();
+    }
+
+    @GetMapping("/getUserOfferUsed")
+    public ResponseEntity getUserOfferUsed() {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("userOfferUsed", userOutletOfferPurchasedService.getUserOfferUsed())
+                .returnClientResponse();
+    }
 }

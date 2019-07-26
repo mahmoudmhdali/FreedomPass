@@ -139,4 +139,19 @@ public class UserOutletOfferDaoImpl extends AbstractDao<Long, UserOutletOffer> i
         }
     }
 
+    @Override
+    public UserOutletOffer getUserOutletOfferByPin(String offerPin) {
+        try {
+            Criteria criteria = createEntityCriteria()
+                    .add(Restrictions.eq("offerPin", offerPin))
+                    .add(Restrictions.isNull("deletedDate"));
+            UserOutletOffer userOutletOffer = (UserOutletOffer) criteria.uniqueResult();
+            Hibernate.initialize(userOutletOffer.getUserOutletOfferImagesCollection());
+            return userOutletOffer;
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error UserOutletOfferDao 8 on API [" + ex.getMessage() + "]", offerPin, "");
+        }
+        return null;
+    }
+
 }

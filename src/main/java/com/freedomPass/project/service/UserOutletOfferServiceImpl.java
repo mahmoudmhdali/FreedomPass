@@ -2,6 +2,7 @@ package com.freedomPass.project.service;
 
 import com.freedomPass.api.commons.ContextHolder;
 import com.freedomPass.api.commons.Logger;
+import com.freedomPass.api.commons.utils.Utils;
 import com.freedomPass.project.dao.OutletOfferTypeDao;
 import com.freedomPass.project.dao.UserOutletInfoDao;
 import com.freedomPass.project.dao.UserOutletOfferDao;
@@ -55,6 +56,11 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
     @Override
     public UserOutletOffer getUserOutletOffer(Long id) {
         return userOutletOfferDao.getUserOutletOffer(id);
+    }
+
+    @Override
+    public UserOutletOffer getUserOutletOfferByPin(String offerPin) {
+        return userOutletOfferDao.getUserOutletOfferByPin(offerPin);
     }
 
     @Override
@@ -230,6 +236,7 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
             }
         }
         userOutletOffer.setUserOutletOfferImagesCollection(userOutletOfferImages);
+        userOutletOffer.setOfferPin(Utils.generateToken(5));
         userOutletOfferDao.addUser(userOutletOffer);
         if (numberOfNotAlLowed > 0) {
             return ResponseBuilder.getInstance().

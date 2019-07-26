@@ -14,6 +14,8 @@ public interface UserOutletOfferService {
 
     UserOutletOffer getUserOutletOffer(Long id);
 
+    UserOutletOffer getUserOutletOfferByPin(String offerPin);
+
     List<UserOutletOffer> getUserOutletOffersByType(Long type);
 
     List<UserOutletOffer> getUserOutletOffersByOutletId(Long id);
