@@ -90,6 +90,10 @@ public class UserOutletInfo implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
 
+    @Basic(optional = false)
+    @Column(name = "OUTLET_PIN")
+    private String outletPin;
+
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -178,6 +182,14 @@ public class UserOutletInfo implements Serializable {
         this.userOutletOffers = userOutletOffers;
     }
 
+    public String getOutletPin() {
+        return outletPin;
+    }
+
+    public void setOutletPin(String outletPin) {
+        this.outletPin = outletPin;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -207,6 +219,7 @@ public class UserOutletInfo implements Serializable {
         return "\"com.freedomPass.project.model.UserProfile\" : {\"id\" : \"" + id + "\","
                 + "\"info\" : \"" + info + "\","
                 + "\"country\" : \"" + country + "\","
+                + "\"outletPin\" : \"" + outletPin + "\","
                 + "\"userProfileId\" : " + userProfileIdString + "}";
     }
 }

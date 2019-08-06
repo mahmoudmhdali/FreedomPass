@@ -59,11 +59,6 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
     }
 
     @Override
-    public UserOutletOffer getUserOutletOfferByPin(String offerPin) {
-        return userOutletOfferDao.getUserOutletOfferByPin(offerPin);
-    }
-
-    @Override
     public List<UserOutletOffer> getUserOutletOffersByType(Long type) {
         return userOutletOfferDao.getUserOutletOffersByType(type);
     }
@@ -236,7 +231,6 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
             }
         }
         userOutletOffer.setUserOutletOfferImagesCollection(userOutletOfferImages);
-        userOutletOffer.setOfferPin(Utils.generateToken(5));
         userOutletOfferDao.addUser(userOutletOffer);
         if (numberOfNotAlLowed > 0) {
             return ResponseBuilder.getInstance().

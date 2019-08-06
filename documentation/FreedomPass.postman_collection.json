@@ -1473,11 +1473,11 @@
 						"header": [
 							{
 								"key": "Token",
-								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxNjQ4YjJiYS00ODQ0LTRmYTEtYTNlOS1hYzc1NTYxN2M4MTciLCJzdWIiOiJ1c2VyY29tcGFueTJAZ21haWwuY29tIiwiaWF0IjoxNTY0MTQxNzgxLCJleHAiOjE1NjQyNzEzODF9.z9jNvTtzFDVVbR7PI_PK2IQ-RXBm1K36Wfv-OJDbtUglCQbmFMvJowX-p8EQxxI7OXtOcEm5eiXn5uzSkMIwJw"
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiI3YWUxMjcxYS0yMmFkLTQ2NzktYTFlYi0xYjZlYTE4ZWE5OWEiLCJzdWIiOiJ1c2VyY29tcGFueTFAZ21haWwuY29tIiwiaWF0IjoxNTY1MDYwNzI5LCJleHAiOjE1NjUxOTAzMjl9.63_GU-5iyrLaKFDSN2wWauW5_DMw4Wr9pGoWYVPOtlRj1KG30oX3-e_APnqr38qcshutfqgPCYHcNYqlEU1_WQ"
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/purchaseByOfferPIN/{offerPin}",
+							"raw": "http://127.0.0.1:8084/FreedomPass/userOutletOffer/purchaseByOfferPIN/{offerID}/{outletPIN}",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -1490,7 +1490,8 @@
 								"FreedomPass",
 								"userOutletOffer",
 								"purchaseByOfferPIN",
-								"{offerPin}"
+								"{offerID}",
+								"{outletPIN}"
 							]
 						}
 					},

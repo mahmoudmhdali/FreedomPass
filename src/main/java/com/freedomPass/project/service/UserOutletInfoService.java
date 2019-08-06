@@ -8,5 +8,7 @@ public interface UserOutletInfoService {
     List<UserOutletInfo> getUserOutletInfos();
 
     UserOutletInfo getUserOutletInfo(Long id);
+    
+    UserOutletInfo getUserOutletInfoByPin(String outletPin);
 
 }

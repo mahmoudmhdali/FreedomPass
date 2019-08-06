@@ -24,4 +24,9 @@ public class UserOutletInfoServiceImpl extends AbstractService implements UserOu
         return userOutletInfoDao.getUserOutletInfo(id);
     }
 
+    @Override
+    public UserOutletInfo getUserOutletInfoByPin(String outletPin) {
+        return userOutletInfoDao.getUserOutletInfoByPin(outletPin);
+    }
+
 }

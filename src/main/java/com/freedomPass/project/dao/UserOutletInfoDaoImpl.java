@@ -49,5 +49,26 @@ public class UserOutletInfoDaoImpl extends AbstractDao<Long, UserOutletInfo> imp
         }
         return null;
     }
+    
+
+    @Override
+    public UserOutletInfo getUserOutletInfoByPin(String outletPin) {
+        try {
+            Criteria criteria = createEntityCriteria()
+                    .add(Restrictions.eq("outletPin", outletPin))
+                    .add(Restrictions.isNull("deletedDate"));
+            UserOutletInfo userOutletInfo = (UserOutletInfo) criteria.uniqueResult();
+            if (userOutletInfo == null || userOutletInfo.getDeletedDate() != null) {
+                return null;
+            }
+            Hibernate.initialize(userOutletInfo.getOutletCategoryCollection());
+            Hibernate.initialize(userOutletInfo.getUserOutletInfoImagesCollection());
+            Hibernate.initialize(userOutletInfo.getUserOutletInfoLocationsCollection());
+            return userOutletInfo;
+        } catch (Exception ex) {
+            Logger.ERROR("1- Error UserOutletDao 4 on API [" + ex.getMessage() + "]", outletPin, "");
+        }
+        return null;
+    }
 
 }

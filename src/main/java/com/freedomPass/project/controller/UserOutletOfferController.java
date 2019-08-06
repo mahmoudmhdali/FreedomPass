@@ -6,6 +6,7 @@ import com.freedomPass.project.helpermodel.ResponseCode;
 import com.freedomPass.project.model.UserOutletInfo;
 import com.freedomPass.project.model.UserOutletOffer;
 import com.freedomPass.project.model.UserProfile;
+import com.freedomPass.project.service.UserOutletInfoService;
 import com.freedomPass.project.service.UserOutletOfferPurchasedService;
 import com.freedomPass.project.service.UserOutletOfferService;
 import java.io.IOException;
@@ -29,6 +30,9 @@ public class UserOutletOfferController extends AbstractController {
 
     @Autowired
     UserOutletOfferService userOutletOfferService;
+
+    @Autowired
+    UserOutletInfoService userOutletInfoService;
 
     @Autowired
     UserOutletOfferPurchasedService userOutletOfferPurchasedService;
@@ -120,14 +124,23 @@ public class UserOutletOfferController extends AbstractController {
                 .returnClientResponse();
     }
 
-    @GetMapping("/purchaseByOfferPIN/{offerPin}")
-    public ResponseEntity myPackages(@PathVariable String offerPin) {
+    @GetMapping("/purchaseByOfferPIN/{offerID}/{outletPin}")
+    public ResponseEntity myPackages(@PathVariable Long offerID, @PathVariable String outletPin) {
         UserProfile user = getAuthenticatedUser();
-        UserOutletOffer offer = userOutletOfferService.getUserOutletOfferByPin(offerPin);
+        UserOutletInfo userOutletInfo = userOutletInfoService.getUserOutletInfoByPin(outletPin);
+        UserOutletOffer offer = userOutletOfferService.getUserOutletOffer(offerID);
+        if (offer == null || userOutletInfo == null || 
+                offer.getUserOutletInfo().getId().longValue() != userOutletInfo.getId().longValue()) {
+            return ResponseBuilder.getInstance()
+                    .setHttpStatus(HttpStatus.OK)
+                    .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                    .addHttpResponseEntityData("pinError", "Not a valid PIN")
+                    .returnClientResponse();
+        }
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("userCompanyPasses", userOutletOfferPurchasedService.addUserOutletOfferPurchased(offer.getId(), user, offer.getUserOutletInfo().getUserProfileId()))
+                .addHttpResponseEntityData("userCompanyPasses", userOutletOfferPurchasedService.addUserOutletOfferPurchased(offer.getId(), user, userOutletInfo.getUserProfileId()))
                 .returnClientResponse();
     }
 

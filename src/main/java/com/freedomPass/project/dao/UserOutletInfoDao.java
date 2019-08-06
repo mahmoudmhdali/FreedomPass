@@ -8,4 +8,6 @@ public interface UserOutletInfoDao {
     List<UserOutletInfo> getUserOutletInfos();
 
     UserOutletInfo getUserOutletInfo(Long id);
+    
+    UserOutletInfo getUserOutletInfoByPin(String outletPin);
 }

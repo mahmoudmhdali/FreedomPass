@@ -247,6 +247,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
                     userOutletInfo.setId(null);
                     userOutletInfo.setCountry(1);
                     userOutletInfo.setUserProfileId(user);
+                    userOutletInfo.setOutletPin(Utils.generateToken(5));
                     user.setUserOutletInfo(userOutletInfo);
                     user.setUserCompanyInfo(null);
                     break;
