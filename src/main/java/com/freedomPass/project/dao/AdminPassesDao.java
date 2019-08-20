@@ -10,7 +10,7 @@ public interface AdminPassesDao {
     
     List<AdminPasses> getAdminPassesForUsers();
 
-    AdminPassesPagination getAdminPassesPagination(int pageNumber, int maxRes);
+    AdminPassesPagination getAdminPassesPagination(int pageNumber, int maxRes, boolean isCorporate);
 
     AdminPasses getAdminPasse(Long id);
 

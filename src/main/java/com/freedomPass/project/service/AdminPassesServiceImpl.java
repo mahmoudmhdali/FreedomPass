@@ -53,8 +53,8 @@ public class AdminPassesServiceImpl extends AbstractService implements AdminPass
     }
 
     @Override
-    public AdminPassesPagination getAdminPassesPagination(int pageNumber, int maxRes) {
-        return adminPassesDao.getAdminPassesPagination(pageNumber, maxRes);
+    public AdminPassesPagination getAdminPassesPagination(int pageNumber, int maxRes, boolean isCorporate) {
+        return adminPassesDao.getAdminPassesPagination(pageNumber, maxRes, isCorporate);
     }
 
     @Override

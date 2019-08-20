@@ -63,12 +63,21 @@ public class AdminPackagesController extends AbstractController {
                 .returnClientResponse();
     }
 
-    @GetMapping("/{pageNumber}/{maxResult}")
+    @GetMapping("/packages/{pageNumber}/{maxResult}")
     public ResponseEntity getAdminPassesPagination(@PathVariable Integer pageNumber, @PathVariable Integer maxResult) {
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("passes", adminPassesService.getAdminPassesPagination(pageNumber, maxResult))
+                .addHttpResponseEntityData("passes", adminPassesService.getAdminPassesPagination(pageNumber, maxResult, true))
+                .returnClientResponse();
+    }
+
+    @GetMapping("/subscriptions/{pageNumber}/{maxResult}")
+    public ResponseEntity getAdminPassesPaginationSubsc(@PathVariable Integer pageNumber, @PathVariable Integer maxResult) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("passes", adminPassesService.getAdminPassesPagination(pageNumber, maxResult, false))
                 .returnClientResponse();
     }
 

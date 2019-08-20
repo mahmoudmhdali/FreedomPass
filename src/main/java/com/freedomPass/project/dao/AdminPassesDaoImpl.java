@@ -85,10 +85,11 @@ public class AdminPassesDaoImpl extends AbstractDao<Long, AdminPasses> implement
     }
 
     @Override
-    public AdminPassesPagination getAdminPassesPagination(int pageNumber, int maxRes) {
+    public AdminPassesPagination getAdminPassesPagination(int pageNumber, int maxRes, boolean isCorporate) {
         try {
             Criteria criteria = createEntityCriteria();
             criteria.addOrder(Order.asc("name"));
+            criteria.add(Restrictions.eq("corporateOnly", isCorporate));
             criteria.add(Restrictions.isNull("deletedDate"));
             criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);  // To avoid duplicates.
             criteria.setProjection(Projections.rowCount());
