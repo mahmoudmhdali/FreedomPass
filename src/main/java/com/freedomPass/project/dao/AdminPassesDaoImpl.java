@@ -17,9 +17,10 @@ import org.springframework.stereotype.Repository;
 public class AdminPassesDaoImpl extends AbstractDao<Long, AdminPasses> implements AdminPassesDao {
 
     @Override
-    public List<AdminPasses> getAdminPasses() {
+    public List<AdminPasses> getAdminPasses(boolean isCorporate) {
         try {
             Criteria criteria = createEntityCriteria()
+                    .add(Restrictions.eq("corporateOnly", isCorporate))
                     .add(Restrictions.isNull("deletedDate"));
             List<AdminPasses> adminPasses = (List<AdminPasses>) criteria.list();
             for (AdminPasses adminPasse : adminPasses) {

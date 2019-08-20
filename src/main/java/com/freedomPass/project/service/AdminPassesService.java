@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface AdminPassesService {
 
-    List<AdminPasses> getAdminPasses();
+    List<AdminPasses> getAdminPasses(boolean isCorporate);
     
     List<AdminPasses> getAdminPassesForUsers();
 

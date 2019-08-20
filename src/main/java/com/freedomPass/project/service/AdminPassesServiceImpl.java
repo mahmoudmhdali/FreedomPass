@@ -38,8 +38,8 @@ public class AdminPassesServiceImpl extends AbstractService implements AdminPass
     UserOutletOfferService userOutletOfferService;
 
     @Override
-    public List<AdminPasses> getAdminPasses() {
-        return adminPassesDao.getAdminPasses();
+    public List<AdminPasses> getAdminPasses(boolean isCorporate) {
+        return adminPassesDao.getAdminPasses(isCorporate);
     }
 
     @Override

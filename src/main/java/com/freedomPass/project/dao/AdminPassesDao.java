@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AdminPassesDao {
 
-    List<AdminPasses> getAdminPasses();
+    List<AdminPasses> getAdminPasses(boolean isCorporate);
     
     List<AdminPasses> getAdminPassesForUsers();
 

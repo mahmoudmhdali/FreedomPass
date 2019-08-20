@@ -27,12 +27,21 @@ public class AdminPackagesController extends AbstractController {
     @Autowired
     AdminPassesService adminPassesService;
 
-    @GetMapping
+    @GetMapping("/packages")
     public ResponseEntity getAdminPasses() {
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
-                .addHttpResponseEntityData("adminPasses", adminPassesService.getAdminPasses())
+                .addHttpResponseEntityData("adminPasses", adminPassesService.getAdminPasses(true))
+                .returnClientResponse();
+    }
+
+    @GetMapping("/subscriptions")
+    public ResponseEntity getAdminPassesSubsc() {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .addHttpResponseEntityData("adminPasses", adminPassesService.getAdminPasses(false))
                 .returnClientResponse();
     }
 
