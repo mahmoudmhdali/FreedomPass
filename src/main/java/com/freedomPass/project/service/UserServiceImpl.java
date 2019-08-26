@@ -177,21 +177,21 @@ public class UserServiceImpl extends AbstractService implements UserService {
                     .getResponse();
         }
 
-        Long msisdnLength = (Long) settingsEngine.getFirstLevelSetting("MSISDN_LENGTH");
-        if (user.getMobileNumber().length() != msisdnLength) {
-            return ResponseBuilder.getInstance()
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnLength", new Object[]{msisdnLength}))
-                    .getResponse();
-        }
-
-        // Check if mobile number is unique
-        if (userDao.filterByMobileNumber(user.getMobileNumber()) != null) {
-            return ResponseBuilder.getInstance()
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnTaken", null))
-                    .getResponse();
-        }
+//        Long msisdnLength = (Long) settingsEngine.getFirstLevelSetting("MSISDN_LENGTH");
+//        if (user.getMobileNumber().length() != msisdnLength) {
+//            return ResponseBuilder.getInstance()
+//                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+//                    .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnLength", new Object[]{msisdnLength}))
+//                    .getResponse();
+//        }
+//
+//        // Check if mobile number is unique
+//        if (userDao.filterByMobileNumber(user.getMobileNumber()) != null) {
+//            return ResponseBuilder.getInstance()
+//                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+//                    .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnTaken", null))
+//                    .getResponse();
+//        }
 
         user.setEmail(user.getEmail().trim().toLowerCase());
         user.setName(user.getName().trim().toLowerCase());
@@ -354,23 +354,23 @@ public class UserServiceImpl extends AbstractService implements UserService {
             }
         }
 
-        Long msisdnLength = (Long) settingsEngine.getFirstLevelSetting("MSISDN_LENGTH");
-        if (user.getMobileNumber().length() != msisdnLength) {
-            return ResponseBuilder.getInstance()
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnLength", new Object[]{msisdnLength}))
-                    .getResponse();
-        }
-
-        // Check if mobile number is unique
-        if (persistantUser.getMobileNumber() != null && !persistantUser.getMobileNumber().equals(user.getMobileNumber())) {
-            if (userDao.filterByMobileNumber(user.getMobileNumber()) != null) {
-                return ResponseBuilder.getInstance()
-                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                        .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnTaken", null))
-                        .getResponse();
-            }
-        }
+//        Long msisdnLength = (Long) settingsEngine.getFirstLevelSetting("MSISDN_LENGTH");
+//        if (user.getMobileNumber().length() != msisdnLength) {
+//            return ResponseBuilder.getInstance()
+//                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+//                    .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnLength", new Object[]{msisdnLength}))
+//                    .getResponse();
+//        }
+//
+//        // Check if mobile number is unique
+//        if (persistantUser.getMobileNumber() != null && !persistantUser.getMobileNumber().equals(user.getMobileNumber())) {
+//            if (userDao.filterByMobileNumber(user.getMobileNumber()) != null) {
+//                return ResponseBuilder.getInstance()
+//                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+//                        .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnTaken", null))
+//                        .getResponse();
+//            }
+//        }
 
         persistantUser.setName(user.getName());
         persistantUser.setEmail(user.getEmail().toLowerCase());
@@ -516,23 +516,23 @@ public class UserServiceImpl extends AbstractService implements UserService {
                     .getResponse();
         }
 
-        Long msisdnLength = (Long) settingsEngine.getFirstLevelSetting("MSISDN_LENGTH");
-        if (user.getMobileNumber().length() != msisdnLength) {
-            return ResponseBuilder.getInstance()
-                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                    .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnLength", new Object[]{msisdnLength}))
-                    .getResponse();
-        }
-
-        // Check if mobile number is unique
-        if (persistantUser.getMobileNumber() != null && !persistantUser.getMobileNumber().equals(user.getMobileNumber())) {
-            if (userDao.filterByMobileNumber(user.getMobileNumber()) != null) {
-                return ResponseBuilder.getInstance()
-                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
-                        .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnTaken", null))
-                        .getResponse();
-            }
-        }
+//        Long msisdnLength = (Long) settingsEngine.getFirstLevelSetting("MSISDN_LENGTH");
+//        if (user.getMobileNumber().length() != msisdnLength) {
+//            return ResponseBuilder.getInstance()
+//                    .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+//                    .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnLength", new Object[]{msisdnLength}))
+//                    .getResponse();
+//        }
+//
+//        // Check if mobile number is unique
+//        if (persistantUser.getMobileNumber() != null && !persistantUser.getMobileNumber().equals(user.getMobileNumber())) {
+//            if (userDao.filterByMobileNumber(user.getMobileNumber()) != null) {
+//                return ResponseBuilder.getInstance()
+//                        .setHttpResponseEntityResultCode(ResponseCode.PARAMETERS_VALIDATION_ERROR)
+//                        .addHttpResponseEntityData("mobileNumber", this.getMessageBasedOnLanguage("user.msisdnTaken", null))
+//                        .getResponse();
+//            }
+//        }
 
         persistantUser.setName(user.getName());
         persistantUser.setMobileNumber(user.getMobileNumber());

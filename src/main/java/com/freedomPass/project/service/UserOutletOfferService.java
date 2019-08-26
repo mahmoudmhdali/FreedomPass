@@ -24,4 +24,6 @@ public interface UserOutletOfferService {
 
     ResponseBodyEntity editOffer(UserOutletOffer userOutletOffer, UserOutletInfo userOutletInfo, MultipartFile image1, MultipartFile image2, MultipartFile image3, MultipartFile image4) throws  IOException;
 
+    ResponseBodyEntity deleteOffer(Long id);
+    
 }

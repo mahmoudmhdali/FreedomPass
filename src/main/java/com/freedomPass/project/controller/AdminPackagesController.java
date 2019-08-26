@@ -124,4 +124,12 @@ public class AdminPackagesController extends AbstractController {
                 .returnClientResponse();
     }
 
+    @PostMapping("/delete/{id}")
+    public ResponseEntity deleteUser(@PathVariable Long id) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntity(adminPassesService.deletePackage(id))
+                .returnClientResponse();
+    }
+
 }

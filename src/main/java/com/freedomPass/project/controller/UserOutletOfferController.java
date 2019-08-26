@@ -152,4 +152,12 @@ public class UserOutletOfferController extends AbstractController {
                 .addHttpResponseEntityData("userOfferUsed", userOutletOfferPurchasedService.getUserOfferUsed())
                 .returnClientResponse();
     }
+
+    @PostMapping("/delete/{id}")
+    public ResponseEntity deleteUser(@PathVariable Long id) {
+        return ResponseBuilder.getInstance()
+                .setHttpStatus(HttpStatus.OK)
+                .setHttpResponseEntity(userOutletOfferService.deleteOffer(id))
+                .returnClientResponse();
+    }
 }

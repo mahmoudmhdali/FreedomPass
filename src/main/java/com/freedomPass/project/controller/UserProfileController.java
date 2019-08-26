@@ -466,9 +466,8 @@ public class UserProfileController extends AbstractController {
                 .returnClientResponse();
     }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id) {
-
         return ResponseBuilder.getInstance()
                 .setHttpStatus(HttpStatus.OK)
                 .setHttpResponseEntity(userService.deleteUser(id))

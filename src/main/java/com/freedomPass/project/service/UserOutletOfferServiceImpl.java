@@ -11,6 +11,7 @@ import com.freedomPass.project.helpermodel.OffersPagination;
 import com.freedomPass.project.helpermodel.ResponseBodyEntity;
 import com.freedomPass.project.helpermodel.ResponseBuilder;
 import com.freedomPass.project.helpermodel.ResponseCode;
+import com.freedomPass.project.model.AdminPasses;
 import com.freedomPass.project.model.UserOutletInfo;
 import com.freedomPass.project.model.UserOutletOffer;
 import com.freedomPass.project.model.UserOutletOfferImages;
@@ -22,6 +23,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -467,6 +469,24 @@ public class UserOutletOfferServiceImpl extends AbstractService implements UserO
                     .addHttpResponseEntityData("Message", "Offer not found")
                     .getResponse();
         }
+    }
+    
+    @Override
+    public ResponseBodyEntity deleteOffer(Long id) {
+        UserOutletOffer persistantUserOutletOffer = userOutletOfferDao.getUserOutletOffer(id);
+        if (persistantUserOutletOffer == null) {
+            return ResponseBuilder.getInstance()
+                    .setHttpResponseEntityResultCode(ResponseCode.ENTITY_NOT_FOUND)
+                    .setHttpResponseEntityResultDescription("Offer Not Found")
+                    .getResponse();
+        }
+
+        persistantUserOutletOffer.setDeletedDate(new Date());
+
+        return ResponseBuilder.getInstance()
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .setHttpResponseEntityResultDescription("Offer Deleted successfully")
+                .getResponse();
     }
 
 }

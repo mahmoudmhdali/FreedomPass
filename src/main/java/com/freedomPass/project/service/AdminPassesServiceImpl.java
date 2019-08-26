@@ -17,9 +17,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -179,6 +182,24 @@ public class AdminPassesServiceImpl extends AbstractService implements AdminPass
                     .addHttpResponseEntityData("Message", "Package not found")
                     .getResponse();
         }
+    }
+
+    @Override
+    public ResponseBodyEntity deletePackage(Long id) {
+        AdminPasses persistantAdminPasse = adminPassesDao.getAdminPasse(id);
+        if (persistantAdminPasse == null) {
+            return ResponseBuilder.getInstance()
+                    .setHttpResponseEntityResultCode(ResponseCode.ENTITY_NOT_FOUND)
+                    .setHttpResponseEntityResultDescription("Package Not Found")
+                    .getResponse();
+        }
+
+        persistantAdminPasse.setDeletedDate(new Date());
+
+        return ResponseBuilder.getInstance()
+                .setHttpResponseEntityResultCode(ResponseCode.SUCCESS)
+                .setHttpResponseEntityResultDescription("Package Deleted successfully")
+                .getResponse();
     }
 
 }

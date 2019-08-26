@@ -22,5 +22,7 @@ public interface AdminPassesService {
     ResponseBodyEntity editPass(AdminPasses adminPass, MultipartFile image1) throws IOException;
     
     List<AdminPasses> getAdminPassesByOfferID(Long offerID);
+    
+    ResponseBodyEntity deletePackage(Long id);
 
 }
