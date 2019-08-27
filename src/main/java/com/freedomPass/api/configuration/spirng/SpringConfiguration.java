@@ -286,6 +286,9 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
             //Set gmail email password
             mailSender.setPassword(context.getEnvironment().getRequiredProperty("mail.password"));
             Properties prop = mailSender.getJavaMailProperties();
+            prop.put("mail.smtps.ssl.checkserveridentity", "true");
+            prop.put("mail.smtp.ssl.enable", "true");
+            prop.put("mail.smtps.ssl.trust", "*");
             prop.put("mail.transport.protocol", context.getEnvironment().getRequiredProperty("mail.transport.protocol"));
             prop.put("mail.smtp.auth", context.getEnvironment().getRequiredProperty("mail.smtp.auth"));
             prop.put("mail.smtp.starttls.enable", context.getEnvironment().getRequiredProperty("mail.smtp.starttls.enable"));
